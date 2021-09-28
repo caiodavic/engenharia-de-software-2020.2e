@@ -1,9 +1,10 @@
 package com.ufcg.filafacil.model.posto_vacinacao;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import com.ufcg.filafacil.model.vacina.Lote;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class PostoDeVacinacao {
@@ -17,6 +18,9 @@ public class PostoDeVacinacao {
 
     private String telefone;
 
+    @OneToMany
+    private List<Lote> lotesDeVacina;
+
     @OneToOne
     private Endereco endereco;
 
@@ -25,6 +29,7 @@ public class PostoDeVacinacao {
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.lotesDeVacina = new ArrayList<>();
 
     }
 
@@ -60,6 +65,13 @@ public class PostoDeVacinacao {
         this.endereco = endereco;
     }
 
+    public List<Lote> getLotesDeVacina() {
+        return lotesDeVacina;
+    }
+
+    public void setLotesDeVacina(List<Lote> lotesDeVacina) {
+        this.lotesDeVacina = lotesDeVacina;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,4 +84,6 @@ public class PostoDeVacinacao {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+
 }
