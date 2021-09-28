@@ -7,7 +7,9 @@ import com.ufcg.filafacil.DTO.VacinaDTO;
 import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
 import com.ufcg.filafacil.model.vacina.Vacina;
+import com.ufcg.filafacil.service.LoteService;
 import com.ufcg.filafacil.service.PostoDeVacinacaoService;
+import com.ufcg.filafacil.service.VacinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,12 @@ public class SecretariaController {
 
     @Autowired
     PostoDeVacinacaoService postoService;
+
+    @Autowired
+    VacinaService vacinaService;
+
+    @Autowired
+    LoteService loteService;
 
     @RequestMapping(value = "/secretaria/posto", method = RequestMethod.POST)
     public ResponseEntity<?> cadastraPostoDeVacinacao(@RequestBody PostoDeVacinacaoDTO postoDTO) {
