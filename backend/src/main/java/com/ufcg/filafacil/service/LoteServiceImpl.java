@@ -49,6 +49,7 @@ public class LoteServiceImpl implements LoteService {
         Lote lote = getLoteById(id);
         lote.setPostoDeVacinacao(posto);
         this.salvaLote(lote);
+    }
 
     public List<Lote> listaLoteDisponiveis(){
         List<Lote> lotes = this.loteRepository.findAll();
