@@ -58,7 +58,6 @@ public class LoteServiceImpl implements LoteService {
             throw new IllegalArgumentException("Não existem lotes disponíveis");
         }
         return lotes;
-
     }
 
     private void salvaLote(Lote lote){

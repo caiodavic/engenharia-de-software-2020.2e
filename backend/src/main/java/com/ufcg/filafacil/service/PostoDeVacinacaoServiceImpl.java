@@ -66,9 +66,17 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
         return alocado;
     }
 
+    @Override
+    public List<Lote> listaLotesPosto(long idPosto) {
+        PostoDeVacinacao posto = this.getPostoById(idPosto);
+        return posto.getLotesDeVacina();
+    }
+
     private void salvaPostoDeVacinacao(PostoDeVacinacao posto){
         this.postoRepository.save(posto);
     }
+
+
 
 
 }
