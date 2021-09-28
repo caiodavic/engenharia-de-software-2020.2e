@@ -1,5 +1,7 @@
 package com.ufcg.filafacil.DTO;
 
+import com.ufcg.filafacil.model.posto_vacinacao.Endereco;
+
 public class EnderecoDTO {
 
     private final String cidade;
@@ -52,5 +54,9 @@ public class EnderecoDTO {
 
     public String getComplemento() {
         return complemento;
+    }
+
+    public Endereco toEndereco() {
+        return new Endereco(this.cidade, this.estado, this.bairro, this.rua, this.numero, this.cep, this.complemento);
     }
 }
