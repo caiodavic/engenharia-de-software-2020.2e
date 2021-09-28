@@ -40,6 +40,7 @@ public class Lote {
         this.vacina = vacina;
         this.qtdDosesDisponiveis = qtdDoses;
         this.dataDeValidade = dataDeValidade;
+        this.postoDeVacinacao = null;
     }
 
     public Long getId() {
@@ -60,5 +61,14 @@ public class Lote {
 
     public void diminuiQtdDosesDisponiveis() {
         qtdDosesDisponiveis--;
+    }
+
+
+    public PostoDeVacinacao getPostoDeVacinacao() {
+        return postoDeVacinacao;
+    }
+
+    public void setPostoDeVacinacao(PostoDeVacinacao postoDeVacinacao) {
+        this.postoDeVacinacao = postoDeVacinacao;
     }
 }

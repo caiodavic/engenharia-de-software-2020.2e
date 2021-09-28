@@ -1,6 +1,7 @@
 package com.ufcg.filafacil.controller;
 
 
+import com.ufcg.filafacil.DTO.AlocacaoDTO;
 import com.ufcg.filafacil.DTO.LoteDTO;
 import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
 import com.ufcg.filafacil.DTO.VacinaDTO;
@@ -105,5 +106,29 @@ public class SecretariaController {
         }
 
     }
+
+    @RequestMapping(value = "/secretaria/lotesDisponiveis", method = RequestMethod.GET)
+    public ResponseEntity<?> listaLotesDisponiveis() {
+
+        try {
+            List<Lote> lotes = loteService.listaLoteDisponiveis();
+            return ResponseEntity.status(HttpStatus.OK).body(lotes);
+        }catch (IllegalArgumentException ila){
+            return ResponseEntity.badRequest().body(ila.getMessage());
+        }
+
+    }
+
+    @RequestMapping(value = "/secretaria/alocacao", method = RequestMethod.POST)
+    public ResponseEntity<?> alocaLoteNoPosto(@RequestBody AlocacaoDTO alocacaoDTO){
+        try{
+            String alocado = postoService.alocaLoteNoPosto(alocacaoDTO.getIdLote(), alocacaoDTO.getIdPosto());
+            return ResponseEntity.status(HttpStatus.OK).body(alocado);
+        }catch(IllegalArgumentException ila){
+            return ResponseEntity.badRequest().body(ila.getMessage());
+        }
+    }
+
+
 }
 
