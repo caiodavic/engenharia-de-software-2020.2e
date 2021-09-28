@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 
+@Entity
 public class PostoDeVacinacao {
 
     @Id

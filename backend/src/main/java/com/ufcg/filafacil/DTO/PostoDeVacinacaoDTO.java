@@ -12,6 +12,7 @@ public class PostoDeVacinacaoDTO {
 
     private String telefone;
 
+
     private String senha;
 
     @OneToOne
