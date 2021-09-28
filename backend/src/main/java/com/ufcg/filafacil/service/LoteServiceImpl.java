@@ -35,13 +35,22 @@ public class LoteServiceImpl implements LoteService {
         if(lotes.isEmpty()){
             throw new IllegalArgumentException("Não existem lotes cadastrados");
         }
-
         return lotes;
     }
 
     @Override
     public Lote getLoteById(long id) {
         return this.loteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Lote não cadastrado"));
+    }
+
+    @Override
+    public List<Lote> listaLoteDisponiveis(){
+        List<Lote> lotes = this.loteRepository.findAll();
+        lotes.removeIf(l -> l.getPostoDeVacinacao() == null);
+        if(lotes.isEmpty()){
+            throw new IllegalArgumentException("Não existem lotes disponíveis");
+        }
+        return lotes;
     }
 
     private void salvaLote(Lote lote){
