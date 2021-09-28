@@ -12,7 +12,7 @@ public class PostoDeVacinacaoDTO {
 
     private String telefone;
 
-    @OneToOne
+
     private EnderecoDTO enderecoDTO;
 
     public String getNome() {
