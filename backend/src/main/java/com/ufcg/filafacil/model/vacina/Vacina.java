@@ -39,6 +39,7 @@ public class Vacina {
 
     }
 
+
     public String getNomeVacina() {
         return nomeVacina;
     }

@@ -17,7 +17,6 @@ public class LoteDTO {
     public LocalDate getDataDeValidade() {
         return dataDeValidade;
     }
-
-
     public String getNomeVacina() {return nomeVacina;}
+  
 }
