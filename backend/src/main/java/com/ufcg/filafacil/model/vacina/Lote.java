@@ -71,12 +71,4 @@ public class Lote {
         qtdDosesDisponiveis--;
     }
 
-    public PostoDeVacinacao getPostoDeVacinacao() {
-        return postoDeVacinacao;
-    }
-
-    public void setPostoDeVacinacao(PostoDeVacinacao postoDeVacinacao) {
-        this.postoDeVacinacao = postoDeVacinacao;
-    }
-
 }
