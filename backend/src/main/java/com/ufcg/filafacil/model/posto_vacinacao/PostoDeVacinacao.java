@@ -9,7 +9,6 @@ import java.util.Objects;
 public class PostoDeVacinacao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String nome;
@@ -21,7 +20,7 @@ public class PostoDeVacinacao {
     @OneToOne
     private Endereco endereco;
 
-    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco){
+    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id){
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
