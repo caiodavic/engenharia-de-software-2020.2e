@@ -15,7 +15,7 @@ public class Vacina {
      * É o nome da fabricante da Vacina. É sua chave primária.
      */
     @Id
-    private String nomeFabricante;
+    private String nomeVacina;
 
     /**
      * É o número de doses necessárias para se garantir imunidade.
@@ -31,15 +31,16 @@ public class Vacina {
      * Cria uma vacina a partir do seu nome de fabricante, numero de doses necessarias e os dias entre elas
      */
     public Vacina(){}
-    public Vacina(String nomeFabricante, int numDosesNecessarias, int numDiasEntreDoses){
-        this.nomeFabricante = nomeFabricante;
+
+    public Vacina(String nomeVacina, int numDosesNecessarias, int numDiasEntreDoses){
+        this.nomeVacina = nomeVacina;
         this.numDosesNecessarias = numDosesNecessarias;
         this.diasEntreDoses = numDiasEntreDoses;
 
     }
 
-    public String getNomeFabricante() {
-        return nomeFabricante;
+    public String getNomeVacina() {
+        return nomeVacina;
     }
 
     public int getNumDosesNecessarias() {
