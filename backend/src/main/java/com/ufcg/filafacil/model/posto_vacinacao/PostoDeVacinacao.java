@@ -69,8 +69,8 @@ public class PostoDeVacinacao {
         return lotesDeVacina;
     }
 
-    public void setLotesDeVacina(List<Lote> lotesDeVacina) {
-        this.lotesDeVacina = lotesDeVacina;
+    public void addLotesDeVacina(Lote lote) {
+       lotesDeVacina.add(lote);
     }
     @Override
     public boolean equals(Object o) {
