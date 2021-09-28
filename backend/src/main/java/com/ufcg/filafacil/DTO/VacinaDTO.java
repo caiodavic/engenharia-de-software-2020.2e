@@ -1,6 +1,7 @@
 package com.ufcg.filafacil.DTO;
 
 public class VacinaDTO {
+
     private String nomeFabricante;
 
     private int numDosesNecessarias;
