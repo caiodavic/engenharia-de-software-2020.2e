@@ -71,6 +71,7 @@ public class PostoDeVacinacao {
 
     public void addLotesDeVacina(Lote lote) {
         this.lotesDeVacina.add(lote);
+
     }
     @Override
     public boolean equals(Object o) {

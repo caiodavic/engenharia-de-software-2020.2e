@@ -2,6 +2,7 @@ package com.ufcg.filafacil.service;
 
 import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
 import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
+import com.ufcg.filafacil.model.vacina.Lote;
 import com.ufcg.filafacil.repository.PostoDeVacinacaoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
 
     @Autowired
     private PostoDeVacinacaoRepository postoRepository;
+
+    @Autowired
+    private LoteService loteService;
 
     @Override
     public PostoDeVacinacao cadastraPostoVacinacao(PostoDeVacinacaoDTO postoDTO) {
@@ -46,9 +50,25 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
         return postos;
     }
 
+    @Override
+    public String alocaLoteNoPosto(long id, long idPosto) {
+        Lote lote = this.loteService.getLoteById(id);
+        if(lote.getPostoDeVacinacao() != null){
+            throw new IllegalArgumentException("Lote já alocado anteriormente");
+        }
 
+        PostoDeVacinacao posto = this.getPostoById(idPosto);
+        posto.addLotesDeVacina(lote);
+        loteService.alocaPosto(posto, id);
+        this.salvaPostoDeVacinacao(posto);
+
+        String alocado = "Lote " + lote.getId() + "alocado ao posto " + posto.getNome() + ".";
+        return alocado;
+    }
 
     private void salvaPostoDeVacinacao(PostoDeVacinacao posto){
         this.postoRepository.save(posto);
     }
+
+
 }

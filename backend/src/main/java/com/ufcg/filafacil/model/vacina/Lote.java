@@ -51,6 +51,14 @@ public class Lote {
         return vacina;
     }
 
+    public void setPostoDeVacinacao(PostoDeVacinacao postoDeVacinacao) {
+        this.postoDeVacinacao = postoDeVacinacao;
+    }
+
+    public PostoDeVacinacao getPostoDeVacinacao() {
+        return postoDeVacinacao;
+    }
+
     public int getQtdDosesDisponiveis() {
         return qtdDosesDisponiveis;
     }
@@ -63,7 +71,6 @@ public class Lote {
         qtdDosesDisponiveis--;
     }
 
-
     public PostoDeVacinacao getPostoDeVacinacao() {
         return postoDeVacinacao;
     }
@@ -71,4 +78,5 @@ public class Lote {
     public void setPostoDeVacinacao(PostoDeVacinacao postoDeVacinacao) {
         this.postoDeVacinacao = postoDeVacinacao;
     }
+
 }

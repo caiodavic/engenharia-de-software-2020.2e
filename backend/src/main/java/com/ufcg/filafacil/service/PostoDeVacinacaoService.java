@@ -12,4 +12,6 @@ public interface PostoDeVacinacaoService {
     PostoDeVacinacao getPostoById(long id);
 
     List<PostoDeVacinacao> listaPostoDeVacinacao();
+
+    String alocaLoteNoPosto(long id, long idPosto);
 }
