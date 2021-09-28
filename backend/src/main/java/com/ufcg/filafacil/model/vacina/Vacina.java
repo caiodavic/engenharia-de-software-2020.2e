@@ -31,6 +31,7 @@ public class Vacina {
      * Cria uma vacina a partir do seu nome de fabricante, numero de doses necessarias e os dias entre elas
      */
     public Vacina(){}
+
     public Vacina(String nomeVacina, int numDosesNecessarias, int numDiasEntreDoses){
         this.nomeVacina = nomeVacina;
         this.numDosesNecessarias = numDosesNecessarias;
@@ -38,7 +39,8 @@ public class Vacina {
 
     }
 
-    public String getnomeVacina() {
+
+    public String getNomeVacina() {
         return nomeVacina;
     }
 

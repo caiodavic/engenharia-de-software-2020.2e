@@ -39,6 +39,7 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
     @Override
     public List<PostoDeVacinacao> listaPostoDeVacinacao() {
         List<PostoDeVacinacao> postos = postoRepository.findAll();
+
         if(postos.isEmpty()){
             throw new IllegalArgumentException("Não existem postos de vacinação cadastrados");
         }

@@ -18,4 +18,5 @@ public class LoteDTO {
         return dataDeValidade;
     }
     public String getNomeVacina() {return nomeVacina;}
+  
 }

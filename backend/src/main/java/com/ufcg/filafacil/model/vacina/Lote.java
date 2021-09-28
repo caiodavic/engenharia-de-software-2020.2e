@@ -29,8 +29,6 @@ public class Lote {
      */
     private LocalDate dataDeValidade;
 
-    // private int qtdDosesReservadas; TODO
-
     public Lote() {
     }
 
