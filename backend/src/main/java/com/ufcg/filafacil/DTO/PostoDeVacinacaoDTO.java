@@ -12,6 +12,8 @@ public class PostoDeVacinacaoDTO {
 
     private String telefone;
 
+    private String senha;
+
     @OneToOne
     private EnderecoDTO enderecoDTO;
 
@@ -53,6 +55,14 @@ public class PostoDeVacinacaoDTO {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 }
 
