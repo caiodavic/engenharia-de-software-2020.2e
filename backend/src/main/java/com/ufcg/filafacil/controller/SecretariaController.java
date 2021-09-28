@@ -38,12 +38,14 @@ public class SecretariaController {
     @RequestMapping(value = "/secretaria/postos", method = RequestMethod.GET)
     public ResponseEntity<?> listarPostosDeVacinacao() {
         try {
-            List<PostoDeVacinacao> postos = postoService.listar();
+            List<PostoDeVacinacao> postos = postoService.listaPostoDeVacinacao();
             return ResponseEntity.status(HttpStatus.OK).body(postos);
         }catch(IllegalArgumentException ila){
             return ResponseEntity.badRequest().body(ila.getMessage());
         }
 
     }
+
+
 
 }

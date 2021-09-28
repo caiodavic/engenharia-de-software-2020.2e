@@ -11,5 +11,5 @@ public interface PostoDeVacinacaoService {
 
     PostoDeVacinacao getPostoById(long id);
 
-    List<PostoDeVacinacao> listar();
+    List<PostoDeVacinacao> listaPostoDeVacinacao();
 }

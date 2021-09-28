@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Entity
 public class Lote {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,12 +17,6 @@ public class Lote {
      */
     @OneToOne
     private Vacina vacina;
-
-    /**
-     * String que representa o nome do fabricante da vacina contra COVID-19
-     */
-    @NotNull
-    private String nomeFabricanteVacina;
 
     /**
      * Inteiro identificando quantas doses há disponíveis para serem mistradas nesse lote
@@ -43,8 +38,6 @@ public class Lote {
         this.vacina = vacina;
         this.qtdDosesDisponiveis = qtdDoses;
         this.dataDeValidade = dataDeValidade;
-        this.nomeFabricanteVacina = vacina.getNomeFabricante();
-        //   this.qtdDosesReservadas = 0; TODO
     }
 
     public Long getId() {
@@ -57,10 +50,6 @@ public class Lote {
 
     public int getQtdDosesDisponiveis() {
         return qtdDosesDisponiveis;
-    }
-
-    public String getNomeFabricante() {
-        return nomeFabricanteVacina;
     }
 
     public LocalDate getDataDeValidade() {
