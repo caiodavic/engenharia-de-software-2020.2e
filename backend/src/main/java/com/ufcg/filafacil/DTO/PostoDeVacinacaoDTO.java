@@ -55,3 +55,4 @@ public class PostoDeVacinacaoDTO {
         this.id = id;
     }
 }
+
