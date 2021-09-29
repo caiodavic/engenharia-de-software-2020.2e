@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface VacinaService {
 
-    public Vacina cadastraVacina(VacinaDTO vacinaDTO);
-    public List<Vacina> listaVacina();
-    public Vacina getVacinaById(String id);
+    Vacina cadastraVacina(VacinaDTO vacinaDTO);
+
+    List<Vacina> listaVacina();
+
+    Vacina getVacinaById(String id);
 }

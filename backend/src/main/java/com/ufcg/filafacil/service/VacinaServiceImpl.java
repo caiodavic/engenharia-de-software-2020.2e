@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class VacinaServiceImpl implements  VacinaService{
+public class VacinaServiceImpl implements VacinaService {
     @Autowired
     private VacinaRepository vacinaRepository;
 
@@ -30,10 +30,6 @@ public class VacinaServiceImpl implements  VacinaService{
 
     public List<Vacina> listaVacina(){
         List<Vacina> vacinas = vacinaRepository.findAll();
-        if(vacinas.isEmpty()){
-            throw new IllegalArgumentException("Não existem vacinas cadastradas");
-        }
-
         return vacinas;
     }
 

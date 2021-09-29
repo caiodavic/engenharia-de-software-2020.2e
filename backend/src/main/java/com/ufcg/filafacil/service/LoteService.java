@@ -8,10 +8,13 @@ import java.util.List;
 
 public interface LoteService {
 
-    public Lote cadastraLote(LoteDTO Lote);
+    Lote cadastraLote(LoteDTO Lote);
 
-    public List<Lote> listaLote();
-    public Lote getLoteById(long id);
+    List<Lote> listaLote();
+
+    Lote getLoteById(long id);
+
     void alocaPosto(PostoDeVacinacao posto, long id);
+
     List<Lote> listaLoteDisponiveis();
 }

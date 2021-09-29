@@ -1,7 +1,5 @@
 package com.ufcg.filafacil.DTO;
 
-import javax.persistence.OneToOne;
-
 public class PostoDeVacinacaoDTO {
 
     private long id;
@@ -12,7 +10,6 @@ public class PostoDeVacinacaoDTO {
 
     private String telefone;
 
-    @OneToOne
     private EnderecoDTO enderecoDTO;
 
     public String getNome() {

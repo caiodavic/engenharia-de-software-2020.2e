@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
+public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
 
     @Autowired
     private PostoDeVacinacaoRepository postoRepository;
@@ -43,17 +43,13 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
     @Override
     public List<PostoDeVacinacao> listaPostoDeVacinacao() {
         List<PostoDeVacinacao> postos = postoRepository.findAll();
-
-        if(postos.isEmpty()){
-            throw new IllegalArgumentException("Não existem postos de vacinação cadastrados");
-        }
         return postos;
     }
 
     @Override
     public String alocaLoteNoPosto(long id, long idPosto) {
         Lote lote = this.loteService.getLoteById(id);
-        if(lote.getPostoDeVacinacao() != null){
+        if (lote.getPostoDeVacinacao() != null){
             throw new IllegalArgumentException("Lote já alocado anteriormente");
         }
 

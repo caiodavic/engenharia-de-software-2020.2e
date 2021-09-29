@@ -19,14 +19,9 @@ public class PostoController {
     @Autowired
     PostoDeVacinacaoService postoService;
 
-    @RequestMapping(value = "/lotes/", method = RequestMethod.GET)
-    public ResponseEntity<?> listaLotesDoPosto(@RequestBody long idPosto) {
-
-        try {
-            List<Lote> lista = postoService.listaLotesPosto(idPosto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(lista);
-        }catch (IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
-        }
+    @GetMapping("/lotes/")
+    public ResponseEntity<List<Lote>> listaLotesDoPosto(@RequestBody long idPosto) {
+        List<Lote> lista = postoService.listaLotesPosto(idPosto);
+        return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 }

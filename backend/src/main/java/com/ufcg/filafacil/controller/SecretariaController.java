@@ -37,98 +37,70 @@ public class SecretariaController {
     @Autowired
     LoteService loteService;
 
-    @RequestMapping(value = "/secretaria/posto", method = RequestMethod.POST)
+    @PostMapping("/secretaria/posto")
     public ResponseEntity<?> cadastraPostoDeVacinacao(@RequestBody PostoDeVacinacaoDTO postoDTO) {
-
         try {
-            PostoDeVacinacao posto = postoService.cadastraPostoVacinacao(postoDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(posto);
+            postoService.cadastraPostoVacinacao(postoDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
-    @RequestMapping(value = "/secretaria/postos", method = RequestMethod.GET)
-    public ResponseEntity<?> listarPostosDeVacinacao() {
-        try {
+    @GetMapping("/secretaria/postos")
+    public ResponseEntity<List<PostoDeVacinacao>> listarPostosDeVacinacao() {
             List<PostoDeVacinacao> postos = postoService.listaPostoDeVacinacao();
-            return ResponseEntity.status(HttpStatus.OK).body(postos);
-        }catch(IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
-        }
-
+            return new ResponseEntity<>(postos, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/secretaria/vacina", method = RequestMethod.POST)
+    @PostMapping("/secretaria/vacina")
     public ResponseEntity<?> cadastrarVacina(@RequestBody VacinaDTO vacinaDTO) {
-
         try {
-            Vacina vacina = vacinaService.cadastraVacina(vacinaDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(vacina);
+            vacinaService.cadastraVacina(vacinaDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }
 
-    @RequestMapping(value = "/secretaria/lote", method = RequestMethod.POST)
+    @GetMapping("/secretaria/vacinas")
+    public ResponseEntity<List<Vacina>> listaVacinas() {
+        List<Vacina> vacinas = vacinaService.listaVacina();
+        return new ResponseEntity<>(vacinas, HttpStatus.OK);
+    }
+
+    @GetMapping("/secretaria/lotes")
+    public ResponseEntity<List<Lote>> listaLotes() {
+        List<Lote> lotes = loteService.listaLote();
+        return new ResponseEntity<>(lotes, HttpStatus.OK);
+    }
+
+    @PostMapping("/secretaria/lote")
     public ResponseEntity<?> cadastrarLote(@RequestBody LoteDTO loteDTO) {
-
         try {
-            Lote lote = loteService.cadastraLote(loteDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(lote);
+            loteService.cadastraLote(loteDTO);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         }catch (IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
-    @RequestMapping(value = "/secretaria/vacinas", method = RequestMethod.GET)
-    public ResponseEntity<?> listaVacinas() {
-
-        try {
-            List<Vacina> vacinas = vacinaService.listaVacina();
-            return ResponseEntity.status(HttpStatus.OK).body(vacinas);
-        }catch (IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
-        }
-
+    @GetMapping("/secretaria/lotes/disponiveis")
+    public ResponseEntity<List<Lote>> listaLotesDisponiveis() {
+        List<Lote> lotes = loteService.listaLoteDisponiveis();
+        return new ResponseEntity<>(lotes, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/secretaria/lotes", method = RequestMethod.GET)
-    public ResponseEntity<?> listaLotes() {
-
-        try {
-            List<Lote> lotes = loteService.listaLote();
-            return ResponseEntity.status(HttpStatus.OK).body(lotes);
-        }catch (IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
-        }
-
-    }
-
-    @RequestMapping(value = "/secretaria/lotesDisponiveis", method = RequestMethod.GET)
-    public ResponseEntity<?> listaLotesDisponiveis() {
-
-        try {
-            List<Lote> lotes = loteService.listaLoteDisponiveis();
-            return ResponseEntity.status(HttpStatus.OK).body(lotes);
-        }catch (IllegalArgumentException ila){
-            return ResponseEntity.badRequest().body(ila.getMessage());
-        }
-
-    }
-
-    @RequestMapping(value = "/secretaria/alocacao", method = RequestMethod.POST)
+    @PostMapping("/secretaria/alocacao")
     public ResponseEntity<?> alocaLoteNoPosto(@RequestBody AlocacaoDTO alocacaoDTO){
-        try{
-            String alocado = postoService.alocaLoteNoPosto(alocacaoDTO.getIdLote(), alocacaoDTO.getIdPosto());
-            return ResponseEntity.status(HttpStatus.OK).body(alocado);
-        }catch(IllegalArgumentException ila){
+        try {
+            postoService.alocaLoteNoPosto(alocacaoDTO.getIdLote(), alocacaoDTO.getIdPosto());
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }catch (IllegalArgumentException ila){
             return ResponseEntity.badRequest().body(ila.getMessage());
         }
     }
-
 
 }
 

@@ -5,12 +5,10 @@ import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
 import com.ufcg.filafacil.model.vacina.Vacina;
 import com.ufcg.filafacil.repository.LoteRepository;
-import com.ufcg.filafacil.repository.VacinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LoteServiceImpl implements LoteService {
@@ -33,9 +31,6 @@ public class LoteServiceImpl implements LoteService {
     @Override
     public List<Lote> listaLote() {
         List<Lote> lotes = loteRepository.findAll();
-        if(lotes.isEmpty()){
-            throw new IllegalArgumentException("Não existem lotes cadastrados");
-        }
         return lotes;
     }
 
@@ -54,9 +49,6 @@ public class LoteServiceImpl implements LoteService {
     public List<Lote> listaLoteDisponiveis(){
         List<Lote> lotes = this.loteRepository.findAll();
         lotes.removeIf(l -> l.getPostoDeVacinacao() == null);
-        if(lotes.isEmpty()){
-            throw new IllegalArgumentException("Não existem lotes disponíveis");
-        }
         return lotes;
     }
 
