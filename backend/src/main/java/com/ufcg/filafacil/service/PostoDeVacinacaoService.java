@@ -17,4 +17,8 @@ public interface PostoDeVacinacaoService {
     String alocaLoteNoPosto(long id, long idPosto);
 
     List<Lote> listaLotesPosto(long idPosto);
+
+    String[] addPacienteNaFila(long idPosto);
+
+    String registrarVacinacao(long idPosto, String senhaVacinacao);
 }

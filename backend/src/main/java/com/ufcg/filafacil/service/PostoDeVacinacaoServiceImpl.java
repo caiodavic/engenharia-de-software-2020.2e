@@ -73,11 +73,28 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
         return posto.getLotesDeVacina();
     }
 
+    @Override
+    public String[] addPacienteNaFila(long idPosto) {
+        String[] result;
+        result = this.getPostoById(idPosto).addPacienteNaFila();
+        if (result == null){
+            throw new IllegalArgumentException("Posto sem vagas");
+        }
+        return result;
+    }
+
+    @Override
+    public String registrarVacinacao(long idPosto, String senhaVacinacao) {
+        String result;
+        result = this.getPostoById(idPosto).registraVacinacao(senhaVacinacao);
+        if (result == null){
+            throw new IllegalArgumentException("Não é a vez do paciente");
+        }
+        return result;
+    }
+
     private void salvaPostoDeVacinacao(PostoDeVacinacao posto){
         this.postoRepository.save(posto);
     }
-
-
-
 
 }
