@@ -34,7 +34,6 @@ const PageSubTitle = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
-
   @media screen and (max-width: 800px) {
     width: 100%;
   }
