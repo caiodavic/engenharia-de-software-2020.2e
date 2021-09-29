@@ -16,6 +16,7 @@ public class PostoDeVacinacao {
 
     private String nome;
 
+    @Column(name = "email", unique = true)
     private String email;
 
     private String telefone;
@@ -27,6 +28,9 @@ public class PostoDeVacinacao {
 
     @OneToOne
     private Endereco endereco;
+
+    public PostoDeVacinacao() {
+    }
 
     public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id, String senha){
         this.nome = nome;

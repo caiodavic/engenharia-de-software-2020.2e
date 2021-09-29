@@ -1,4 +1,4 @@
-package com.ufcg.filafacil.service;
+package com.ufcg.filafacil.service.vacina;
 
 import com.ufcg.filafacil.DTO.VacinaDTO;
 import com.ufcg.filafacil.model.vacina.Vacina;

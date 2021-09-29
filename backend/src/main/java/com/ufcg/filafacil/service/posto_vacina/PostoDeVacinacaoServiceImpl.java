@@ -1,9 +1,10 @@
-package com.ufcg.filafacil.service;
+package com.ufcg.filafacil.service.posto_vacina;
 
 import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
 import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
 import com.ufcg.filafacil.repository.PostoDeVacinacaoRepository;
+import com.ufcg.filafacil.service.lote.LoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
+class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
 
     @Autowired
     private PostoDeVacinacaoRepository postoRepository;
@@ -67,6 +68,11 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     public List<Lote> listaLotesPosto(long idPosto) {
         PostoDeVacinacao posto = this.getPostoById(idPosto);
         return posto.getLotesDeVacina();
+    }
+
+    @Override
+    public Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha) {
+        return postoRepository.findByEmailAndSenha(email, senha);
     }
 
     private void salvaPostoDeVacinacao(PostoDeVacinacao posto){

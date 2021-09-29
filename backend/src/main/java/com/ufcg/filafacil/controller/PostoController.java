@@ -1,9 +1,7 @@
 package com.ufcg.filafacil.controller;
 
-import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
-import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
-import com.ufcg.filafacil.service.PostoDeVacinacaoService;
+import com.ufcg.filafacil.service.posto_vacina.PostoDeVacinacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
