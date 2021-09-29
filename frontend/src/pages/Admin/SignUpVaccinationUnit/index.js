@@ -3,19 +3,19 @@ import { useState } from 'react';
 import {
   PageWrapper,
   PageTitle,
-  PageSubTitle,
   StyledForm,
 } from '../../../components/shared/CommonStyles';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [address, setAddress] = useState('');
+  const [telephoneNum, setTelephoneNum] = useState(''); // TO-DO validacao num telefone
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   function submitInput(e) {
     e.preventDefault();
-    console.log(email, password, address);
+    console.log(email, password, address, telephoneNum);
   }
 
   return (
@@ -45,8 +45,20 @@ export default function Signup() {
           <label htmlFor="password">Senha: </label>
           <input
             type="text"
+            id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <label htmlFor="telephone">Telefone : </label>
+          <input
+            type="tel"
+            pattern="[0-9]{2} [0-9]{5}-[0-9]{4}"
+            id="telephone"
+            placeholder="11 99999-8888"
+            value={telephoneNum}
+            onChange={(e) => setTelephoneNum(e.target.value)}
             required
           />
 

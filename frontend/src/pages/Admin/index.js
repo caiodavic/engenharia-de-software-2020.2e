@@ -59,34 +59,37 @@ export default function Admin() {
 }
 
 const AdminPageWrapper = styled.div`
-  width: 800px;
   height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
 
   @media screen and (max-width: 800px) {
-    width: 100vh;
+    max-width: 100vh;
   }
 `;
 
 const ButtonsMenuContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 20px;
+  width: 90%;
+  justify-content: space-around;
 `;
 
 const ButtonCategory = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 20px;
-  width: 80%;
+  width: 40%;
+  height: 200px;
   font-size: 20px;
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 10px 20px;
-  height: fit-content;
+  padding: 20px 20px;
   margin: 15px 0px;
 `;
 
@@ -96,6 +99,7 @@ const CategoryTitle = styled.div`
 `;
 
 const ButtonsContainer = styled.div`
+  margin: 30px;
   display: flex;
 `;
 
@@ -103,11 +107,13 @@ const Button = styled(Link).attrs({
   style: { textDecoration: 'none', color: 'black' },
 })`
   background-color: lightblue;
-  width: 200px;
+  width: 100%;
+  height: 80px;
   margin: 10px 20px;
   padding: 10px 5px;
-  border-radius: 2px;
+  border-radius: 5px;
   cursor: pointer;
   display: flex;
+  align-items: center;
   text-align: center;
 `;

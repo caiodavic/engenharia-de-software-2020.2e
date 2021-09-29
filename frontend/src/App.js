@@ -26,7 +26,11 @@ const App = () => {
               <Home />
             </Route>
 
-            <Route path="/login">
+            <Route exact path="/postos">
+              <VaccinationUnits />
+            </Route>
+
+            <Route exact path="/login">
               <Login />
             </Route>
 
@@ -34,19 +38,15 @@ const App = () => {
               <Admin />
             </Route>
 
-            <Route path="/admin/cadastro/posto">
+            <Route exact path="/admin/cadastro/posto">
               <Signup />
             </Route>
 
-            <Route path="/admin/alocacao/lote"></Route>
+            <Route exact path="/admin/cadastro/lote"></Route>
 
-            <Route path="/admin/cadastro/lote"></Route>
+            <Route exact path="/admin/alocacao/lote"></Route>
 
-            <Route path="/admin/cadastro/vacina"></Route>
-
-            <Route exact path="/postos">
-              <VaccinationUnits />
-            </Route>
+            <Route exact path="/admin/cadastro/vacina"></Route>
           </UserContext.Provider>
         </Switch>
       </BrowserRouter>
