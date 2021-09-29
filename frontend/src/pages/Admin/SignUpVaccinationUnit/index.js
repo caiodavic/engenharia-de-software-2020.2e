@@ -7,6 +7,7 @@ import {
 } from '../../../components/shared/CommonStyles';
 
 export default function Signup() {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
   const [telephoneNum, setTelephoneNum] = useState(''); // TO-DO validacao num telefone
@@ -15,7 +16,7 @@ export default function Signup() {
 
   function submitInput(e) {
     e.preventDefault();
-    console.log(email, password, address, telephoneNum);
+    console.log(name, email, password, address, telephoneNum);
   }
 
   return (
@@ -24,6 +25,15 @@ export default function Signup() {
         <PageTitle>Cadastrar novo Posto de Saúde</PageTitle>
 
         <StyledForm onSubmit={submitInput}>
+          <label htmlFor="name">Nome: </label>
+          <input
+            type="name"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+
           <label htmlFor="email">E-mail: </label>
           <input
             type="email"
