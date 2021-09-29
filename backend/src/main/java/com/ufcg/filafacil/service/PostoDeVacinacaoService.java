@@ -18,7 +18,10 @@ public interface PostoDeVacinacaoService {
 
     List<Lote> listaLotesPosto(long idPosto);
 
-    String[] addPacienteNaFila(long idPosto);
+    int addPacienteNaFila(String codigoPosto);
 
-    String registrarVacinacao(long idPosto, String senhaVacinacao);
+    String gerarCodigoDoPosto(long idPosto);
+
+//  Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada
+    String confirmarVacinacao(int senhaPaciente);
 }

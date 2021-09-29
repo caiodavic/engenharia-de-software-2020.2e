@@ -18,7 +18,9 @@ public class PostoDeVacinacao {
 
     private String telefone;
 
-    private String senha;
+    private int senhaPaciente;
+
+    private String codigoPosto;
 
     @OneToMany
     private List<Lote> lotesDeVacina;
@@ -26,23 +28,16 @@ public class PostoDeVacinacao {
     @OneToOne
     private Endereco endereco;
 
-    private int situacaoFila;
+    private List<Integer> filaPacientes;
 
-    private int ultimaPosicao;
-
-    @ElementCollection
-    private ArrayDeque<String> filaPacientes;
-
-    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id, String senha){
+    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id){
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
         this.lotesDeVacina = new ArrayList<>();
-        this.senha = senha;
-        this.situacaoFila = 0;
-        this.ultimaPosicao = 0;
-        this.filaPacientes = new ArrayDeque<String>();
+        this.filaPacientes = new ArrayList<>();
+        this.senhaPaciente = 0;
     }
 
     public String getNome() {
@@ -81,10 +76,22 @@ public class PostoDeVacinacao {
         return lotesDeVacina;
     }
 
+    public String getCodigoPosto() {
+        return this.codigoPosto;
+    }
+
+    private int getQtdVacina(){
+        int qtdTotal = 0;
+        for(Lote lote : this.lotesDeVacina){
+            qtdTotal += lote.getQtdDosesDisponiveis();
+        }
+        return qtdTotal;
+    }
+
     public void addLotesDeVacina(Lote lote) {
         this.lotesDeVacina.add(lote);
-
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -98,35 +105,31 @@ public class PostoDeVacinacao {
         return Objects.hash(id);
     }
 
-    private int getQtdVacina(){
-        int qtdTotal = 0;
-        for(Lote lote : this.lotesDeVacina){
-            qtdTotal += lote.getQtdDosesDisponiveis();
-        }
-        return qtdTotal;
-    }
-    public String getSenha() {
-        return senha;
+
+    public int getSenha() {
+        return senhaPaciente;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setSenha(int senha) {
+        this.senhaPaciente = senha;
     }
 
-    public String[] addPacienteNaFila(){
-        String[] codigoPosicao = null;
-        if (this.filaPacientes.size() >= this.getQtdVacina()){
-            codigoPosicao = new String[2];
-            codigoPosicao[0] = gerarCodigoPaciente();
-            this.filaPacientes.addLast(codigoPosicao[0]);
-            this.ultimaPosicao ++;
-            codigoPosicao[1] = String.valueOf(this.ultimaPosicao);
+    public int addPacienteNaFila(String codigoPosto){
+        if(codigoPosto.equals(this.codigoPosto)) {
+            if (this.filaPacientes.size() < this.getQtdVacina()) {
+                this.filaPacientes.add(senhaPaciente);
+            } else {
+                throw new IllegalArgumentException("Estoque de vacinas finalizado!");
+            }
+        }else{
+            throw new IllegalArgumentException("Este código não é o código do Posto onde você se encontra!");
         }
-        return codigoPosicao;
+
+        return this.senhaPaciente++;
     }
 
     //fonte: https://www.baeldung.com/java-random-string
-    private String gerarCodigoPaciente(){
+    public String gerarCodigoPosto(){
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 10;
@@ -138,22 +141,19 @@ public class PostoDeVacinacao {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
 
+        this.codigoPosto = generatedString;
         return generatedString;
     }
 
-    public String registraVacinacao (String senha){
-        String result = null;
-        if (this.filaPacientes.peekFirst() != null &&
-            this.filaPacientes.peekFirst().equals(senha) &&
-            this.getQtdVacina() > 0){
-
-            this.situacaoFila ++;
-            this.filaPacientes.removeFirst();
-
-            //Logica de escolher/remover vacina do lote
-
-            result = "nome vacina";
+    public String confirmarVacinacao(int senha){
+        this.filaPacientes.remove(senha);
+        Lote lote = this.lotesDeVacina.get(0);
+        String vacinaAplicada = lote.getVacina().getNomeVacina();
+        lote.diminuiQtdDosesDisponiveis();
+        if(lote.getQtdDosesDisponiveis() == 0){
+            this.lotesDeVacina.remove(lote);
         }
-        return result;
+        return "O Paciente com senha: " + senha+ "recebeu a vacina: " + vacinaAplicada;
     }
+
 }

@@ -28,8 +28,7 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
                                                                 postoDTO.getEmail(),
                                                                 postoDTO.getTelefone(),
                                                                 postoDTO.getEnderecoDTO().toEndereco(),
-                                                                postoDTO.getId(),
-                                                                postoDTO.getSenha());
+                                                                postoDTO.getId());
 
 
         this.salvaPostoDeVacinacao(newPosto);
@@ -73,24 +72,38 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
         return posto.getLotesDeVacina();
     }
 
+
     @Override
-    public String[] addPacienteNaFila(long idPosto) {
-        String[] result;
-        result = this.getPostoById(idPosto).addPacienteNaFila();
-        if (result == null){
-            throw new IllegalArgumentException("Posto sem vagas");
+    public int addPacienteNaFila(String codigoPosto) {
+        PostoDeVacinacao postoDeVacinacao = this.getPostoByCodigo(codigoPosto);
+        int senhaPaciente = postoDeVacinacao.addPacienteNaFila(codigoPosto);
+        this.salvaPostoDeVacinacao(postoDeVacinacao);
+        return senhaPaciente;
+    }
+
+    public PostoDeVacinacao getPostoByCodigo(String codigoPosto){
+        List<PostoDeVacinacao> postos = this.listaPostoDeVacinacao();
+        PostoDeVacinacao posto = null;
+        for (PostoDeVacinacao p:postos) {
+            if(p.getCodigoPosto().equals(codigoPosto)){
+                posto = p;
+            }
         }
-        return result;
+        return posto;
+    }
+
+
+    @Override
+    //Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada
+    public String confirmarVacinacao(int senhaPaciente) {
+
+        return "Esperando regras de negócio!";
     }
 
     @Override
-    public String registrarVacinacao(long idPosto, String senhaVacinacao) {
-        String result;
-        result = this.getPostoById(idPosto).registraVacinacao(senhaVacinacao);
-        if (result == null){
-            throw new IllegalArgumentException("Não é a vez do paciente");
-        }
-        return result;
+    public String gerarCodigoDoPosto(long idPosto) {
+        PostoDeVacinacao postoDeVacinacao = this.getPostoById(idPosto);
+        return postoDeVacinacao.gerarCodigoPosto();
     }
 
     private void salvaPostoDeVacinacao(PostoDeVacinacao posto){
