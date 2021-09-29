@@ -24,4 +24,15 @@ public class PostoController {
         List<Lote> lista = postoService.listaLotesPosto(idPosto);
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
+
+    //Gerar código que vai ser utilizado
+
+    //Isso talvez fique na parte de uma espécie de UsuarioComumController algo do tipo
+    //O usuário coloca o código do posto e receber a senha dele na fila
+
+
+    //Confirmar vacinação de um usuário(O usuário passa a senha dele, e é eliminado da fila de vacinação)
+
+
+
 }

@@ -28,7 +28,8 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
                                                                 postoDTO.getEmail(),
                                                                 postoDTO.getTelefone(),
                                                                 postoDTO.getEnderecoDTO().toEndereco(),
-                                                                postoDTO.getId());
+                                                                postoDTO.getId(),
+                                                                postoDTO.getSenha());
 
 
         this.salvaPostoDeVacinacao(newPosto);

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+
+@Entity
 public class PostoDeVacinacao {
 
     @Id
@@ -18,18 +20,21 @@ public class PostoDeVacinacao {
 
     private String telefone;
 
+    private String senha;
+
     @OneToMany
     private List<Lote> lotesDeVacina;
 
     @OneToOne
     private Endereco endereco;
 
-    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id){
+    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id, String senha){
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
         this.lotesDeVacina = new ArrayList<>();
+        this.senha = senha;
 
     }
 
@@ -87,4 +92,11 @@ public class PostoDeVacinacao {
     }
 
 
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 }
