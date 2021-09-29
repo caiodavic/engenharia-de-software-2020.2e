@@ -1,15 +1,16 @@
 import Home from './pages/Home';
 import Login from './pages/Login';
-<<<<<<< HEAD
-import Signup from './pages/Signup';
-=======
->>>>>>> c3c9ecead8a70a4fafa8bbe53d3d1af1f720a43f
+import Signup from './pages/Admin/SignUpVaccinUnit';
+import Admin from './pages/Admin';
 import { Reset } from 'styled-reset';
 import GlobalStyle from './globalStyle';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import UserContext from './contexts/UserContext';
+import { useState } from 'react';
 
 const App = () => {
+  const [token, setToken] = useState('');
   return (
     <>
       <BrowserRouter>
@@ -19,17 +20,29 @@ const App = () => {
         <Navbar />
 
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <UserContext.Provider value={{ token, setToken }}>
+            <Route exact path="/">
+              <Home />
+            </Route>
 
-          <Route exact path="/login">
-            <Login />
-          </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
 
-          <Route exact path="/signup">
-            <Signup />
-          </Route>
+            <Route exact path="/admin">
+              <Admin />
+            </Route>
+
+            <Route path="/admin/cadastro/posto">
+              <Signup />
+            </Route>
+
+            <Route path="/admin/alocacao/lote"></Route>
+
+            <Route path="/admin/cadastro/lote"></Route>
+
+            <Route path="/admin/cadastro/vacina"></Route>
+          </UserContext.Provider>
         </Switch>
       </BrowserRouter>
     </>

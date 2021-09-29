@@ -5,7 +5,7 @@ import {
   PageTitle,
   PageSubTitle,
   StyledForm,
-} from '../../components/shared/CommonStyles';
+} from '../../../components/shared/CommonStyles';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -24,7 +24,7 @@ export default function Signup() {
         <PageTitle>Cadastrar novo Posto de Saúde</PageTitle>
 
         <StyledForm onSubmit={submitInput}>
-          <label htmlFor="email">E-mail do Administrador: </label>
+          <label htmlFor="email">E-mail: </label>
           <input
             type="email"
             id="email"

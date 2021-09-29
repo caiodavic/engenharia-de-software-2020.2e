@@ -6,7 +6,9 @@ import {
   PageSubTitle,
   StyledForm,
 } from '../../components/shared/CommonStyles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useContext } from 'react';
+import UserContext from '../../contexts/UserContext';
 
 // usando login tipo="posto" como posto de vacinacao de tipo="secretaria" como secretaria de saúde
 export default function Login() {
@@ -14,10 +16,16 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [loginType, setLoginType] = useState('posto');
   const [isLoading, setIsLoading] = useState(false);
+  const { setToken } = useContext(UserContext);
+  let history = useHistory();
 
   function checkCredentials(e) {
     e.preventDefault();
     console.log(email, password, loginType);
+    if (email === 'fernando@admin.com' && password === '0000') {
+      setToken(1);
+      history.push('admin/');
+    }
   }
 
   return (
