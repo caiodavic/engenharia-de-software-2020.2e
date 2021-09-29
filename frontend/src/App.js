@@ -1,6 +1,6 @@
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Signup from './pages/Admin/SignUpVaccinUnit';
+import Signup from './pages/Admin/SignUpVaccinationUnit';
 import Admin from './pages/Admin';
 import { Reset } from 'styled-reset';
 import GlobalStyle from './globalStyle';
@@ -42,6 +42,10 @@ const App = () => {
             <Route path="/admin/cadastro/lote"></Route>
 
             <Route path="/admin/cadastro/vacina"></Route>
+
+            <Route path="/postos">
+              <VaccinationUnits />
+            </Route>
           </UserContext.Provider>
         </Switch>
       </BrowserRouter>
