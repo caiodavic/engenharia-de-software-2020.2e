@@ -2,6 +2,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Admin/SignUpVaccinationUnit';
 import Admin from './pages/Admin';
+import VaccinationUnits from './pages/VaccinationUnits';
 import { Reset } from 'styled-reset';
 import GlobalStyle from './globalStyle';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
@@ -43,7 +44,7 @@ const App = () => {
 
             <Route path="/admin/cadastro/vacina"></Route>
 
-            <Route path="/postos">
+            <Route exact path="/postos">
               <VaccinationUnits />
             </Route>
           </UserContext.Provider>

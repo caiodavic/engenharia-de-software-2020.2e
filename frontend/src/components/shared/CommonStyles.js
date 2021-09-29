@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const PageWrapper = styled.div`
   width: 100%;
@@ -17,6 +18,7 @@ const PageTitle = styled.div`
   font-size: 40px;
   width: 800px;
   display: flex;
+  color: white;
   justify-content: center;
   align-items: center;
   margin-bottom: 15px;
@@ -32,6 +34,7 @@ const PageSubTitle = styled.div`
   font-size: 20px;
   display: flex;
   justify-content: center;
+  color: white;
   align-items: center;
   margin-bottom: 20px;
   @media screen and (max-width: 800px) {

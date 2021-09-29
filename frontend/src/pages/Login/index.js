@@ -34,7 +34,7 @@ export default function Login() {
         <PageTitle>Bem vindo!</PageTitle>
 
         <PageSubTitle>
-          Realize seu Login ou Cadastre novo Posto de Vacinação
+          Realize seu Login como Posto de Vacinação ou Secretário(a) de Saúde
         </PageSubTitle>
 
         <StyledForm onSubmit={checkCredentials}>
