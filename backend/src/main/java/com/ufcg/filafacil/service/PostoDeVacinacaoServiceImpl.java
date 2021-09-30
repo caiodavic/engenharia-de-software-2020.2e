@@ -76,8 +76,19 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
     @Override
     public int addPacienteNaFila(String codigoPosto) {
         PostoDeVacinacao postoDeVacinacao = this.getPostoByCodigo(codigoPosto);
-        int senhaPaciente = postoDeVacinacao.addPacienteNaFila(codigoPosto);
+        int senhaPaciente = -1;
+        if(codigoPosto.equals(postoDeVacinacao.getCodigoPosto())) {
+            if (postoDeVacinacao.getFilaPacientes().size() < postoDeVacinacao.getQtdVacina()) {
+                senhaPaciente = postoDeVacinacao.addPacienteNaFila();
+            } else {
+                throw new IllegalArgumentException("Estoque de vacinas finalizado!");
+            }
+        }else{
+            throw new IllegalArgumentException("Este código não é o código do Posto onde você se encontra!");
+        }
+
         this.salvaPostoDeVacinacao(postoDeVacinacao);
+
         return senhaPaciente;
     }
 
@@ -94,10 +105,13 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
 
 
     @Override
-    //Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada
-    public String confirmarVacinacao(int senhaPaciente) {
+    //Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada(Estou recebendo o id do Posto diretamente)
+    public String confirmarVacinacao(int senhaPaciente, long idPosto) {
 
-        return "Esperando regras de negócio!";
+        PostoDeVacinacao postoDeVacinacao = this.getPostoById(idPosto);
+        String vacinaAplicada = postoDeVacinacao.confirmarVacinacao(senhaPaciente);
+        this.salvaPostoDeVacinacao(postoDeVacinacao);
+        return vacinaAplicada;
     }
 
     @Override

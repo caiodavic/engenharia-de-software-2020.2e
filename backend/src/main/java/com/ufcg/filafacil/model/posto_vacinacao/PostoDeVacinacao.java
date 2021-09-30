@@ -18,28 +18,36 @@ public class PostoDeVacinacao {
 
     private String telefone;
 
-    private int senhaPaciente;
-
-    private String codigoPosto;
+    @ElementCollection
+    private List<String> codigosPosto;
 
     @OneToMany
     private List<Lote> lotesDeVacina;
 
+    @ElementCollection
+    private List<Integer> filaPacientes;
+
     @OneToOne
     private Endereco endereco;
 
-    private List<Integer> filaPacientes;
 
     public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id){
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.endereco = endereco;
+        this.id = id;
+        this.codigosPosto = new ArrayList<>();
         this.lotesDeVacina = new ArrayList<>();
         this.filaPacientes = new ArrayList<>();
-        this.senhaPaciente = 0;
+        //Gambiarra pra começar a fila com "algum paciente", já que a estratégia é pegar a última senha e somar 1 pra ir incrementando
+        // A ideia é quando adicionar realmente o primeiro paciente, esse valor 0 seja removido
+        this.filaPacientes.add(0);
     }
 
+    public long getId(){
+        return this.id;
+    }
     public String getNome() {
         return nome;
     }
@@ -77,10 +85,10 @@ public class PostoDeVacinacao {
     }
 
     public String getCodigoPosto() {
-        return this.codigoPosto;
+        return this.codigosPosto.get(this.codigosPosto.size() - 1);
     }
 
-    private int getQtdVacina(){
+    public int getQtdVacina(){
         int qtdTotal = 0;
         for(Lote lote : this.lotesDeVacina){
             qtdTotal += lote.getQtdDosesDisponiveis();
@@ -92,40 +100,23 @@ public class PostoDeVacinacao {
         this.lotesDeVacina.add(lote);
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PostoDeVacinacao that = (PostoDeVacinacao) o;
-        return id == that.id;
+    public int getUltimaSenha() {
+        return this.filaPacientes.get(this.filaPacientes.size() - 1);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
+    public List<Integer> getFilaPacientes(){
+        return this.filaPacientes;
     }
 
 
-    public int getSenha() {
-        return senhaPaciente;
-    }
-
-    public void setSenha(int senha) {
-        this.senhaPaciente = senha;
-    }
-
-    public int addPacienteNaFila(String codigoPosto){
-        if(codigoPosto.equals(this.codigoPosto)) {
-            if (this.filaPacientes.size() < this.getQtdVacina()) {
-                this.filaPacientes.add(senhaPaciente);
-            } else {
-                throw new IllegalArgumentException("Estoque de vacinas finalizado!");
-            }
+    public int addPacienteNaFila(){
+        if(this.filaPacientes.get(0) == 0){
+            this.filaPacientes.add(this.getUltimaSenha() + 1);
+            this.filaPacientes.remove(0);
         }else{
-            throw new IllegalArgumentException("Este código não é o código do Posto onde você se encontra!");
+            this.filaPacientes.add(this.getUltimaSenha() + 1);
         }
-
-        return this.senhaPaciente++;
+        return this.getUltimaSenha();
     }
 
     //fonte: https://www.baeldung.com/java-random-string
@@ -141,7 +132,7 @@ public class PostoDeVacinacao {
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
                 .toString();
 
-        this.codigoPosto = generatedString;
+        this.codigosPosto.add(generatedString);
         return generatedString;
     }
 
@@ -156,4 +147,17 @@ public class PostoDeVacinacao {
         return "O Paciente com senha: " + senha+ "recebeu a vacina: " + vacinaAplicada;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PostoDeVacinacao that = (PostoDeVacinacao) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
