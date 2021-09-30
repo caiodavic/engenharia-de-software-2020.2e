@@ -117,7 +117,9 @@ public class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService{
     @Override
     public String gerarCodigoDoPosto(long idPosto) {
         PostoDeVacinacao postoDeVacinacao = this.getPostoById(idPosto);
-        return postoDeVacinacao.gerarCodigoPosto();
+        String codigo = postoDeVacinacao.gerarCodigoPosto();
+        this.salvaPostoDeVacinacao(postoDeVacinacao);
+        return codigo;
     }
 
     private void salvaPostoDeVacinacao(PostoDeVacinacao posto){
