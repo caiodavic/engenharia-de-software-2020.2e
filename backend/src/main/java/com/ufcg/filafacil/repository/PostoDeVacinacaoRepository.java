@@ -9,6 +9,5 @@ import java.util.Optional;
 
 public interface PostoDeVacinacaoRepository extends JpaRepository<PostoDeVacinacao, Long> {
 
-
     Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha);
 }

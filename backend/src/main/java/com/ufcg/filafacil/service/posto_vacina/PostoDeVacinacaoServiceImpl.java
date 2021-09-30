@@ -78,8 +78,4 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     private void salvaPostoDeVacinacao(PostoDeVacinacao posto){
         this.postoRepository.save(posto);
     }
-
-
-
-
 }

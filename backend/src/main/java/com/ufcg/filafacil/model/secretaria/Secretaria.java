@@ -1,9 +1,6 @@
 package com.ufcg.filafacil.model.secretaria;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Secretaria {
@@ -12,6 +9,7 @@ public class Secretaria {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(name = "nome", unique = true)
     private String nome;
 
     private String senha;
