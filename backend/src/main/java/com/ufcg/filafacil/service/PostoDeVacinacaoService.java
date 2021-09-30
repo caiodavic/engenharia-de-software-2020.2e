@@ -22,6 +22,6 @@ public interface PostoDeVacinacaoService {
 
     String gerarCodigoDoPosto(long idPosto);
 
-//  Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada
-    String confirmarVacinacao(int senhaPaciente);
+//  Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada(Estou recebendo o Id do Posto diretamente)
+    String confirmarVacinacao(int senhaPaciente, long idPosto);
 }

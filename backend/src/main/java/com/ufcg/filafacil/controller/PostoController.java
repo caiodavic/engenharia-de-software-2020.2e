@@ -56,15 +56,16 @@ public class PostoController {
         }
     }
 
-    //  Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada
-    //Confirmar vacinação de um usuário(O usuário passa a senha dele, e é eliminado da fila de vacinação)
-//    public ResponseEntity<?> confirmarVacinacao(@RequestBody int senhaPaciente){
-//        try{
-//            postoService.confirmarVacinacao(senhaPaciente);
-//        }catch(IllegalArgumentException ila){
-//            return ResponseEntity.badRequest().body(ila.getMessage());
-//        }
-//
-//    }
+    //  Precisamos receber também o token do Posto de Vacinação Autenticado(Nesse caso recebi o Id do Posto diretamente) no qual essa pessoa está sendo vacinada
+    // Confirmar vacinação de um usuário(O usuário passa a senha dele, e é eliminado da fila de vacinação)
+    public ResponseEntity<?> confirmarVacinacao(@RequestBody int senhaPaciente, long idPosto){
+        try{
+            String vacinaAplicada = postoService.confirmarVacinacao(senhaPaciente, idPosto);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(vacinaAplicada);
+        }catch(IllegalArgumentException ila){
+            return ResponseEntity.badRequest().body(ila.getMessage());
+        }
+
+    }
 
 }
