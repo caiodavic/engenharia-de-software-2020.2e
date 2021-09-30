@@ -22,6 +22,7 @@ const PageTitle = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 15px;
+  text-align: center;
 
   @media screen and (max-width: 800px) {
     width: 100%;
@@ -38,11 +39,13 @@ const PageSubTitle = styled.div`
   align-items: center;
   margin-bottom: 20px;
   @media screen and (max-width: 800px) {
-    width: 100%;
+    max-width: 100vw;
+    text-align: center;
   }
 `;
 
 const StyledForm = styled.form`
+  margin-top: 30px;
   border-radius: 20px;
   font-size: 20px;
   background-color: white;
@@ -51,7 +54,7 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 50px 50px;
+  padding: 40px 40px;
   height: fit-content;
 
   & > label {
@@ -64,8 +67,9 @@ const StyledForm = styled.form`
     font-size: 20px;
     margin: 5px 0px 20px 0px;
     width: 60%;
-    height: 30px;
+    height: fit-content;
     border: 1.5px solid grey;
+    padding: 7px 5px;
     border-radius: 2px;
   }
 
@@ -73,9 +77,16 @@ const StyledForm = styled.form`
     font-size: 20px;
     cursor: pointer;
     margin-top: 10px;
+    color: white;
     width: 150px;
     height: 50px;
-    border-radius: 2px;
+    border-radius: 10px;
+    background-color: #255aff;
+    min-width: fit-content;
+  }
+
+  datalist {
+    max-height: 50px;
   }
 `;
 

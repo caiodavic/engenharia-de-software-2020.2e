@@ -3,25 +3,34 @@ import Login from './pages/Login';
 import Signup from './pages/Admin/SignUpVaccinationUnit';
 import Admin from './pages/Admin';
 import VaccinationUnits from './pages/VaccinationUnits';
+import RegisterVaccine from './pages/Admin/RegisterVaccine';
 import { Reset } from 'styled-reset';
 import GlobalStyle from './globalStyle';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import UserContext from './contexts/UserContext';
 import { useState } from 'react';
+import Footer from './components/Footer';
+import CreateLot from './pages/Admin/CreateLot';
+import SendLotToUnit from './pages/Admin/SendLotToUnit';
 
 const App = () => {
   const [token, setToken] = useState('');
+  const [isLoggedInType, setIsLoggedInType] = useState('');
+
   return (
     <>
       <BrowserRouter>
         <Reset />
         <GlobalStyle />
 
-        <Navbar />
+        <UserContext.Provider
+          value={{ token, setToken, isLoggedInType, setIsLoggedInType }}
+        >
+          <Navbar />
+          <Footer />
 
-        <Switch>
-          <UserContext.Provider value={{ token, setToken }}>
+          <Switch>
             <Route exact path="/">
               <Home />
             </Route>
@@ -42,13 +51,19 @@ const App = () => {
               <Signup />
             </Route>
 
-            <Route exact path="/admin/cadastro/lote"></Route>
+            <Route exact path="/admin/cadastro/lote">
+              <CreateLot />
+            </Route>
 
-            <Route exact path="/admin/alocacao/lote"></Route>
+            <Route exact path="/admin/alocacao/lote">
+              <SendLotToUnit />
+            </Route>
 
-            <Route exact path="/admin/cadastro/vacina"></Route>
-          </UserContext.Provider>
-        </Switch>
+            <Route exact path="/admin/cadastro/vacina">
+              <RegisterVaccine />
+            </Route>
+          </Switch>
+        </UserContext.Provider>
       </BrowserRouter>
     </>
   );

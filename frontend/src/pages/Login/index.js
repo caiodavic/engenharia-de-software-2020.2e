@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import {
   PageWrapper,
@@ -6,25 +5,43 @@ import {
   PageSubTitle,
   StyledForm,
 } from '../../components/shared/CommonStyles';
-import { Link, useHistory } from 'react-router-dom';
-import { useContext } from 'react';
+import { LoginWrapper, LoginTypesContainer, LinkToSignUp } from './style';
+import { useHistory } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
+import Loader from '../../components/Loader';
 
 // usando login tipo="posto" como posto de vacinacao de tipo="secretaria" como secretaria de saúde
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginType, setLoginType] = useState('posto');
-  const [isLoading, setIsLoading] = useState(false);
-  const { setToken } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(true);
+  const { token, setToken, isLoggedInType, setIsLoggedInType } =
+    useContext(UserContext);
   let history = useHistory();
+
+  useEffect(checkIfItsAlreadyLoggedIn, [token]);
+
+  function checkIfItsAlreadyLoggedIn() {
+    if (token) {
+      if (isLoggedInType === 'secretaria') {
+        history.push('/admin');
+      } else {
+        history.push('/posto');
+      }
+    }
+
+    setIsLoading(false);
+  }
 
   function checkCredentials(e) {
     e.preventDefault();
     console.log(email, password, loginType);
     if (email === 'fernando@admin.com' && password === '0000') {
       setToken(1);
-      history.push('admin/');
+      setIsLoggedInType('secretaria');
+      history.push('/admin/');
     }
   }
 
@@ -32,11 +49,9 @@ export default function Login() {
     <PageWrapper>
       <LoginWrapper>
         <PageTitle>Bem vindo!</PageTitle>
-
         <PageSubTitle>
           Realize seu Login como Posto de Vacinação ou Secretário(a) de Saúde
         </PageSubTitle>
-
         <StyledForm onSubmit={checkCredentials}>
           <label htmlFor="email">E-mail: </label>
           <input
@@ -82,31 +97,8 @@ export default function Login() {
           </LoginTypesContainer>
 
           <input type="submit" disabled={isLoading} value="Login" />
-          <LinkToSignUp to="/signup">Cadastre novo Posto</LinkToSignUp>
         </StyledForm>
       </LoginWrapper>
     </PageWrapper>
   );
 }
-
-const LoginWrapper = styled.div`
-  width: 800px;
-  height: fit-content;
-
-  @media screen and (max-width: 800px) {
-    width: 100vh;
-  }
-`;
-
-const LoginTypesContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  & > div {
-    margin-bottom: 10px;
-  }
-`;
-
-const LinkToSignUp = styled(Link)`
-  font-size: 18px;
-`;
