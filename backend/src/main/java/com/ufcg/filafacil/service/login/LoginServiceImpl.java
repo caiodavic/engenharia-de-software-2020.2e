@@ -23,8 +23,8 @@ public class LoginServiceImpl implements LoginService {
     public String realizarLogin(String login, String senha, String tipoLogin) {
         String tipoLoginUpperCase = tipoLogin.toUpperCase();
         BasicLoginTypeService loginTypeService = loginTypeFactory(tipoLoginUpperCase);
-        loginTypeService.verificarCredenciais(login, senha);
-        return tokenService.createToken(tipoLoginUpperCase);
+        Long entityId = loginTypeService.verificarCredenciais(login, senha);
+        return tokenService.createToken(tipoLoginUpperCase, entityId);
     }
 
     private BasicLoginTypeService loginTypeFactory(String tipoLogin) {

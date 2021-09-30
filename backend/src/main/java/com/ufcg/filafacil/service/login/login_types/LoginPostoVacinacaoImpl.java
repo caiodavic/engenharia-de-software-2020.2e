@@ -15,11 +15,13 @@ public class LoginPostoVacinacaoImpl implements BasicLoginTypeService {
 
 
     @Override
-    public void verificarCredenciais(String login, String password) throws IllegalArgumentException {
+    public Long verificarCredenciais(String login, String password) throws IllegalArgumentException {
         Optional<PostoDeVacinacao> postoDeVacinacao = postoDeVacinacaoService.findByEmailAndSenha(login, password);
 
         if (postoDeVacinacao.isEmpty()) {
             throw new IllegalArgumentException();
         }
+
+        return postoDeVacinacao.get().getId();
     }
 }

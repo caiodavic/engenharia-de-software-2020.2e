@@ -6,7 +6,7 @@ import org.springframework.security.core.Authentication;
 import javax.servlet.http.HttpServletRequest;
 
 public interface TokenAuthenticateService {
-    String createToken(String tipoLogin);
+    String createToken(String tipoLogin, Long entityId);
 
     Authentication getAuthentication(HttpServletRequest request);
 }
