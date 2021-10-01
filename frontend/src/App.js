@@ -14,6 +14,8 @@ import Footer from './components/Footer';
 import CreateLot from './pages/Admin/CreateLot';
 import SendLotToUnit from './pages/Admin/SendLotToUnit';
 import VaccinationUnitPage from './pages/VaccinationUnitPage';
+import ProtectedRouteAdmin from './utils/ProtectedRouteAdmin';
+import ProtectedRouteUnit from './utils/ProtectedRouteUnit';
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -32,41 +34,38 @@ const App = () => {
           <Footer />
 
           <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/postos" component={VaccinationUnits} />
+            <Route path="/login" component={Login} />
 
-            <Route exact path="/postos">
-              <VaccinationUnits />
-            </Route>
+            <Route exact path="/admin" component={Admin} />
+            <ProtectedRouteAdmin
+              path="/admin/cadastro/posto"
+              loggedIn={isLoggedInType}
+              component={Signup}
+            />
+            <ProtectedRouteAdmin
+              path="/admin/cadastro/lote"
+              loggedIn={isLoggedInType}
+              component={CreateLot}
+            />
+            <ProtectedRouteAdmin
+              path="/admin/alocacao/lote"
+              loggedIn={isLoggedInType}
+              component={SendLotToUnit}
+            />
+            <ProtectedRouteAdmin
+              path="/admin/cadastro/vacina"
+              loggedIn={isLoggedInType}
+              component={RegisterVaccine}
+            />
 
-            <Route exact path="/login">
-              <Login />
-            </Route>
-
-            <Route exact path="/admin">
-              <Admin />
-            </Route>
-
-            <Route exact path="/admin/cadastro/posto">
-              <Signup />
-            </Route>
-
-            <Route exact path="/admin/cadastro/lote">
-              <CreateLot />
-            </Route>
-
-            <Route exact path="/admin/alocacao/lote">
-              <SendLotToUnit />
-            </Route>
-
-            <Route exact path="/admin/cadastro/vacina">
-              <RegisterVaccine />
-            </Route>
-
-            <Route exact path="/posto">
-              <VaccinationUnitPage />
-            </Route>
+            <ProtectedRouteUnit
+              exact
+              path="/posto/:idPosto"
+              loggedIn={isLoggedInType}
+              component={VaccinationUnitPage}
+            />
           </Switch>
         </UserContext.Provider>
       </BrowserRouter>

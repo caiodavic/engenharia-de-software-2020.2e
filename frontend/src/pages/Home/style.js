@@ -31,7 +31,7 @@ const SearchCode = styled.div`
 
   input {
     border: none;
-    font-size: 20px;
+    font-size: 27px;
     &:focus {
       outline: none;
     }

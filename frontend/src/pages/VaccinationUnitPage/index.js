@@ -6,14 +6,17 @@ import {
 } from '../../components/shared/CommonStyles';
 import styled from 'styled-components';
 import {
+  getLotsList,
   getUnitLots,
   getUnitQueue,
   postVaccinationConfirmation,
 } from '../../services/api';
 import UserContext from '../../contexts/UserContext';
 import { useContext, useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 export default function VaccinationUnitPage() {
+  const { idPosto } = useParams();
   const [lots, setLots] = useState([]);
   const [queue, setQueue] = useState({
     posicaoAtual: null,
@@ -25,8 +28,10 @@ export default function VaccinationUnitPage() {
   useEffect(loadLotsAndQueue, [token, lots, queue]);
 
   function loadLotsAndQueue() {
-    let queue = getUnitQueue({ token });
-    console.log(lots);
+    const body = { idPosto };
+    let lots = getLotsList({ body, token });
+    let queue = getUnitQueue({ body, token });
+    setLots(lots);
     setQueue(queue);
   }
 
@@ -104,7 +109,7 @@ const VaccinationUnitPageWrapper = styled.div`
 
 const CardsContainer = styled.div`
   display: flex;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 90%;
   justify-content: space-around;
   @media screen and (max-width: 1200px) {
@@ -125,19 +130,16 @@ const Card = styled.div`
 
   align-items: center;
   padding: 10px 10px;
-  margin: 15px 0px;
-
   position: relative;
 
   @media screen and (max-width: 1500px) {
     width: 40%;
-    align-items: center;
+    margin-bottom: 20px;
   }
 
   @media screen and (max-width: 1200px) {
     width: 500px;
     max-width: 100vw;
-    align-items: center;
   }
 `;
 

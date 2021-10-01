@@ -11,6 +11,10 @@ const FooterWrapper = styled.div`
   text-align: center;
   font-size: 22px;
   height: 70px;
+  z-index: 1;
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 export { FooterWrapper };

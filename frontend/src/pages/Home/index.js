@@ -1,4 +1,8 @@
-import { PageWrapper } from '../../components/shared/CommonStyles';
+import {
+  PageWrapper,
+  PageTitle,
+  PageSubTitle,
+} from '../../components/shared/CommonStyles';
 import React from 'react';
 import { useState } from 'react';
 import { HomeWrapper, CodeInput, SearchCode, LinkButton } from './style';
@@ -21,9 +25,9 @@ const Home = () => {
   return (
     <PageWrapper>
       <HomeWrapper>
+        <PageTitle>Insira seu Código Aqui</PageTitle>
+        <PageSubTitle> </PageSubTitle>
         <CodeInput onSubmit={sendCode}>
-          <label htmlFor="code">Insira seu Código Aqui</label>
-
           <SearchCode>
             <input
               type="text"

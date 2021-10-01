@@ -1,10 +1,10 @@
-import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 import { getVaccineList, postNewLot } from '../../../services/api';
 import {
   PageWrapper,
   PageTitle,
   StyledForm,
+  PageContentContainer,
 } from '../../../components/shared/CommonStyles';
 import UserContext from '../../../contexts/UserContext';
 import { useContext } from 'react';
@@ -52,7 +52,7 @@ export default function CreateLot() {
 
   return (
     <PageWrapper>
-      <CreateLotWrapper>
+      <PageContentContainer>
         <PageTitle>Cadastrar Lote da Vacina</PageTitle>
 
         <StyledForm onSubmit={submitInput}>
@@ -92,14 +92,7 @@ export default function CreateLot() {
           />
           <input type="submit" disabled={isLoading} value="Cadastrar Vacina" />
         </StyledForm>
-      </CreateLotWrapper>
+      </PageContentContainer>
     </PageWrapper>
   );
 }
-
-const CreateLotWrapper = styled.div`
-  width: 800px;
-  @media screen and (max-width: 1200px) {
-    width: 90%;
-  }
-`;

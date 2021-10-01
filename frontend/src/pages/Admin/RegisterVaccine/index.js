@@ -1,8 +1,8 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import {
   PageWrapper,
   PageTitle,
+  PageContentContainer,
   StyledForm,
 } from '../../../components/shared/CommonStyles';
 
@@ -26,7 +26,7 @@ export default function RegisterVaccine() {
 
   return (
     <PageWrapper>
-      <RegisterVaccineWrapper>
+      <PageContentContainer>
         <PageTitle> Cadastrar Vacina </PageTitle>
         <StyledForm onSubmit={submitInput}>
           <label htmlFor="name">Nome da Vacina: </label>
@@ -72,14 +72,7 @@ export default function RegisterVaccine() {
           />
           <input type="submit" disabled={isLoading} value="Cadastrar" />
         </StyledForm>
-      </RegisterVaccineWrapper>
+      </PageContentContainer>
     </PageWrapper>
   );
 }
-
-const RegisterVaccineWrapper = styled.div`
-  width: 800px;
-  @media screen and (max-width: 1200px) {
-    width: 90%;
-  }
-`;

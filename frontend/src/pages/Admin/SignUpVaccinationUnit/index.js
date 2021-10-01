@@ -1,9 +1,9 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import {
   PageWrapper,
   PageTitle,
   StyledForm,
+  PageContentContainer,
 } from '../../../components/shared/CommonStyles';
 import UserContext from '../../../contexts/UserContext';
 import { useContext } from 'react';
@@ -33,7 +33,7 @@ export default function Signup() {
 
   return (
     <PageWrapper>
-      <SignupWrapper>
+      <PageContentContainer>
         <PageTitle>Cadastrar novo Posto de Saúde</PageTitle>
 
         <StyledForm onSubmit={submitInput}>
@@ -90,14 +90,7 @@ export default function Signup() {
 
           <input type="submit" disabled={isLoading} value="Cadastrar" />
         </StyledForm>
-      </SignupWrapper>
+      </PageContentContainer>
     </PageWrapper>
   );
 }
-
-const SignupWrapper = styled.div`
-  width: 800px;
-  @media screen and (max-width: 1200px) {
-    width: 90%;
-  }
-`;

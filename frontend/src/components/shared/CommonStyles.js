@@ -2,14 +2,30 @@ import styled from 'styled-components';
 
 const PageWrapper = styled.div`
   width: 100%;
-  height: fit-content;
+  min-height: fit-content;
   display: flex;
   justify-content: center;
-  margin-top: 200px;
+  margin-top: 150px;
+  margin-bottom: 100px;
 
   @media screen and (max-width: 1200px) {
     width: 100vw;
     margin-top: 150px;
+    margin-bottom: 50px;
+  }
+
+  @media screen and (max-width: 800px) {
+    margin-top: 115px;
+  }
+`;
+
+const PageContentContainer = styled.div`
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  @media screen and (max-width: 1200px) {
+    width: 95%;
   }
 `;
 
@@ -25,7 +41,11 @@ const PageTitle = styled.div`
   text-align: center;
 
   @media screen and (max-width: 1200px) {
-    width: 90%;
+    width: 100%;
+  }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    padding: 0px 5px;
   }
 `;
 
@@ -39,8 +59,11 @@ const PageSubTitle = styled.div`
   align-items: center;
   margin-bottom: 20px;
   @media screen and (max-width: 1200px) {
-    width: 90%;
+    width: 100%;
     text-align: center;
+  }
+  @media screen and (max-width: 800px) {
+    display: none;
   }
 `;
 
@@ -85,9 +108,15 @@ const StyledForm = styled.form`
     min-width: fit-content;
   }
 
-  @media screen and (max-width: 1200px) {
-    width: 90%;
-    align-items: center;
+  @media screen and (max-width: 800px) {
+    padding: 25px 25px;
+
+    & > label {
+      width: 80%;
+    }
+    & > input {
+      width: 80%;
+    }
   }
 `;
 
@@ -101,4 +130,11 @@ const WarningMsg = styled.li`
   height: 65%;
 `;
 
-export { PageWrapper, PageTitle, PageSubTitle, StyledForm, WarningMsg };
+export {
+  PageWrapper,
+  PageTitle,
+  PageSubTitle,
+  StyledForm,
+  WarningMsg,
+  PageContentContainer,
+};

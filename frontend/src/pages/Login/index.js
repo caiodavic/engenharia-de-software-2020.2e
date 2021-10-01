@@ -6,7 +6,7 @@ import {
   StyledForm,
 } from '../../components/shared/CommonStyles';
 import { LoginWrapper, LoginTypesContainer, LinkToSignUp } from './style';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
 import Loader from '../../components/Loader';
@@ -20,6 +20,9 @@ export default function Login() {
   const { token, setToken, isLoggedInType, setIsLoggedInType } =
     useContext(UserContext);
   let history = useHistory();
+  let location = useLocation();
+  const { state = {} } = location;
+  const { error } = state;
 
   useEffect(checkIfItsAlreadyLoggedIn, [token]);
 
@@ -27,12 +30,15 @@ export default function Login() {
     if (token) {
       if (isLoggedInType === 'secretaria') {
         history.push('/admin');
-      } else {
+      } else if (isLoggedInType === 'posto') {
         history.push('/posto');
       }
     }
-
     setIsLoading(false);
+
+    if (error) {
+      alert(error);
+    }
   }
 
   function checkCredentials(e) {

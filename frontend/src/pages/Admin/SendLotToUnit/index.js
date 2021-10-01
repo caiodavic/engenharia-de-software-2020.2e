@@ -1,9 +1,9 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import {
   PageWrapper,
   PageTitle,
   StyledForm,
+  PageContentContainer,
 } from '../../../components/shared/CommonStyles';
 import { useContext, useEffect } from 'react';
 import UserContext from '../../../contexts/UserContext';
@@ -35,7 +35,7 @@ export default function SendLotToUnit() {
 
   return (
     <PageWrapper>
-      <SendLotToUnitWrapper>
+      <PageContentContainer>
         <PageTitle> Cadastrar Lote em Posto </PageTitle>
         <StyledForm onSubmit={submitInput}>
           <label htmlFor="lote">Lote: </label>
@@ -65,14 +65,7 @@ export default function SendLotToUnit() {
           </datalist>
           <input type="submit" disabled={isLoading} value="Cadastrar" />
         </StyledForm>
-      </SendLotToUnitWrapper>
+      </PageContentContainer>
     </PageWrapper>
   );
 }
-
-const SendLotToUnitWrapper = styled.div`
-  width: 800px;
-  @media screen and (max-width: 1200px) {
-    width: 90%;
-  }
-`;
