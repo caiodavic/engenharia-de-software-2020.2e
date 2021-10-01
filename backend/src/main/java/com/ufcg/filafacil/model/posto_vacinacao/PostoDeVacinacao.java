@@ -42,6 +42,10 @@ public class PostoDeVacinacao {
 
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getNome() {
         return nome;
     }

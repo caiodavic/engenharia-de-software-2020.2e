@@ -1,16 +1,18 @@
 package com.ufcg.filafacil.service.token_authentication;
 
+import com.ufcg.filafacil.service.posto_vacina.PostoDeVacinacaoService;
+import com.ufcg.filafacil.service.secretaria.SecretariaService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 class TokenAuthenticateServiceImpl implements TokenAuthenticateService {
@@ -21,9 +23,10 @@ class TokenAuthenticateServiceImpl implements TokenAuthenticateService {
     private static final String HEADER_STRING = "Authorization";
 
     @Override
-    public String createToken(String tipoLogin) {
+    public String createToken(String tipoLogin, Long entityId) {
         return Jwts.builder()
-                .setSubject(tipoLogin)
+                .claim("tipoLogin", tipoLogin)
+                .claim("entityId", entityId)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
@@ -34,16 +37,18 @@ class TokenAuthenticateServiceImpl implements TokenAuthenticateService {
         String token = request.getHeader(HEADER_STRING);
 
         if (token != null) {
-            String tipoLogin = Jwts.parser()
+            Claims claims = Jwts.parser()
                     .setSigningKey(SECRET)
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
-                    .getBody()
-                    .getSubject();
+                    .getBody();
+
+            String tipoLogin = claims.get("tipoLogin",String.class);
+            Integer entityId = claims.get("entityId", Integer.class);
 
             if (tipoLogin != null) {
                 List<SimpleGrantedAuthority> authorities = new ArrayList<>();
                 authorities.add(new SimpleGrantedAuthority("ROLE_" + tipoLogin.toUpperCase()));
-                return new UsernamePasswordAuthenticationToken("", "", authorities);
+                return new UsernamePasswordAuthenticationToken(entityId, "", authorities);
             }
 
         }

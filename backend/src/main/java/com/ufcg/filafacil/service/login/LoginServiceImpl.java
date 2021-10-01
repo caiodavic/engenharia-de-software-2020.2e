@@ -13,20 +13,27 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private TokenAuthenticateService tokenService;
 
+    @Autowired
+    private LoginSecretariaImpl loginSecretaria;
+
+    @Autowired
+    private LoginPostoVacinacaoImpl loginPostoVacinacao;
+
     @Override
     public String realizarLogin(String login, String senha, String tipoLogin) {
-        BasicLoginTypeService loginTypeService = loginTypeFactory(tipoLogin);
-        loginTypeService.verificarCredenciais(login, senha);
-        return tokenService.createToken(tipoLogin);
+        String tipoLoginUpperCase = tipoLogin.toUpperCase();
+        BasicLoginTypeService loginTypeService = loginTypeFactory(tipoLoginUpperCase);
+        Long entityId = loginTypeService.verificarCredenciais(login, senha);
+        return tokenService.createToken(tipoLoginUpperCase, entityId);
     }
 
     private BasicLoginTypeService loginTypeFactory(String tipoLogin) {
         if (tipoLogin.equals("SECRETARIA")) {
-            return new LoginSecretariaImpl();
+            return loginSecretaria;
         }
 
         if (tipoLogin.equals("POSTO_VACINACAO")) {
-            return new LoginPostoVacinacaoImpl();
+            return loginPostoVacinacao;
         }
 
         throw new IllegalArgumentException();
