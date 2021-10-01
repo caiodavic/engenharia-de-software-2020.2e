@@ -30,6 +30,8 @@ public class PostoDeVacinacao {
     @OneToOne
     private Endereco endereco;
 
+    private String senha;
+
     public PostoDeVacinacao() {
     }
 
@@ -46,6 +48,7 @@ public class PostoDeVacinacao {
         // pegar a última senha e somar 1 pra ir incrementando
         // A ideia é quando adicionar realmente o primeiro paciente, esse valor 0 seja
         // removido
+        this.senha = senha;
         this.filaPacientes.add(0);
     }
 
@@ -90,7 +93,11 @@ public class PostoDeVacinacao {
     }
 
     public String getCodigoPosto() {
-        return this.codigosPosto.get(this.codigosPosto.size() - 1);
+        if(this.codigosPosto.size() > 0){
+            return this.codigosPosto.get(this.codigosPosto.size() - 1);
+        }
+
+        return "Sem código";
     }
 
     public int getQtdVacina() {

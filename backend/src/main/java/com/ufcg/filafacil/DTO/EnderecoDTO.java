@@ -1,22 +1,27 @@
 package com.ufcg.filafacil.DTO;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.ufcg.filafacil.model.posto_vacinacao.Endereco;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class EnderecoDTO {
 
-    private final String cidade;
+    private String cidade;
 
-    private final String estado;
+    private String estado;
 
-    private final String bairro;
+    private String bairro;
 
-    private final String rua;
+    private String rua;
 
-    private final String numero;
+    private String numero;
 
-    private final String cep;
+    private String cep;
 
-    private final String complemento;
+    private String complemento;
+
+    public EnderecoDTO() {
+    }
 
     public EnderecoDTO(String cidade, String estado, String bairro, String rua, String numero, String cep, String complemento) {
         this.cidade = cidade;
@@ -58,5 +63,18 @@ public class EnderecoDTO {
 
     public Endereco toEndereco() {
         return new Endereco(this.cidade, this.estado, this.bairro, this.rua, this.numero, this.cep, this.complemento);
+    }
+
+    @Override
+    public String toString() {
+        return "EnderecoDTO{" +
+                "cidade='" + cidade + '\'' +
+                ", estado='" + estado + '\'' +
+                ", bairro='" + bairro + '\'' +
+                ", rua='" + rua + '\'' +
+                ", numero='" + numero + '\'' +
+                ", cep='" + cep + '\'' +
+                ", complemento='" + complemento + '\'' +
+                '}';
     }
 }
