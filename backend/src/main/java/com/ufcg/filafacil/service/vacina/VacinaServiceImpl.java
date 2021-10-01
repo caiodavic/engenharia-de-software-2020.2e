@@ -1,7 +1,6 @@
-package com.ufcg.filafacil.service;
+package com.ufcg.filafacil.service.vacina;
 
 import com.ufcg.filafacil.DTO.VacinaDTO;
-import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Vacina;
 import com.ufcg.filafacil.repository.VacinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class VacinaServiceImpl implements  VacinaService{
+class VacinaServiceImpl implements VacinaService {
     @Autowired
     private VacinaRepository vacinaRepository;
 
@@ -30,10 +29,6 @@ public class VacinaServiceImpl implements  VacinaService{
 
     public List<Vacina> listaVacina(){
         List<Vacina> vacinas = vacinaRepository.findAll();
-        if(vacinas.isEmpty()){
-            throw new IllegalArgumentException("Não existem vacinas cadastradas");
-        }
-
         return vacinas;
     }
 

@@ -1,10 +1,11 @@
-package com.ufcg.filafacil.service;
+package com.ufcg.filafacil.service.posto_vacina;
 
 import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
 import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostoDeVacinacaoService {
 
@@ -22,6 +23,7 @@ public interface PostoDeVacinacaoService {
 
     String gerarCodigoDoPosto(long idPosto);
 
-//  Precisamos receber também o token do Posto de Vacinação Autenticado no qual essa pessoa está sendo vacinada(Estou recebendo o Id do Posto diretamente)
     String confirmarVacinacao(int senhaPaciente, long idPosto);
+
+    Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha);
 }

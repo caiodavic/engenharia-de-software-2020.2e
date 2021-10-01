@@ -12,6 +12,8 @@ public class PostoDeVacinacaoDTO {
 
     private String telefone;
 
+    private String senha;
+
     @OneToOne
     private EnderecoDTO enderecoDTO;
 
@@ -19,32 +21,16 @@ public class PostoDeVacinacaoDTO {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
     public EnderecoDTO getEnderecoDTO() {
         return enderecoDTO;
-    }
-
-    public void setEnderecoDTO(EnderecoDTO enderecoDTO) {
-        this.enderecoDTO = enderecoDTO;
     }
 
     public long getId() {
@@ -55,5 +41,7 @@ public class PostoDeVacinacaoDTO {
         this.id = id;
     }
 
+    public String getSenha() {
+        return senha;
+    }
 }
-
