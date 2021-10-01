@@ -58,6 +58,7 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     }
 
     @Override
+    @Transactional
     public String alocaLoteNoPosto(long id, long idPosto) {
         Lote lote = this.loteService.getLoteById(id);
         if (lote.getPostoDeVacinacao() != -1) {
@@ -80,6 +81,7 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     }
 
     @Override
+    @Transactional
     public int addPacienteNaFila(String codigoPosto) {
         PostoDeVacinacao postoDeVacinacao = this.getPostoByCodigo(codigoPosto);
         int senhaPaciente = -1;
@@ -111,6 +113,7 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     }
 
     @Override
+    @Transactional
     // Precisamos receber também o token do Posto de Vacinação Autenticado no qual
     // essa pessoa está sendo vacinada(Estou recebendo o id do Posto diretamente)
     public String confirmarVacinacao(int senhaPaciente, long idPosto) {
