@@ -41,7 +41,13 @@ export default function Login() {
     if (email === 'fernando@admin.com' && password === '0000') {
       setToken(1);
       setIsLoggedInType('secretaria');
-      history.push('/admin/');
+      history.push('/admin');
+    }
+
+    if (email === 'posto@posto.com' && password === '0000') {
+      setToken(2);
+      setIsLoggedInType('posto');
+      history.push('/posto');
     }
   }
 

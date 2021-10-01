@@ -4,6 +4,9 @@ const VaccinationUnitsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
 `;
 
 const UnitsCardsContainer = styled.div`
@@ -14,8 +17,12 @@ const UnitsCardsContainer = styled.div`
   flex-wrap: wrap;
   margin-top: 50px;
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1200px) {
     max-width: 100vh;
+    justify-content: center;
+    height: fit-content;
+    margin-top: 30px;
+    margin-bottom: 100px;
   }
 `;
 

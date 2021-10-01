@@ -10,7 +10,7 @@ const NavbarWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px 5%;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1200px) {
     position: absolute;
     padding: 15px 2%;
   }
@@ -19,6 +19,10 @@ const NavbarWrapper = styled.div`
 const Logo = styled.img`
   height: 50px;
   cursor: pointer;
+
+  @media screen and (max-width: 800px) {
+    height: 40px;
+  }
 `;
 
 const LoginButton = styled.div`
@@ -36,6 +40,10 @@ const LoginButton = styled.div`
 
   & > a:hover {
     border-bottom: 2px solid white;
+  }
+
+  @media screen and (max-width: 1200px) {
+    height: 40px;
   }
 `;
 
@@ -59,6 +67,11 @@ const ExitButton = styled.div`
   border-radius: 50%;
   & > p:hover {
     border-bottom: 2px solid #0f3fd3;
+  }
+
+  @media screen and (max-width: 1200px) {
+    width: 40px;
+    height: 40px;
   }
 `;
 

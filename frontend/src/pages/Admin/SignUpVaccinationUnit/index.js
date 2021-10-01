@@ -97,7 +97,7 @@ export default function Signup() {
 
 const SignupWrapper = styled.div`
   width: 800px;
-  @media screen and(max-width:800px) {
-    max-width: 100vw;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
   }
 `;

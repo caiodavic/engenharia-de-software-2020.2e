@@ -18,6 +18,10 @@ const ButtonsMenuContainer = styled.div`
   margin-top: 20px;
   width: 90%;
   justify-content: space-around;
+  @media screen and (max-width: 1200px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const ButtonCategory = styled.div`
@@ -29,11 +33,12 @@ const ButtonCategory = styled.div`
   font-size: 20px;
   background-color: white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  display: flex;
-  flex-direction: column;
   align-items: center;
   padding: 20px 20px;
   margin: 15px 0px;
+  @media screen and (max-width: 1200px) {
+    width: fit-content;
+  }
 `;
 
 const CategoryTitle = styled.div`
@@ -59,6 +64,9 @@ const Button = styled(Link).attrs({
   display: flex;
   align-items: center;
   text-align: center;
+  @media screen and (max-width: 1200px) {
+    width: fit-content;
+  }
 `;
 
 export {

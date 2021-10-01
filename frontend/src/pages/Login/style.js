@@ -5,8 +5,8 @@ const LoginWrapper = styled.div`
   width: 800px;
   height: fit-content;
 
-  @media screen and (max-width: 800px) {
-    width: 100vh;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
   }
 `;
 

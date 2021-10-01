@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
-import { getVaccineList } from '../../../services/api';
+import { getVaccineList, postNewLot } from '../../../services/api';
 import {
   PageWrapper,
   PageTitle,
@@ -21,7 +21,6 @@ export default function CreateLot() {
   useEffect(loadVaccineNames, [token]);
 
   function loadVaccineNames() {
-    getToday();
     let vaccines = getVaccineList({ token });
     setNamesList(vaccines.map((vac) => vac.nomeVacina));
   }
@@ -29,6 +28,8 @@ export default function CreateLot() {
   function submitInput(e) {
     e.preventDefault();
     console.log(name, qtdDoses, expirationDate);
+    const body = { name, qtdDoses, expirationDate };
+    postNewLot({ body, token });
   }
 
   function getToday() {
@@ -98,7 +99,7 @@ export default function CreateLot() {
 
 const CreateLotWrapper = styled.div`
   width: 800px;
-  @media screen and(max-width:800px) {
-    max-width: 100vw;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
   }
 `;

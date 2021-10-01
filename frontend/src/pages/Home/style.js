@@ -5,12 +5,16 @@ const HomeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+  }
 `;
 
 const CodeInput = styled.form`
   font-size: 30px;
   label {
     font-weight: 500;
+    font-size: 40px;
     color: white;
   }
 `;

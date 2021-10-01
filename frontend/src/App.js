@@ -13,6 +13,7 @@ import { useState } from 'react';
 import Footer from './components/Footer';
 import CreateLot from './pages/Admin/CreateLot';
 import SendLotToUnit from './pages/Admin/SendLotToUnit';
+import VaccinationUnitPage from './pages/VaccinationUnitPage';
 
 const App = () => {
   const [token, setToken] = useState('');
@@ -61,6 +62,10 @@ const App = () => {
 
             <Route exact path="/admin/cadastro/vacina">
               <RegisterVaccine />
+            </Route>
+
+            <Route exact path="/posto">
+              <VaccinationUnitPage />
             </Route>
           </Switch>
         </UserContext.Provider>

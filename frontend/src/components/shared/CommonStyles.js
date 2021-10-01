@@ -1,15 +1,15 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 const PageWrapper = styled.div`
   width: 100%;
-  height: 100vh;
+  height: fit-content;
   display: flex;
   justify-content: center;
-  margin-top: 150px;
+  margin-top: 200px;
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1200px) {
     width: 100vw;
+    margin-top: 150px;
   }
 `;
 
@@ -24,8 +24,8 @@ const PageTitle = styled.div`
   margin-bottom: 15px;
   text-align: center;
 
-  @media screen and (max-width: 800px) {
-    width: 100%;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
   }
 `;
 
@@ -38,8 +38,8 @@ const PageSubTitle = styled.div`
   color: white;
   align-items: center;
   margin-bottom: 20px;
-  @media screen and (max-width: 800px) {
-    max-width: 100vw;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
     text-align: center;
   }
 `;
@@ -85,9 +85,20 @@ const StyledForm = styled.form`
     min-width: fit-content;
   }
 
-  datalist {
-    max-height: 50px;
+  @media screen and (max-width: 1200px) {
+    width: 90%;
+    align-items: center;
   }
 `;
 
-export { PageWrapper, PageTitle, PageSubTitle, StyledForm };
+const WarningMsg = styled.li`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 500;
+  width: 100%;
+  height: 65%;
+`;
+
+export { PageWrapper, PageTitle, PageSubTitle, StyledForm, WarningMsg };

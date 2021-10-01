@@ -26,7 +26,7 @@ var lotes = [
     },
     qtdDosesDisponiveis: 200,
     dataDeValidade: '2022-31-01',
-    posto: postos,
+    posto: posto,
   },
   {
     id: 222,
@@ -37,7 +37,7 @@ var lotes = [
     },
     qtdDosesDisponiveis: 200,
     dataDeValidade: '2022-31-01',
-    posto: postos,
+    posto: posto,
   },
   {
     id: 333,
@@ -48,20 +48,102 @@ var lotes = [
     },
     qtdDosesDisponiveis: 200,
     dataDeValidade: '2022-31-01',
-    posto: postos,
+    posto: posto,
+  },
+
+  {
+    id: 333,
+    vacina: {
+      nomeVacina: 'pfiiizerrr',
+      numDosesNecessarias: 2,
+      diasEntreDoses: 90,
+    },
+    qtdDosesDisponiveis: 200,
+    dataDeValidade: '2022-31-01',
+    posto: posto,
+  },
+
+  {
+    id: 333,
+    vacina: {
+      nomeVacina: 'pfiiizerrr',
+      numDosesNecessarias: 2,
+      diasEntreDoses: 90,
+    },
+    qtdDosesDisponiveis: 200,
+    dataDeValidade: '2022-31-01',
+    posto: posto,
+  },
+
+  {
+    id: 333,
+    vacina: {
+      nomeVacina: 'coronavac',
+      numDosesNecessarias: 2,
+      diasEntreDoses: 90,
+    },
+    qtdDosesDisponiveis: 200,
+    dataDeValidade: '2022-31-01',
+    posto: posto,
+  },
+
+  {
+    id: 333,
+    vacina: {
+      nomeVacina: 'pfiiizerrr',
+      numDosesNecessarias: 2,
+      diasEntreDoses: 90,
+    },
+    qtdDosesDisponiveis: 200,
+    dataDeValidade: '2022-31-01',
+    posto: posto,
+  },
+
+  {
+    id: 333,
+    vacina: {
+      nomeVacina: 'pfiiizerrr',
+      numDosesNecessarias: 2,
+      diasEntreDoses: 90,
+    },
+    qtdDosesDisponiveis: 200,
+    dataDeValidade: '2022-31-01',
+    posto: posto,
+  },
+
+  {
+    id: 333,
+    vacina: {
+      nomeVacina: 'pfiiizerrr',
+      numDosesNecessarias: 2,
+      diasEntreDoses: 90,
+    },
+    qtdDosesDisponiveis: 200,
+    dataDeValidade: '2022-31-01',
+    posto: posto,
+  },
+
+  {
+    id: 333,
+    vacina: {
+      nomeVacina: 'pfiiizerrr',
+      numDosesNecessarias: 2,
+      diasEntreDoses: 90,
+    },
+    qtdDosesDisponiveis: 200,
+    dataDeValidade: '2022-31-01',
+    posto: posto,
   },
 ];
 
-var postos = [
-  {
-    id: 5555555,
-    enderecoPosto: 'rua blablau',
-    telefone: '(79) 99999-3232',
-    email: 'email@email.com',
-    nomePosto: 'Posto Ipiranga',
-    vacina: { nome: 'astrazeneca', quantidade: '100' },
-  },
-];
+var posto = {
+  id: 5555555,
+  enderecoPosto: 'rua blablau',
+  telefone: '(79) 99999-3232',
+  email: 'email@email.com',
+  nomePosto: 'Posto Ipiranga',
+  vacina: { nome: 'astrazeneca', quantidade: '100' },
+};
 
 var pfizer = {
   nomeVacina: 'pfiiizerrr',
@@ -77,6 +159,22 @@ var lote = [
     dataDeValidade: '2042-31-01',
   },
 ];
+
+var posto2 = {
+  id: 111111,
+  enderecoPosto: 'rua bilulu',
+  telefone: '(72) 22222-3333',
+  email: 'imaul@email.com',
+  nomePosto: 'Posto Do Posto',
+  vacina: pfizer,
+};
+
+var mockQueue = {
+  posicaoAtual: 2,
+  posicaoFinal: 200,
+};
+
+var postos = [posto, posto2];
 
 function isAdmin(token) {
   return token === 1; //TO-DO botar uma logica nisso
@@ -123,6 +221,48 @@ function postUnitSignUp({ body, token }) {
   //TO-DO
 }
 
+/**
+ * Método GET para receber os lotes de um posto de saúde TO-DO NOT YET IMPLEMENTED
+ * @param {body: {{idPosto}}, token:postoDeSaude}
+ */
+function getUnitLots({ body, token }) {
+  return lotes; // tem que fazer o GET da API SOMENTE dos lotes com id=idPosto
+}
+
+/**
+ * Método GET para receber o estado da fila de um posto de saúde TO-DO NOT YET IMPLEMENTED
+ * @param {body: {idPosto}, token:postoDeSaude}
+ */
+function getUnitQueue({ body, token }) {
+  return mockQueue;
+}
+
+/**
+ * Método POST que envia o código de vacinação para ser colocado na fila TO-DO NOT YET IMPLEMENTED
+ * @param {body: {code:código de vacinacao}} param0
+ */
+function postVaccinationCode({ body, token }) {
+  console.log(`usuario com id ${body.code} na fila`);
+}
+
+/** Método POST que cria um novo lote TO-DO
+ * @param {body: { name, qtdDoses, expirationDate }, token: secretaria}
+ */
+function postNewLot({ body, token }) {
+  console.log(body, token);
+}
+
+/**
+ * Método POST  que envia o código de confirmação de vacinação para retirar unidade de lote e atua
+ * lizar a fila TO-DO NOT YET IMPLEMENTED
+ * @param {body:{confirmationCode:código de confirmação}, token: secretario}
+ */
+function postConfirmationCode({ body, token }) {
+  console.log(
+    `vacinacao do usuario com senha ${body.confirmationCode} confirmada`
+  );
+}
+
 export {
   isAdmin,
   getVaccineList,
@@ -130,4 +270,9 @@ export {
   getUnitsList,
   postLogin,
   postUnitSignUp,
+  getUnitLots,
+  getUnitQueue,
+  postVaccinationCode,
+  postNewLot,
+  postConfirmationCode,
 };

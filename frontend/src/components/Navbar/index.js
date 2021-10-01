@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { NavbarWrapper, Logo, LoginButton, Buttons, ExitButton } from './style';
 import UserContext from '../../contexts/UserContext';
 import { useContext } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Navbar() {
   const { setToken, setIsLoggedInType, isLoggedInType } =
@@ -22,11 +23,13 @@ export default function Navbar() {
 
   return (
     <NavbarWrapper>
-      <Logo src={logo} onClick={goToHomeScreen} />
+      <Logo src={logo} onClick={goToHomeScreen} alt="Logo" />
       <Buttons>
         <LoginButton>
           <Link to="/login" style={{ textDecoration: 'none', color: 'white' }}>
-            Área Administrativa
+            {useMediaQuery({ query: '(max-width:800px)' })
+              ? 'Login'
+              : 'Área Administrativa'}
           </Link>
         </LoginButton>
         {isLoggedInType ? (
