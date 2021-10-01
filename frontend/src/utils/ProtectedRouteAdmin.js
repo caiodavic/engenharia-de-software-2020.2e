@@ -16,7 +16,7 @@ const ProtectedRouteAdmin = ({ component: Comp, path, ...rest }) => {
               pathname: '/login',
               state: {
                 prevLocation: path,
-                error: `${isLoggedInType} Erro de Autenticação de Usuário! (Secretário de Saúde)`,
+                error: `Erro de Autenticação de Usuário! (Secretário de Saúde)`,
               },
             }}
           />
