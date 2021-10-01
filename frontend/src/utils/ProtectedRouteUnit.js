@@ -1,12 +1,15 @@
 import { Route, Redirect } from 'react-router-dom';
+import UserContext from '../contexts/UserContext';
+import { useContext } from 'react';
 
-const ProtectedRouteUnit = ({ component: Comp, loggedIn, path, ...rest }) => {
+const ProtectedRouteUnit = ({ component: Comp, path, ...rest }) => {
+  const { isLoggedInType } = useContext(UserContext);
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
-        return loggedIn === 'posto' ? (
+        return isLoggedInType === 'posto' ? (
           <Comp {...props} />
         ) : (
           <Redirect

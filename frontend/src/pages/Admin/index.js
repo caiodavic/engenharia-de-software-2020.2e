@@ -14,16 +14,18 @@ import {
 import { useContext, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
 import { isAdmin } from '../../services/api';
+import { useHistory } from 'react-router';
 
 export default function Admin() {
   const { token } = useContext(UserContext);
   useEffect(checkIfAdmin, [token]);
+  let history = useHistory();
 
   function checkIfAdmin() {
     console.log(token);
     if (!isAdmin(token)) {
       alert('usuário não é admin!');
-      return;
+      history.push('/login');
     }
   }
 

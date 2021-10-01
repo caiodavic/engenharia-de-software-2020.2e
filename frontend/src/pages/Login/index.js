@@ -38,6 +38,7 @@ export default function Login() {
 
     if (error) {
       alert(error);
+      alert(isLoggedInType);
     }
   }
 

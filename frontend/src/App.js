@@ -8,68 +8,54 @@ import { Reset } from 'styled-reset';
 import GlobalStyle from './globalStyle';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import UserContext from './contexts/UserContext';
-import { useState } from 'react';
 import Footer from './components/Footer';
 import CreateLot from './pages/Admin/CreateLot';
 import SendLotToUnit from './pages/Admin/SendLotToUnit';
 import VaccinationUnitPage from './pages/VaccinationUnitPage';
 import ProtectedRouteAdmin from './utils/ProtectedRouteAdmin';
 import ProtectedRouteUnit from './utils/ProtectedRouteUnit';
+import { GlobalContextProvider } from './contexts/UserContext';
 
 const App = () => {
-  const [token, setToken] = useState('');
-  const [isLoggedInType, setIsLoggedInType] = useState('');
-
   return (
-    <>
+    <GlobalContextProvider>
+      <Reset />
+      <GlobalStyle />
       <BrowserRouter>
-        <Reset />
-        <GlobalStyle />
+        <Navbar />
+        <Footer />
 
-        <UserContext.Provider
-          value={{ token, setToken, isLoggedInType, setIsLoggedInType }}
-        >
-          <Navbar />
-          <Footer />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/postos" component={VaccinationUnits} />
+          <Route path="/login" component={Login} />
 
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/postos" component={VaccinationUnits} />
-            <Route path="/login" component={Login} />
+          <Route exact path="/admin" component={Admin} />
+          <ProtectedRouteAdmin
+            path="/admin/cadastro/posto"
+            component={Signup}
+          />
+          <ProtectedRouteAdmin
+            path="/admin/cadastro/lote"
+            component={CreateLot}
+          />
+          <ProtectedRouteAdmin
+            path="/admin/alocacao/lote"
+            component={SendLotToUnit}
+          />
+          <ProtectedRouteAdmin
+            path="/admin/cadastro/vacina"
+            component={RegisterVaccine}
+          />
 
-            <Route exact path="/admin" component={Admin} />
-            <ProtectedRouteAdmin
-              path="/admin/cadastro/posto"
-              loggedIn={isLoggedInType}
-              component={Signup}
-            />
-            <ProtectedRouteAdmin
-              path="/admin/cadastro/lote"
-              loggedIn={isLoggedInType}
-              component={CreateLot}
-            />
-            <ProtectedRouteAdmin
-              path="/admin/alocacao/lote"
-              loggedIn={isLoggedInType}
-              component={SendLotToUnit}
-            />
-            <ProtectedRouteAdmin
-              path="/admin/cadastro/vacina"
-              loggedIn={isLoggedInType}
-              component={RegisterVaccine}
-            />
-
-            <ProtectedRouteUnit
-              exact
-              path="/posto/:idPosto"
-              loggedIn={isLoggedInType}
-              component={VaccinationUnitPage}
-            />
-          </Switch>
-        </UserContext.Provider>
+          <ProtectedRouteUnit
+            exact
+            path="/posto/:idPosto"
+            component={VaccinationUnitPage}
+          />
+        </Switch>
       </BrowserRouter>
-    </>
+    </GlobalContextProvider>
   );
 };
 

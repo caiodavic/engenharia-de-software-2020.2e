@@ -1,11 +1,14 @@
 import { Route, Redirect } from 'react-router-dom';
-const ProtectedRouteAdmin = ({ component: Comp, loggedIn, path, ...rest }) => {
+import UserContext from '../contexts/UserContext';
+import { useContext } from 'react';
+const ProtectedRouteAdmin = ({ component: Comp, path, ...rest }) => {
+  const { isLoggedInType } = useContext(UserContext);
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
-        return loggedIn === 'secretaria' ? (
+        return isLoggedInType === 'secretaria' ? (
           <Comp {...props} />
         ) : (
           <Redirect
@@ -13,7 +16,7 @@ const ProtectedRouteAdmin = ({ component: Comp, loggedIn, path, ...rest }) => {
               pathname: '/login',
               state: {
                 prevLocation: path,
-                error: 'Erro de Autenticação de Usuário! (Secretário de Saúde)',
+                error: `${isLoggedInType} Erro de Autenticação de Usuário! (Secretário de Saúde)`,
               },
             }}
           />
