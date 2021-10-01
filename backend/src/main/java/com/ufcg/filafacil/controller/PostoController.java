@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/posto")
@@ -18,18 +19,18 @@ public class PostoController {
     @Autowired
     PostoDeVacinacaoService postoService;
 
-    @GetMapping("/lotes/")
-    public ResponseEntity<List<Lote>> listaLotesDoPosto() {
-        int idPosto = AuthenticatedUtils.getEntityId();
+    @GetMapping("/lotes")
+    public ResponseEntity<List<Lote>> listaLotesDoPosto(@RequestParam long idPosto) {
+        //int idPosto = AuthenticatedUtils.getEntityId();
         List<Lote> lista = postoService.listaLotesPosto(idPosto);
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     // Gerar código que será passado pra o Paciente
-    @RequestMapping(value = "posto/fila", method = RequestMethod.POST)
-    public ResponseEntity<?> gerarCodigoDePosto() {
+    @RequestMapping(value = "/fila", method = RequestMethod.GET)
+    public ResponseEntity<?> gerarCodigoDePosto(@RequestParam long idPosto) {
         try {
-            int idPosto = AuthenticatedUtils.getEntityId();
+            //int idPosto = AuthenticatedUtils.getEntityId();
             String codigoDoPosto = postoService.gerarCodigoDoPosto(idPosto);
             return ResponseEntity.status(HttpStatus.OK).body(codigoDoPosto);
         } catch (IllegalArgumentException ila) {
@@ -40,10 +41,10 @@ public class PostoController {
     // Isso talvez fique na parte de uma espécie de UsuarioComumController algo do
     // tipo
     // O usuário coloca o código do posto e receber a senha dele na fila
-    @RequestMapping(value = "posto/fila", method = RequestMethod.GET)
-    public ResponseEntity<?> adicionaPacienteNaFila(@RequestBody String codigoPosto) {
+    @RequestMapping(value = "/fila", method = RequestMethod.POST)
+    public ResponseEntity<?> adicionaPacienteNaFila(@RequestBody Map<String,String> params) {
         try {
-            int senhaPaciente = this.postoService.addPacienteNaFila(codigoPosto);
+            int senhaPaciente = this.postoService.addPacienteNaFila(params.get("codigoPosto"));
             return ResponseEntity.status(HttpStatus.OK).body(senhaPaciente);
         } catch (IllegalArgumentException ila) {
             return ResponseEntity.badRequest().body(ila.getMessage());
@@ -55,9 +56,11 @@ public class PostoController {
     // vacinada
     // Confirmar vacinação de um usuário(O usuário passa a senha dele, e é eliminado
     // da fila de vacinação)
-    public ResponseEntity<?> confirmarVacinacao(@RequestBody int senhaPaciente, long idPosto) {
+    @RequestMapping(value = "/confirma", method = RequestMethod.GET)
+    public ResponseEntity<?> confirmarVacinacao(@RequestParam Integer senha, Long idPosto) {
+
         try {
-            String vacinaAplicada = postoService.confirmarVacinacao(senhaPaciente, idPosto);
+            String vacinaAplicada = postoService.confirmarVacinacao(senha, idPosto);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(vacinaAplicada);
         } catch (IllegalArgumentException ila) {
             return ResponseEntity.badRequest().body(ila.getMessage());

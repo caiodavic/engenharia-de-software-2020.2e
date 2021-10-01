@@ -41,7 +41,7 @@ class LoteServiceImpl implements LoteService {
     }
 
     @Override
-    public void alocaPosto(PostoDeVacinacao posto, long id) {
+    public void alocaPosto(long posto, long id) {
         Lote lote = getLoteById(id);
         lote.setPostoDeVacinacao(posto);
         this.salvaLote(lote);
@@ -49,7 +49,7 @@ class LoteServiceImpl implements LoteService {
 
     public List<Lote> listaLoteDisponiveis(){
         List<Lote> lotes = this.loteRepository.findAll();
-        lotes.removeIf(l -> l.getPostoDeVacinacao() == null);
+        lotes.removeIf(l -> l.getPostoDeVacinacao() != -1);
         return lotes;
     }
 

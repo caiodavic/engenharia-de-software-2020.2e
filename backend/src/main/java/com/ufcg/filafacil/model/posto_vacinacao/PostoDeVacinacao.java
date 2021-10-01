@@ -92,13 +92,12 @@ public class PostoDeVacinacao {
         return lotesDeVacina;
     }
 
-    public String getCodigoPosto() {
-        if(this.codigosPosto.size() > 0){
-            return this.codigosPosto.get(this.codigosPosto.size() - 1);
-        }
 
-        return "Sem código";
+    public List<String> getCodigosPosto(){
+        return this.codigosPosto;
     }
+
+
 
     public int getQtdVacina() {
         int qtdTotal = 0;
@@ -169,5 +168,9 @@ public class PostoDeVacinacao {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void removerCodigo(String codigoPosto) {
+        this.codigosPosto.remove(codigoPosto);
     }
 }
