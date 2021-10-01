@@ -26,8 +26,8 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
         if (posto.isPresent())
             throw new IllegalArgumentException("Posto de Vacinação já cadastrado!");
 
-        PostoDeVacinacao newPosto = new PostoDeVacinacao(postoDTO.getNome(), postoDTO.getEmail(),
-                postoDTO.getTelefone(), postoDTO.getEnderecoDTO().toEndereco(), postoDTO.getId());
+        PostoDeVacinacao newPosto =new PostoDeVacinacao(postoDTO.getNome(), postoDTO.getEmail(),
+                postoDTO.getTelefone(), postoDTO.getEnderecoDTO().toEndereco(), postoDTO.getId(), postoDTO.getSenha());
 
         this.salvaPostoDeVacinacao(newPosto);
         return this.getPostoById(postoDTO.getId());
