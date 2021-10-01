@@ -14,7 +14,7 @@ public interface LoteService {
 
     Lote getLoteById(long id);
 
-    void alocaPosto(PostoDeVacinacao posto, long id);
+    void alocaPosto(long idPosto, long id);
 
     List<Lote> listaLoteDisponiveis();
 }

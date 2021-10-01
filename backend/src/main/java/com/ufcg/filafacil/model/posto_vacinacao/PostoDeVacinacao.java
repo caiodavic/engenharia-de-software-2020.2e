@@ -30,6 +30,8 @@ public class PostoDeVacinacao {
     @OneToOne
     private Endereco endereco;
 
+    private String senha;
+
     public PostoDeVacinacao() {
     }
 
@@ -46,6 +48,7 @@ public class PostoDeVacinacao {
         // pegar a última senha e somar 1 pra ir incrementando
         // A ideia é quando adicionar realmente o primeiro paciente, esse valor 0 seja
         // removido
+        this.senha = senha;
         this.filaPacientes.add(0);
     }
 
@@ -89,9 +92,12 @@ public class PostoDeVacinacao {
         return lotesDeVacina;
     }
 
-    public String getCodigoPosto() {
-        return this.codigosPosto.get(this.codigosPosto.size() - 1);
+
+    public List<String> getCodigosPosto(){
+        return this.codigosPosto;
     }
+
+
 
     public int getQtdVacina() {
         int qtdTotal = 0;
@@ -162,5 +168,9 @@ public class PostoDeVacinacao {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void removerCodigo(String codigoPosto) {
+        this.codigosPosto.remove(codigoPosto);
     }
 }

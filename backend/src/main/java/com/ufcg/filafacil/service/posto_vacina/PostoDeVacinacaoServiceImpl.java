@@ -1,13 +1,16 @@
 package com.ufcg.filafacil.service.posto_vacina;
 
 import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
+import com.ufcg.filafacil.model.posto_vacinacao.Endereco;
 import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
+import com.ufcg.filafacil.repository.EnderecoRepository;
 import com.ufcg.filafacil.repository.PostoDeVacinacaoRepository;
 import com.ufcg.filafacil.service.lote.LoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,16 +21,24 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     private PostoDeVacinacaoRepository postoRepository;
 
     @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
     private LoteService loteService;
 
     @Override
+    @Transactional
     public PostoDeVacinacao cadastraPostoVacinacao(PostoDeVacinacaoDTO postoDTO) {
         Optional<PostoDeVacinacao> posto = postoRepository.findById(postoDTO.getId());
         if (posto.isPresent())
             throw new IllegalArgumentException("Posto de Vacinação já cadastrado!");
 
+        Endereco endereco = postoDTO.getEnderecoDTO().toEndereco();
+        this.enderecoRepository.save(endereco);
+
         PostoDeVacinacao newPosto = new PostoDeVacinacao(postoDTO.getNome(), postoDTO.getEmail(),
-                postoDTO.getTelefone(), postoDTO.getEnderecoDTO().toEndereco(), postoDTO.getId());
+                postoDTO.getTelefone(), endereco, postoDTO.getId(), postoDTO.getSenha());
+
 
         this.salvaPostoDeVacinacao(newPosto);
         return this.getPostoById(postoDTO.getId());
@@ -42,19 +53,21 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     @Override
     public List<PostoDeVacinacao> listaPostoDeVacinacao() {
         List<PostoDeVacinacao> postos = postoRepository.findAll();
+
         return postos;
     }
 
     @Override
+    @Transactional
     public String alocaLoteNoPosto(long id, long idPosto) {
         Lote lote = this.loteService.getLoteById(id);
-        if (lote.getPostoDeVacinacao() != null) {
+        if (lote.getPostoDeVacinacao() != -1) {
             throw new IllegalArgumentException("Lote já alocado anteriormente");
         }
 
         PostoDeVacinacao posto = this.getPostoById(idPosto);
         posto.addLotesDeVacina(lote);
-        loteService.alocaPosto(posto, id);
+        loteService.alocaPosto(idPosto, id);
         this.salvaPostoDeVacinacao(posto);
 
         String alocado = "Lote " + lote.getId() + "alocado ao posto " + posto.getNome() + ".";
@@ -68,17 +81,19 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     }
 
     @Override
+    @Transactional
     public int addPacienteNaFila(String codigoPosto) {
         PostoDeVacinacao postoDeVacinacao = this.getPostoByCodigo(codigoPosto);
         int senhaPaciente = -1;
-        if (codigoPosto.equals(postoDeVacinacao.getCodigoPosto())) {
+        if (postoDeVacinacao.getCodigosPosto().contains(codigoPosto)) {
             if (postoDeVacinacao.getFilaPacientes().size() < postoDeVacinacao.getQtdVacina()) {
                 senhaPaciente = postoDeVacinacao.addPacienteNaFila();
+                postoDeVacinacao.removerCodigo(codigoPosto);
             } else {
                 throw new IllegalArgumentException("Estoque de vacinas finalizado!");
             }
         } else {
-            throw new IllegalArgumentException("Este código não é o código do Posto onde você se encontra!");
+            throw new IllegalArgumentException("Codigo inválido!");
         }
 
         this.salvaPostoDeVacinacao(postoDeVacinacao);
@@ -88,16 +103,17 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
 
     public PostoDeVacinacao getPostoByCodigo(String codigoPosto) {
         List<PostoDeVacinacao> postos = this.listaPostoDeVacinacao();
-        PostoDeVacinacao posto = null;
+
         for (PostoDeVacinacao p : postos) {
-            if (p.getCodigoPosto().equals(codigoPosto)) {
-                posto = p;
+            if(p.getCodigosPosto().contains(codigoPosto)){
+                return p;
             }
         }
-        return posto;
+        throw new IllegalArgumentException("Código inválido");
     }
 
     @Override
+    @Transactional
     // Precisamos receber também o token do Posto de Vacinação Autenticado no qual
     // essa pessoa está sendo vacinada(Estou recebendo o id do Posto diretamente)
     public String confirmarVacinacao(int senhaPaciente, long idPosto) {
@@ -109,6 +125,7 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     }
 
     @Override
+    @Transactional
     public String gerarCodigoDoPosto(long idPosto) {
         PostoDeVacinacao postoDeVacinacao = this.getPostoById(idPosto);
         String codigo = postoDeVacinacao.gerarCodigoPosto();
