@@ -2,6 +2,7 @@ package com.ufcg.filafacil.controller;
 
 import com.ufcg.filafacil.model.vacina.Lote;
 import com.ufcg.filafacil.service.posto_vacina.PostoDeVacinacaoService;
+import com.ufcg.filafacil.utils.AuthenticatedUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +19,17 @@ public class PostoController {
     PostoDeVacinacaoService postoService;
 
     @GetMapping("/lotes/")
-    public ResponseEntity<List<Lote>> listaLotesDoPosto(@RequestBody long idPosto) {
+    public ResponseEntity<List<Lote>> listaLotesDoPosto() {
+        int idPosto = AuthenticatedUtils.getEntityId();
         List<Lote> lista = postoService.listaLotesPosto(idPosto);
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     // Gerar código que será passado pra o Paciente
     @RequestMapping(value = "posto/fila", method = RequestMethod.POST)
-    public ResponseEntity<?> gerarCodigoDePosto(@RequestBody long idPosto) {
+    public ResponseEntity<?> gerarCodigoDePosto() {
         try {
+            int idPosto = AuthenticatedUtils.getEntityId();
             String codigoDoPosto = postoService.gerarCodigoDoPosto(idPosto);
             return ResponseEntity.status(HttpStatus.OK).body(codigoDoPosto);
         } catch (IllegalArgumentException ila) {

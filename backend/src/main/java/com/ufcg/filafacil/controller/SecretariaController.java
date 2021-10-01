@@ -61,7 +61,6 @@ public class SecretariaController {
         }catch (IllegalArgumentException ila){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping("/secretaria/vacinas")
