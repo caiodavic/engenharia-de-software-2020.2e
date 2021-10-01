@@ -19,5 +19,11 @@ public interface PostoDeVacinacaoService {
 
     List<Lote> listaLotesPosto(long idPosto);
 
+    int addPacienteNaFila(String codigoPosto);
+
+    String gerarCodigoDoPosto(long idPosto);
+
+    String confirmarVacinacao(int senhaPaciente, long idPosto);
+
     Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha);
 }
