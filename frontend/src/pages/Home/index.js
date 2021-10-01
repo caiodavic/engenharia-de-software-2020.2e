@@ -36,7 +36,7 @@ const Home = () => {
               placeholder="Inserir Código Local"
               onChange={(e) => setCode(e.target.value)}
             ></input>
-            <ion-icon name="search" oncClick={sendCode}></ion-icon>
+            <ion-icon name="search" onClick={sendCode}></ion-icon>
           </SearchCode>
         </CodeInput>
         <LinkButton to="/postos"> Ver Postos de Vacinação </LinkButton>
