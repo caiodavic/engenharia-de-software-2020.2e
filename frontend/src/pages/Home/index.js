@@ -6,21 +6,27 @@ import {
 import React from 'react';
 import { useState } from 'react';
 import { HomeWrapper, CodeInput, SearchCode, LinkButton } from './style';
-import { postVaccinationCode } from '../../services/api';
+import { confirmCode } from '../../services/pacienteService';
 
 const Home = () => {
   const [code, setCode] = useState('');
 
-  function sendCode(e) {
+  const sendCode = async (e) => {
     e.preventDefault();
     if (code === '') {
       alert('Insira um código!');
     } else {
-      console.log(code);
-      const body = { code: code };
-      postVaccinationCode({ body });
+      confirmCodeAndGenerateSenha({ code });
     }
-  }
+  };
+
+  const confirmCodeAndGenerateSenha = async ({ code }) => {
+    try {
+      confirmCode({ codigoPosto: code });
+    } catch (err) {
+      alert('Código inválido');
+    }
+  };
 
   return (
     <PageWrapper>
