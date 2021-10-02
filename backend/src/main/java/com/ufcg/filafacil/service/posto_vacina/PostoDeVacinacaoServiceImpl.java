@@ -109,7 +109,6 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     // Precisamos receber também o token do Posto de Vacinação Autenticado no qual
     // essa pessoa está sendo vacinada(Estou recebendo o id do Posto diretamente)
     public String confirmarVacinacao(int senhaPaciente, long idPosto) {
-
         PostoDeVacinacao postoDeVacinacao = this.getPostoById(idPosto);
         String vacinaAplicada = postoDeVacinacao.confirmarVacinacao(senhaPaciente);
         this.salvaPostoDeVacinacao(postoDeVacinacao);

@@ -141,13 +141,17 @@ public class PostoDeVacinacao {
 
     public String confirmarVacinacao(int senha) {
         this.filaPacientes.remove(senha);
-        Lote lote = this.lotesDeVacina.get(0);
+        Lote lote = this.lotesDeVacina
+                .stream()
+                .filter(l -> l.getQtdDosesDisponiveis() > 0)
+                .findAny().get();
+
         String vacinaAplicada = lote.getVacina().getNomeVacina();
         lote.diminuiQtdDosesDisponiveis();
         if (lote.getQtdDosesDisponiveis() == 0) {
             this.lotesDeVacina.remove(lote);
         }
-        return "O Paciente com senha: " + senha + "recebeu a vacina: " + vacinaAplicada;
+        return "O Paciente com senha " + senha + " recebeu a vacina " + vacinaAplicada;
     }
 
     @Override

@@ -20,17 +20,17 @@ public class PostoController {
     PostoDeVacinacaoService postoService;
 
     @GetMapping("/lotes")
-    public ResponseEntity<List<Lote>> listaLotesDoPosto(@RequestParam long idPosto) {
-        //int idPosto = AuthenticatedUtils.getEntityId();
+    public ResponseEntity<List<Lote>> listaLotesDoPosto() {
+        int idPosto = AuthenticatedUtils.getEntityId();
         List<Lote> lista = postoService.listaLotesPosto(idPosto);
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
     // Gerar código que será passado pra o Paciente
     @RequestMapping(value = "/fila", method = RequestMethod.GET)
-    public ResponseEntity<?> gerarCodigoDePosto(@RequestParam long idPosto) {
+    public ResponseEntity<?> gerarCodigoDePosto() {
         try {
-            //int idPosto = AuthenticatedUtils.getEntityId();
+            int idPosto = AuthenticatedUtils.getEntityId();
             String codigoDoPosto = postoService.gerarCodigoDoPosto(idPosto);
             return ResponseEntity.status(HttpStatus.OK).body(codigoDoPosto);
         } catch (IllegalArgumentException ila) {
@@ -57,9 +57,9 @@ public class PostoController {
     // Confirmar vacinação de um usuário(O usuário passa a senha dele, e é eliminado
     // da fila de vacinação)
     @RequestMapping(value = "/confirma", method = RequestMethod.GET)
-    public ResponseEntity<?> confirmarVacinacao(@RequestParam Integer senha, Long idPosto) {
-
+    public ResponseEntity<?> confirmarVacinacao(@RequestParam Integer senha) {
         try {
+            int idPosto = AuthenticatedUtils.getEntityId();
             String vacinaAplicada = postoService.confirmarVacinacao(senha, idPosto);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(vacinaAplicada);
         } catch (IllegalArgumentException ila) {
