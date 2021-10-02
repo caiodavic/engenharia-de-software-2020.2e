@@ -1,8 +1,10 @@
 package com.ufcg.filafacil.service.posto_vacina;
 
 import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
+import com.ufcg.filafacil.model.fila.PosicaoNaFila;
 import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
+import com.ufcg.filafacil.repository.PosicaoNaFilaRepository;
 import com.ufcg.filafacil.repository.PostoDeVacinacaoRepository;
 import com.ufcg.filafacil.service.lote.LoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
 
     @Autowired
     private LoteService loteService;
+
+    @Autowired
+    private PosicaoNaFilaRepository posicaoNaFilaRepository;
 
     @Override
     @Transactional
@@ -78,8 +83,8 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
         int senhaPaciente = -1;
         if (postoDeVacinacao.getCodigosPosto().contains(codigoPosto)) {
             if (postoDeVacinacao.getFilaPacientes().size() < postoDeVacinacao.getQtdVacina()) {
-                senhaPaciente = postoDeVacinacao.addPacienteNaFila();
-                postoDeVacinacao.removerCodigo(codigoPosto);
+                senhaPaciente = postoDeVacinacao.addPacienteNaFila(codigoPosto);
+                //postoDeVacinacao.removerCodigo(codigoPosto);
             } else {
                 throw new IllegalArgumentException("Estoque de vacinas finalizado!");
             }
@@ -124,6 +129,9 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     public String gerarCodigoDoPosto(long idPosto) {
         PostoDeVacinacao postoDeVacinacao = this.getPostoById(idPosto);
         String codigo = postoDeVacinacao.gerarCodigoPosto();
+        PosicaoNaFila posicaoNaFila = new PosicaoNaFila(codigo);
+        this.posicaoNaFilaRepository.save(posicaoNaFila);
+        postoDeVacinacao.addPosicaoNaFila(posicaoNaFila);
         this.salvaPostoDeVacinacao(postoDeVacinacao);
         return codigo;
     }
