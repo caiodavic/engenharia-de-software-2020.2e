@@ -92,6 +92,11 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
         return senhaPaciente;
     }
 
+    @Override
+    public long getIdPostoByCodigo(String codigoPosto){
+        return this.getPostoByCodigo(codigoPosto).getId();
+    }
+
     public PostoDeVacinacao getPostoByCodigo(String codigoPosto) {
         List<PostoDeVacinacao> postos = this.listaPostoDeVacinacao();
 

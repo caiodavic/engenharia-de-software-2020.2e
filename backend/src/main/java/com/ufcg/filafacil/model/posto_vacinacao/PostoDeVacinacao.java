@@ -174,6 +174,6 @@ public class PostoDeVacinacao {
 
             return this.filaPacientes.get(0);
         }
-        return -1;
+        return 0;
     }
 }

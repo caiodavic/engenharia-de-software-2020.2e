@@ -48,16 +48,16 @@ public class PostoController {
     // O usuário coloca o código do posto e receber a senha dele na fila
     @RequestMapping(value = "/fila", method = RequestMethod.POST)
     public ResponseEntity<?> adicionaPacienteNaFila(@RequestBody AddNaFilaDTO params) {
-//        try {
-            System.out.println("ENTROUD >> " + params.getCodigoPosto());
+        try {
             Map<String, Integer> response = new HashMap<>();
+            Long idPosto = this.postoService.getIdPostoByCodigo(params.getCodigoPosto());
+            response.put("idPosto", idPosto.intValue());
             int senhaPaciente = this.postoService.addPacienteNaFila(params.getCodigoPosto());
             response.put("senhaPaciente", senhaPaciente);
             return ResponseEntity.status(HttpStatus.OK).body(response);
-//        } catch (IllegalArgumentException ila) {
-//            System.out.println(ila.getCause());
-//            return ResponseEntity.badRequest().body(ila.getMessage());
-//        }
+        } catch (IllegalArgumentException ila) {
+            return ResponseEntity.badRequest().body(ila.getMessage());
+        }
     }
 
     // Precisamos receber também o token do Posto de Vacinação Autenticado(Nesse
