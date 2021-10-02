@@ -1,6 +1,5 @@
 import { PageWrapper, PageTitle } from '../../components/shared/CommonStyles';
 import UserContext from '../../contexts/UserContext';
-import { useHistory } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import { loadPostos } from '../../services/postoService';
 import {
@@ -14,8 +13,7 @@ import {
 
 export default function VaccinationUnits() {
   const [units, setUnits] = useState([]);
-  const history = useHistory();
-  const { token, isLoggedInType } = useContext(UserContext);
+  const { token } = useContext(UserContext);
 
   const loadUnits = async ({ token }) => {
     try {
@@ -51,6 +49,7 @@ export default function VaccinationUnits() {
                         <br />
                         <DetailTitle>Quantidade: </DetailTitle>
                         {lote.qtdDosesDisponiveis}
+                        <br />
                       </>
                     );
                   })}

@@ -1,46 +1,51 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   PageWrapper,
   PageTitle,
   PageSubTitle,
   StyledForm,
-} from "../../components/shared/CommonStyles";
-import { LoginWrapper, LoginTypesContainer } from "./style";
-import { useHistory, useLocation } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import UserContext from "../../contexts/UserContext";
-import { login } from "../../services/loginService";
+} from '../../components/shared/CommonStyles';
+import { LoginWrapper, LoginTypesContainer } from './style';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { login } from '../../services/loginService';
 
-// usando login tipo="posto" como posto de vacinacao de tipo="secretaria" como secretaria de saúde
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginType, setLoginType] = useState("posto");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginType, setLoginType] = useState('POSTO_VACINACAO');
   const [isLoading, setIsLoading] = useState(true);
-  const { token, setToken, isLoggedInType, setIsLoggedInType } = useContext(
-    UserContext
-  );
   let history = useHistory();
   let location = useLocation();
   const { state = {} } = location;
   const { error } = state;
+  const localToken = localStorage.getItem('token');
+  const isLoggedInType = localStorage.getItem('loginType');
 
-  useEffect(checkIfItsAlreadyLoggedIn, [token]);
+  useEffect(checkIfItsAlreadyLoggedIn, [localToken]);
 
   function checkIfItsAlreadyLoggedIn() {
-    if (token) {
-      if (isLoggedInType === "secretaria") {
-        history.push("/admin");
-      } else if (isLoggedInType === "posto") {
-        history.push("/posto");
+    if (localToken) {
+      if (isLoggedInType === 'SECRETARIA') {
+        history.push('/admin');
+      } else if (isLoggedInType === 'POSTO_VACINACAO') {
+        history.push('/posto');
       }
     }
     setIsLoading(false);
 
     if (error) {
       alert(error);
-      setIsLoggedInType(null);
+      localStorage.clear();
     }
+  }
+
+  function saveTokenLocally(token) {
+    localStorage.setItem('token', token);
+  }
+
+  function saveIsLoggedInTypeLocally(loginType) {
+    localStorage.setItem('loginType', loginType);
   }
 
   const checkCredentials = async (e) => {
@@ -55,16 +60,17 @@ export default function Login() {
         tipoLogin: loginType,
       });
 
-      setToken(token);
-      setIsLoggedInType(loginType);
+      saveIsLoggedInTypeLocally(loginType);
+      saveTokenLocally(token);
 
-      if (loginType === "secretaria") {
-        history.push("/admin");
-      } else if (loginType === "posto") {
-        history.push("/posto");
+      if (loginType === 'SECRETARIA') {
+        history.push('/admin');
+      } else if (loginType === 'POSTO_VACINACAO') {
+        history.push('/posto');
       }
     } catch (err) {
-      alert("Erro ao tentar realizar login");
+      alert('Erro ao tentar realizar login');
+      localStorage.clear();
     } finally {
       setIsLoading(false);
     }
@@ -100,7 +106,7 @@ export default function Login() {
                 type="radio"
                 name="login-type"
                 id="login-posto"
-                value="posto"
+                value="POSTO_VACINACAO"
                 defaultChecked
                 onChange={(e) => setLoginType(e.target.value)}
               ></input>
@@ -112,8 +118,8 @@ export default function Login() {
                 type="radio"
                 name="login-type"
                 id="login-secretaria"
-                value="secretaria"
-                checked={loginType === "secretaria"}
+                value="SECRETARIA"
+                checked={loginType === 'SECRETARIA'}
                 onChange={(e) => setLoginType(e.target.value)}
               ></input>
               <label htmlFor="login-secretaria">Secretaria de Saúde</label>

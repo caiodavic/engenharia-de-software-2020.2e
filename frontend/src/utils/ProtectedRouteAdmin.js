@@ -1,14 +1,12 @@
 import { Route, Redirect } from 'react-router-dom';
-import UserContext from '../contexts/UserContext';
-import { useContext } from 'react';
 const ProtectedRouteAdmin = ({ component: Comp, path, ...rest }) => {
-  const { isLoggedInType } = useContext(UserContext);
+  const isLoggedInType = localStorage.getItem('loginType');
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
-        return isLoggedInType === 'secretaria' ? (
+        return isLoggedInType === 'SECRETARIA' ? (
           <Comp {...props} />
         ) : (
           <Redirect

@@ -3,16 +3,11 @@ import {
   PageTitle,
   PageWrapper,
   WarningMsg,
+  StyledButton,
 } from '../../components/shared/CommonStyles';
 import styled from 'styled-components';
-import {
-  getLotsList,
-  getUnitLots,
-  getUnitQueue,
-  postVaccinationConfirmation,
-} from '../../services/api';
-import UserContext from '../../contexts/UserContext';
-import { useContext, useState, useEffect } from 'react';
+import { getUnitQueue } from '../../services/api';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   listLotesFromPosto,
@@ -26,8 +21,9 @@ export default function VaccinationUnitPage() {
     posicaoAtual: null,
     posicaoFinal: null,
   });
+  const [newCode, setNewCode] = useState('');
   const [confirmationCode, setConfirmationCode] = useState('');
-  const { token } = useContext(UserContext);
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     loadLotsAndQueue({ token });
@@ -56,6 +52,10 @@ export default function VaccinationUnitPage() {
     }
   };
 
+  function generateCode() {
+    setNewCode('código');
+  }
+
   return (
     <PageWrapper>
       <VaccinationUnitPageWrapper>
@@ -71,6 +71,10 @@ export default function VaccinationUnitPage() {
             <Queue>
               {queue.posicaoAtual} / {queue.posicaoFinal}
             </Queue>
+
+            <StyledButton onClick={generateCode}>
+              {newCode === '' ? 'Gerar Código de Vacinação' : newCode}
+            </StyledButton>
 
             <InsertCodeContainer>
               <CodeInput onSubmit={sendConfirmationCode}>
@@ -158,6 +162,10 @@ const Card = styled.div`
     width: 500px;
     max-width: 100vw;
   }
+
+  @media screen and (max-width: 800px) {
+    width: 90vw;
+  }
 `;
 
 const CardTitle = styled.div`
@@ -174,14 +182,14 @@ const CardTitle = styled.div`
 `;
 
 const CardSubtitle = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 20px;
   font-weight: 500;
   font-size: 25px;
 `;
 
 const Queue = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   font-size: 40px;
 `;
 

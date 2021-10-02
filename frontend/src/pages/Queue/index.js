@@ -2,21 +2,24 @@ import { useState, useEffect } from 'react';
 import {
   PageWrapper,
   PageTitle,
-  PageSubTitle,
-  StyledForm,
   PageContentContainer,
 } from '../../components/shared/CommonStyles';
 import styled from 'styled-components';
 import UserContext from '../../contexts/UserContext';
 import { useContext } from 'react';
+import { useHistory } from 'react-router';
 
 export default function Queue() {
   const [queue, setQueue] = useState([]);
   const { vaccinationCode } = useContext(UserContext);
+  let history = useHistory();
 
   useEffect(loadQueue, []);
 
   function loadQueue() {
+    if (!vaccinationCode) {
+      history.push('/');
+    }
     const mockQueue = { posicaoAtual: 1, posicaoFinal: 200 };
     setQueue(mockQueue);
   }

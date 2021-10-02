@@ -1,24 +1,22 @@
-import { useState, useEffect } from "react";
-import { saveLote } from "../../../services/loteService";
-import { listAll } from "../../../services/vacinaService";
-import { useHistory } from "react-router-dom";
-import { getVaccineList } from "../../../services/api";
+import { useState, useEffect } from 'react';
+import { saveLote } from '../../../services/loteService';
+import { listAll } from '../../../services/vacinaService';
+import { useHistory } from 'react-router-dom';
+import { getVaccineList } from '../../../services/api';
 import {
   PageWrapper,
   PageTitle,
   StyledForm,
   PageContentContainer,
-} from "../../../components/shared/CommonStyles";
-import UserContext from "../../../contexts/UserContext";
-import { useContext } from "react";
+} from '../../../components/shared/CommonStyles';
 
 export default function CreateLot() {
   const [namesList, setNamesList] = useState([]); // lista de opcoes da vacina recebidas pela API
-  const [name, setName] = useState("");
-  const [qtdDoses, setQtdDosed] = useState("");
-  const [expirationDate, setExpirationDate] = useState("");
+  const [name, setName] = useState('');
+  const [qtdDoses, setQtdDosed] = useState('');
+  const [expirationDate, setExpirationDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { token } = useContext(UserContext);
+  const token = localStorage.getItem('token');
   const history = useHistory();
   const today = getToday();
 
@@ -43,9 +41,9 @@ export default function CreateLot() {
         qtdDoses,
       });
 
-      history.push("/admin/alocacao/lote");
+      history.push('/admin/alocacao/lote');
     } catch (err) {
-      alert("Error ao registrar o novo lote");
+      alert('Error ao registrar o novo lote');
     } finally {
       setIsLoading(false);
     }
@@ -58,14 +56,14 @@ export default function CreateLot() {
     let yyyy = today.getFullYear();
 
     if (dd < 10) {
-      dd = "0" + dd;
+      dd = '0' + dd;
     }
 
     if (mm < 10) {
-      mm = "0" + mm;
+      mm = '0' + mm;
     }
 
-    let todayToString = yyyy + "-" + mm + "-" + dd;
+    let todayToString = yyyy + '-' + mm + '-' + dd;
     return todayToString;
   }
 

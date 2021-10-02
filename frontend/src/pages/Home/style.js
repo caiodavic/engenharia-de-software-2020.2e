@@ -17,6 +17,9 @@ const CodeInput = styled.form`
     font-size: 40px;
     color: white;
   }
+  @media screen and (max-width: 800px) {
+    width: 99%;
+  }
 `;
 
 const SearchCode = styled.div`
@@ -35,6 +38,7 @@ const SearchCode = styled.div`
     &:focus {
       outline: none;
     }
+    width: 100%;
   }
 
   ion-icon {
