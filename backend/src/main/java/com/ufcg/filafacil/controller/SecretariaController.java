@@ -14,6 +14,7 @@ import com.ufcg.filafacil.service.vacina.VacinaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -38,6 +39,7 @@ public class SecretariaController {
     LoteService loteService;
 
     @PostMapping("/secretaria/posto")
+    @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<?> cadastraPostoDeVacinacao(@RequestBody PostoDeVacinacaoDTO postoDTO) {
         try {
             postoService.cadastraPostoVacinacao(postoDTO);
@@ -54,6 +56,7 @@ public class SecretariaController {
     }
 
     @PostMapping("/secretaria/vacina")
+    @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<?> cadastrarVacina(@RequestBody VacinaDTO vacinaDTO) {
         try {
             vacinaService.cadastraVacina(vacinaDTO);
@@ -61,22 +64,24 @@ public class SecretariaController {
         }catch (IllegalArgumentException ila){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping("/secretaria/vacinas")
+    @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<List<Vacina>> listaVacinas() {
         List<Vacina> vacinas = vacinaService.listaVacina();
         return new ResponseEntity<>(vacinas, HttpStatus.OK);
     }
 
     @GetMapping("/secretaria/lotes")
+    @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<List<Lote>> listaLotes() {
         List<Lote> lotes = loteService.listaLote();
         return new ResponseEntity<>(lotes, HttpStatus.OK);
     }
 
     @PostMapping("/secretaria/lote")
+    @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<?> cadastrarLote(@RequestBody LoteDTO loteDTO) {
         try {
             loteService.cadastraLote(loteDTO);
@@ -87,12 +92,14 @@ public class SecretariaController {
     }
 
     @GetMapping("/secretaria/lotes/disponiveis")
+    @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<List<Lote>> listaLotesDisponiveis() {
         List<Lote> lotes = loteService.listaLoteDisponiveis();
         return new ResponseEntity<>(lotes, HttpStatus.OK);
     }
 
     @PostMapping("/secretaria/alocacao")
+    @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<?> alocaLoteNoPosto(@RequestBody AlocacaoDTO alocacaoDTO){
         try {
             postoService.alocaLoteNoPosto(alocacaoDTO.getIdLote(), alocacaoDTO.getIdPosto());
@@ -101,6 +108,5 @@ public class SecretariaController {
             return ResponseEntity.badRequest().body(ila.getMessage());
         }
     }
-
 }
 

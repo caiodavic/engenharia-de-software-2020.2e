@@ -9,7 +9,7 @@ import java.util.*;
 public class PostoDeVacinacao {
 
     @Id
-    private long id;
+    private Long id;
 
     private String nome;
 
@@ -27,13 +27,14 @@ public class PostoDeVacinacao {
     @ElementCollection
     private List<Integer> filaPacientes;
 
-    @OneToOne
-    private Endereco endereco;
+    private String endereco;
+
+    private String senha;
 
     public PostoDeVacinacao() {
     }
 
-    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id, String senha) {
+    public PostoDeVacinacao(String nome, String email, String telefone, String endereco, long id, String senha) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
@@ -42,11 +43,7 @@ public class PostoDeVacinacao {
         this.codigosPosto = new ArrayList<>();
         this.lotesDeVacina = new ArrayList<>();
         this.filaPacientes = new ArrayList<>();
-        // Gambiarra pra começar a fila com "algum paciente", já que a estratégia é
-        // pegar a última senha e somar 1 pra ir incrementando
-        // A ideia é quando adicionar realmente o primeiro paciente, esse valor 0 seja
-        // removido
-        this.filaPacientes.add(0);
+        this.senha = senha;
     }
 
     public long getId() {
@@ -77,21 +74,20 @@ public class PostoDeVacinacao {
         this.telefone = telefone;
     }
 
-    public Endereco getEndereco() {
+    public String getEndereco() {
         return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public List<Lote> getLotesDeVacina() {
         return lotesDeVacina;
     }
 
-    public String getCodigoPosto() {
-        return this.codigosPosto.get(this.codigosPosto.size() - 1);
+
+    public List<String> getCodigosPosto(){
+        return this.codigosPosto;
     }
+
+
 
     public int getQtdVacina() {
         int qtdTotal = 0;
@@ -106,7 +102,11 @@ public class PostoDeVacinacao {
     }
 
     public int getUltimaSenha() {
-        return this.filaPacientes.get(this.filaPacientes.size() - 1);
+        if (!this.filaPacientes.isEmpty()) {
+            return this.filaPacientes.get(this.filaPacientes.size() - 1);
+        }
+
+        return -1;
     }
 
     public List<Integer> getFilaPacientes() {
@@ -114,16 +114,11 @@ public class PostoDeVacinacao {
     }
 
     public int addPacienteNaFila() {
-        if (this.filaPacientes.get(0) == 0) {
-            this.filaPacientes.add(this.getUltimaSenha() + 1);
-            this.filaPacientes.remove(0);
-        } else {
-            this.filaPacientes.add(this.getUltimaSenha() + 1);
-        }
-        return this.getUltimaSenha();
+        int novaSenha = this.getUltimaSenha() + 1;
+        this.filaPacientes.add(novaSenha);
+        return novaSenha + 1;
     }
 
-    // fonte: https://www.baeldung.com/java-random-string
     public String gerarCodigoPosto() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
@@ -140,13 +135,17 @@ public class PostoDeVacinacao {
 
     public String confirmarVacinacao(int senha) {
         this.filaPacientes.remove(senha);
-        Lote lote = this.lotesDeVacina.get(0);
+        Lote lote = this.lotesDeVacina
+                .stream()
+                .filter(l -> l.getQtdDosesDisponiveis() > 0)
+                .findAny().get();
+
         String vacinaAplicada = lote.getVacina().getNomeVacina();
         lote.diminuiQtdDosesDisponiveis();
         if (lote.getQtdDosesDisponiveis() == 0) {
             this.lotesDeVacina.remove(lote);
         }
-        return "O Paciente com senha: " + senha + "recebeu a vacina: " + vacinaAplicada;
+        return "O Paciente com senha " + senha + " recebeu a vacina " + vacinaAplicada;
     }
 
     @Override
@@ -162,5 +161,19 @@ public class PostoDeVacinacao {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public void removerCodigo(String codigoPosto) {
+        this.codigosPosto.remove(codigoPosto);
+    }
+
+    public int getPosicaoAtual() {
+        if (this.filaPacientes != null &&
+            this.filaPacientes.size() > 0 &&
+            this.filaPacientes.get(0) != null) {
+
+            return this.filaPacientes.get(0);
+        }
+        return 0;
     }
 }

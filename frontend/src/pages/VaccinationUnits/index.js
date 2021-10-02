@@ -1,5 +1,8 @@
 import { PageWrapper, PageTitle } from '../../components/shared/CommonStyles';
-import { useState, useEffect } from 'react';
+import UserContext from '../../contexts/UserContext';
+import { useHistory } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { loadPostos } from '../../services/postoService';
 import {
   VaccinationUnitsWrapper,
   UnitsCardsContainer,
@@ -9,47 +12,23 @@ import {
   DetailTitle,
 } from './style';
 
-var props = [
-  {
-    enderecoPosto: 'rua blablau',
-    nomePosto: 'Posto Ipiranga',
-    vacina: { nome: 'astrazeneca', quantidade: '100' },
-  },
-  {
-    enderecoPosto: 'rua blablau',
-    nomePosto: 'Posto Ipiranga',
-    vacina: { nome: 'astrazeneca', quantidade: '100' },
-  },
-  {
-    enderecoPosto: 'rua blablau',
-    nomePosto: 'Posto Ipiranga',
-    vacina: { nome: 'astrazeneca', quantidade: '100' },
-  },
-  {
-    enderecoPosto: 'rua blablau',
-    nomePosto: 'Posto Ipiranga',
-    vacina: { nome: 'astrazeneca', quantidade: '100' },
-  },
-  {
-    enderecoPosto: 'rua blablau',
-    nomePosto: 'Posto Ipiranga',
-    vacina: { nome: 'astrazeneca', quantidade: '100' },
-  },
-  {
-    enderecoPosto: 'rua blablau',
-    nomePosto: 'Posto Ipiranga',
-    vacina: { nome: 'astrazeneca', quantidade: '100' },
-  },
-];
-
 export default function VaccinationUnits() {
   const [units, setUnits] = useState([]);
+  const history = useHistory();
+  const { token, isLoggedInType } = useContext(UserContext);
 
-  useEffect(loadUnits, []);
+  const loadUnits = async ({ token }) => {
+    try {
+      const { data: postos } = await loadPostos({ token });
+      setUnits(postos);
+    } catch (err) {
+      alert('Erro ao carregar postos');
+    }
+  };
 
-  function loadUnits() {
-    setUnits(props);
-  }
+  useEffect(() => {
+    loadUnits({ token });
+  }, [token]);
 
   return (
     <PageWrapper>
@@ -58,17 +37,23 @@ export default function VaccinationUnits() {
         <UnitsCardsContainer>
           {units.map((unit) => (
             <UnitCard>
-              <UnitName>{unit.nomePosto}</UnitName>
+              <UnitName>{unit.nome}</UnitName>
 
               <UnitDetails>
                 <p>
-                  <DetailTitle>Endereço: </DetailTitle> {unit.enderecoPosto}
+                  <DetailTitle>Endereço: </DetailTitle> {unit.endereco}
                   <br />
-                  <DetailTitle>Vacina: </DetailTitle>
-                  {unit.vacina.nome}
-                  <br />
-                  <DetailTitle>Quantidade: </DetailTitle>
-                  {unit.vacina.quantidade}
+                  {unit.lotesDeVacina.map((lote) => {
+                    return (
+                      <>
+                        <DetailTitle>Vacina: </DetailTitle>
+                        {lote.vacina.nomeVacina}
+                        <br />
+                        <DetailTitle>Quantidade: </DetailTitle>
+                        {lote.qtdDosesDisponiveis}
+                      </>
+                    );
+                  })}
                 </p>
               </UnitDetails>
             </UnitCard>

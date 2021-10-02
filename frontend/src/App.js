@@ -25,6 +25,7 @@ const App = () => {
         <Navbar />
         <Footer />
 
+<<<<<<< HEAD
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/postos" component={VaccinationUnits} />
@@ -54,6 +55,48 @@ const App = () => {
             component={VaccinationUnitPage}
           />
         </Switch>
+=======
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/postos" component={VaccinationUnits} />
+            <Route path="/login" component={Login} />
+
+            <ProtectedRouteAdmin
+              exact
+              loggedIn={isLoggedInType}
+              path="/admin"
+              component={Admin}
+            />
+            <ProtectedRouteAdmin
+              path="/admin/cadastro/posto"
+              loggedIn={isLoggedInType}
+              component={Signup}
+            />
+            <ProtectedRouteAdmin
+              path="/admin/cadastro/lote"
+              loggedIn={isLoggedInType}
+              component={CreateLot}
+            />
+            <ProtectedRouteAdmin
+              path="/admin/alocacao/lote"
+              loggedIn={isLoggedInType}
+              component={SendLotToUnit}
+            />
+            <ProtectedRouteAdmin
+              path="/admin/cadastro/vacina"
+              loggedIn={isLoggedInType}
+              component={RegisterVaccine}
+            />
+
+            <ProtectedRouteUnit
+              exact
+              path="/posto"
+              loggedIn={isLoggedInType}
+              component={VaccinationUnitPage}
+            />
+          </Switch>
+        </UserContext.Provider>
+>>>>>>> Develop
       </BrowserRouter>
     </GlobalContextProvider>
   );

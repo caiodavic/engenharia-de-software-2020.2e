@@ -2,7 +2,7 @@ import {
   PageWrapper,
   PageTitle,
   PageSubTitle,
-} from '../../components/shared/CommonStyles';
+} from "../../components/shared/CommonStyles";
 import {
   AdminPageWrapper,
   ButtonsMenuContainer,
@@ -10,6 +10,7 @@ import {
   CategoryTitle,
   ButtonsContainer,
   Button,
+<<<<<<< HEAD
 } from './style';
 import { useContext, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
@@ -29,6 +30,11 @@ export default function Admin() {
     }
   }
 
+=======
+} from "./style";
+
+export default function Admin() {
+>>>>>>> Develop
   return (
     <PageWrapper>
       <AdminPageWrapper>

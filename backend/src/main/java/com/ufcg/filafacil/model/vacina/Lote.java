@@ -1,8 +1,5 @@
 package com.ufcg.filafacil.model.vacina;
 
-import com.sun.istack.NotNull;
-import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -30,8 +27,7 @@ public class Lote {
      */
     private LocalDate dataDeValidade;
 
-    @OneToOne
-    private PostoDeVacinacao postoDeVacinacao;
+    private long idPosto;
 
     public Lote() {
     }
@@ -40,7 +36,7 @@ public class Lote {
         this.vacina = vacina;
         this.qtdDosesDisponiveis = qtdDoses;
         this.dataDeValidade = dataDeValidade;
-        this.postoDeVacinacao = null;
+        this.idPosto = -1;
     }
 
     public Long getId() {
@@ -51,12 +47,12 @@ public class Lote {
         return vacina;
     }
 
-    public void setPostoDeVacinacao(PostoDeVacinacao postoDeVacinacao) {
-        this.postoDeVacinacao = postoDeVacinacao;
+    public void setPostoDeVacinacao(long postoDeVacinacao) {
+        this.idPosto = postoDeVacinacao;
     }
 
-    public PostoDeVacinacao getPostoDeVacinacao() {
-        return postoDeVacinacao;
+    public long getPostoDeVacinacao() {
+        return idPosto;
     }
 
     public int getQtdDosesDisponiveis() {

@@ -1,35 +1,49 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   PageWrapper,
   PageTitle,
   StyledForm,
   PageContentContainer,
-} from '../../../components/shared/CommonStyles';
-import UserContext from '../../../contexts/UserContext';
-import { useContext } from 'react';
-import { postUnitSignUp } from '../../../services/api';
+} from "../../../components/shared/CommonStyles";
+import UserContext from "../../../contexts/UserContext";
+import { useHistory } from "react-router-dom";
+import { useContext } from "react";
+import { savePosto } from "../../../services/postoService";
 
 export default function Signup() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [telephoneNum, setTelephoneNum] = useState(''); // TO-DO validacao num telefone
-  const [password, setPassword] = useState('');
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [telephoneNum, setTelephoneNum] = useState(""); // TO-DO validacao num telefone
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(UserContext);
+  const history = useHistory();
 
-  function submitInput(e) {
+  const submitInput = async (e) => {
     e.preventDefault();
     console.log(name, email, password, address, telephoneNum);
-    const body = {
-      nome: name,
-      email: email,
-      senha: password,
-      telefone: telephoneNum,
-      endereco: telephoneNum,
-    };
-    postUnitSignUp({ body, token });
-  }
+
+    setIsLoading(true);
+    try {
+      await savePosto({
+        id,
+        nome: name,
+        email,
+        telefone: telephoneNum,
+        senha: password,
+        endereco: address,
+        token,
+      });
+
+      history.push("/postos");
+    } catch (err) {
+      alert("Erro ao salvar novo posto de vacinação");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <PageWrapper>
@@ -37,6 +51,16 @@ export default function Signup() {
         <PageTitle>Cadastrar novo Posto de Saúde</PageTitle>
 
         <StyledForm onSubmit={submitInput}>
+          <label htmlFor="name">Id: </label>
+          <input
+            type="number"
+            placeholder="Insira o id do posto (Deve ser único para cada posto)"
+            id="name"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            required
+          />
+
           <label htmlFor="name">Nome: </label>
           <input
             type="name"

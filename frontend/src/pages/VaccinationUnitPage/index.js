@@ -14,6 +14,10 @@ import {
 import UserContext from '../../contexts/UserContext';
 import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import {
+  listLotesFromPosto,
+  confirmVaccination,
+} from '../../services/postoService';
 
 export default function VaccinationUnitPage() {
   const { idPosto } = useParams();
@@ -25,20 +29,32 @@ export default function VaccinationUnitPage() {
   const [confirmationCode, setConfirmationCode] = useState('');
   const { token } = useContext(UserContext);
 
-  useEffect(loadLotsAndQueue, [token, lots, queue]);
+  useEffect(() => {
+    loadLotsAndQueue({ token });
+  }, [token]);
 
-  function loadLotsAndQueue() {
+  const loadLotsAndQueue = async ({ token }) => {
     const body = { idPosto };
-    let lots = getLotsList({ body, token });
+    let { data: lots } = await listLotesFromPosto({ token });
     let queue = getUnitQueue({ body, token });
+    console.log('lots >> ' + lots);
     setLots(lots);
     setQueue(queue);
-  }
+  };
 
-  function sendConfirmationCode(e) {
-    e.preventDefault();
-    console.log(confirmationCode);
-  }
+  const sendConfirmationCode = async (e) => {
+    try {
+      e.preventDefault();
+      const { data: message } = await confirmVaccination({
+        token,
+        senha: confirmationCode,
+      });
+      alert(message);
+      setConfirmationCode('');
+    } catch (err) {
+      alert('Ocorreu um erro ao confirmar a vacinação');
+    }
+  };
 
   return (
     <PageWrapper>
@@ -83,7 +99,8 @@ export default function VaccinationUnitPage() {
               ) : (
                 lots.map((lot) => (
                   <Lot>
-                    {lot.id} {lot.vacina.nomeVacina} {lot.qtdDosesDisponiveis}
+                    Vacina {lot.vacina.nomeVacina} - {lot.qtdDosesDisponiveis}{' '}
+                    doses
                   </Lot>
                 ))
               )}

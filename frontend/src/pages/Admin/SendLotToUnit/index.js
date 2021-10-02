@@ -5,9 +5,12 @@ import {
   StyledForm,
   PageContentContainer,
 } from '../../../components/shared/CommonStyles';
+import { useHistory } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import UserContext from '../../../contexts/UserContext';
-import { getLotsList, getUnitsList } from '../../../services/api';
+import { alocarLote } from '../../../services/postoService';
+import { listAllLotesAvailable } from '../../../services/loteService';
+import { listAllPostos } from '../../../services/postoService';
 
 export default function SendLotToUnit() {
   const [lotsList, setLotsList] = useState([]);
@@ -17,21 +20,42 @@ export default function SendLotToUnit() {
   const [idPosto, setIdPosto] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(UserContext);
+  const history = useHistory();
 
-  useEffect(loadLotsAndUnits, [token]);
+  useEffect(() => {
+    loadLotsAndUnits({ token });
+  }, [token]);
 
-  function loadLotsAndUnits() {
-    const lots = getLotsList({ token });
-    const units = getUnitsList({ token });
+  const loadLotsAndUnits = async () => {
+    const { data: lots } = await listAllLotesAvailable({ token });
+    const { data: units } = await listAllPostos({ token });
+
+    if (lots.length === 0) {
+      alert('Não há nenhum lote disoponível');
+    }
+
+    if (units.length === 0) {
+      alert('Não há nenhum posto disponível');
+    }
 
     setLotsList(lots);
     setUnitsIdList(units.map((unit) => unit.id));
-  }
+  };
 
-  function submitInput(e) {
+  const submitInput = async (e) => {
     e.preventDefault();
+    try {
+      setIsLoading(true);
+      await alocarLote({ idLote, idPosto, token });
+      history.push('/postos');
+    } catch (err) {
+      alert('Ocorreu um erro ao alocar o lote no posto indicado');
+    } finally {
+      setIsLoading(false);
+    }
+
     console.log({ idLote }, { idPosto });
-  }
+  };
 
   return (
     <PageWrapper>

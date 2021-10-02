@@ -1,7 +1,9 @@
 package com.ufcg.filafacil.DTO;
 
-import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class PostoDeVacinacaoDTO {
 
     private long id;
@@ -14,8 +16,10 @@ public class PostoDeVacinacaoDTO {
 
     private String senha;
 
-    @OneToOne
-    private EnderecoDTO enderecoDTO;
+    private String endereco;
+
+    public PostoDeVacinacaoDTO() {
+    }
 
     public String getNome() {
         return nome;
@@ -29,8 +33,8 @@ public class PostoDeVacinacaoDTO {
         return telefone;
     }
 
-    public EnderecoDTO getEnderecoDTO() {
-        return enderecoDTO;
+    public String getEndereco() {
+        return endereco;
     }
 
     public long getId() {
@@ -43,5 +47,16 @@ public class PostoDeVacinacaoDTO {
 
     public String getSenha() {
         return senha;
+    }
+
+    @Override
+    public String toString() {
+        return "PostoDeVacinacaoDTO{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", senha='" + senha + '\'' +
+                '}';
     }
 }

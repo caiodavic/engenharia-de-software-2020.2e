@@ -1,36 +1,55 @@
-import { useState, useEffect } from 'react';
-import { getVaccineList, postNewLot } from '../../../services/api';
+import { useState, useEffect } from "react";
+import { saveLote } from "../../../services/loteService";
+import { listAll } from "../../../services/vacinaService";
+import { useHistory } from "react-router-dom";
+import { getVaccineList } from "../../../services/api";
 import {
   PageWrapper,
   PageTitle,
   StyledForm,
   PageContentContainer,
-} from '../../../components/shared/CommonStyles';
-import UserContext from '../../../contexts/UserContext';
-import { useContext } from 'react';
+} from "../../../components/shared/CommonStyles";
+import UserContext from "../../../contexts/UserContext";
+import { useContext } from "react";
 
 export default function CreateLot() {
   const [namesList, setNamesList] = useState([]); // lista de opcoes da vacina recebidas pela API
-  const [name, setName] = useState('');
-  const [qtdDoses, setQtdDosed] = useState('');
-  const [expirationDate, setExpirationDate] = useState('');
+  const [name, setName] = useState("");
+  const [qtdDoses, setQtdDosed] = useState("");
+  const [expirationDate, setExpirationDate] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(UserContext);
+  const history = useHistory();
   const today = getToday();
 
-  useEffect(loadVaccineNames, [token]);
+  useEffect(() => {
+    loadVaccineNames({ token });
+  }, [token]);
 
-  function loadVaccineNames() {
-    let vaccines = getVaccineList({ token });
+  const loadVaccineNames = async () => {
+    const { data: vaccines } = await listAll({ token });
     setNamesList(vaccines.map((vac) => vac.nomeVacina));
-  }
+  };
 
-  function submitInput(e) {
+  const submitInput = async (e) => {
     e.preventDefault();
-    console.log(name, qtdDoses, expirationDate);
-    const body = { name, qtdDoses, expirationDate };
-    postNewLot({ body, token });
-  }
+
+    try {
+      setIsLoading(true);
+      await saveLote({
+        token,
+        dataDeValidade: expirationDate,
+        nomeVacina: name,
+        qtdDoses,
+      });
+
+      history.push("/admin/alocacao/lote");
+    } catch (err) {
+      alert("Error ao registrar o novo lote");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   function getToday() {
     let today = new Date();
@@ -39,14 +58,14 @@ export default function CreateLot() {
     let yyyy = today.getFullYear();
 
     if (dd < 10) {
-      dd = '0' + dd;
+      dd = "0" + dd;
     }
 
     if (mm < 10) {
-      mm = '0' + mm;
+      mm = "0" + mm;
     }
 
-    let todayToString = yyyy + '-' + mm + '-' + dd;
+    let todayToString = yyyy + "-" + mm + "-" + dd;
     return todayToString;
   }
 
