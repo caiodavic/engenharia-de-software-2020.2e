@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const baseApiUrl = process.env.REACT_APP_BASE_API_URL;
 
@@ -8,7 +8,7 @@ export const saveVacina = ({
   diasEntreDoses,
   token,
 }) => {
-  const saveVacinaUrl = baseApiUrl + '/api/secretaria/vacina';
+  const saveVacinaUrl = baseApiUrl + "/api/secretaria/vacina";
   return axios.post(
     saveVacinaUrl,
     { nomeVacina, numDosesNecessarias, diasEntreDoses },
@@ -18,4 +18,13 @@ export const saveVacina = ({
       },
     }
   );
+};
+
+export const listAll = ({ token }) => {
+  const listAllVacinaUrl = baseApiUrl + "/api/secretaria/vacinas";
+  return axios.get(listAllVacinaUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

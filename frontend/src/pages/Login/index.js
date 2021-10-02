@@ -1,22 +1,21 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   PageWrapper,
   PageTitle,
   PageSubTitle,
   StyledForm,
-} from '../../components/shared/CommonStyles';
-import { LoginWrapper, LoginTypesContainer, LinkToSignUp } from './style';
-import { useHistory, useLocation } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
-import UserContext from '../../contexts/UserContext';
-import Loader from '../../components/Loader';
-import { login } from '../../services/loginService';
+} from "../../components/shared/CommonStyles";
+import { LoginWrapper, LoginTypesContainer } from "./style";
+import { useHistory, useLocation } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import UserContext from "../../contexts/UserContext";
+import { login } from "../../services/loginService";
 
 // usando login tipo="posto" como posto de vacinacao de tipo="secretaria" como secretaria de saúde
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginType, setLoginType] = useState('posto');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loginType, setLoginType] = useState("posto");
   const [isLoading, setIsLoading] = useState(true);
   const { token, setToken, isLoggedInType, setIsLoggedInType } = useContext(
     UserContext
@@ -30,10 +29,10 @@ export default function Login() {
 
   function checkIfItsAlreadyLoggedIn() {
     if (token) {
-      if (isLoggedInType === 'secretaria') {
-        history.push('/admin');
-      } else if (isLoggedInType === 'posto') {
-        history.push('/posto');
+      if (isLoggedInType === "secretaria") {
+        history.push("/admin");
+      } else if (isLoggedInType === "posto") {
+        history.push("/posto");
       }
     }
     setIsLoading(false);
@@ -44,27 +43,30 @@ export default function Login() {
   }
 
   const checkCredentials = async (e) => {
-    e.preventDefault();
-    console.log(email, password, loginType);
-    setIsLoading(true);
-    const {
-      data: { token },
-    } = await login({
-      login: email,
-      senha: password,
-      tipoLogin: loginType,
-    });
+    try {
+      e.preventDefault();
+      setIsLoading(true);
+      const {
+        data: { token },
+      } = await login({
+        login: email,
+        senha: password,
+        tipoLogin: loginType,
+      });
 
-    setToken(token);
-    setIsLoggedInType(loginType);
+      setToken(token);
+      setIsLoggedInType(loginType);
 
-    if (loginType === 'secretaria') {
-      history.push('/admin');
-    } else if (loginType === 'posto') {
-      history.push('/posto');
+      if (loginType === "secretaria") {
+        history.push("/admin");
+      } else if (loginType === "posto") {
+        history.push("/posto");
+      }
+    } catch (err) {
+      alert("Erro ao tentar realizar login");
+    } finally {
+      setIsLoading(false);
     }
-
-    console.log('LOGADO >> ', token);
   };
 
   return (
@@ -110,7 +112,7 @@ export default function Login() {
                 name="login-type"
                 id="login-secretaria"
                 value="secretaria"
-                checked={loginType === 'secretaria'}
+                checked={loginType === "secretaria"}
                 onChange={(e) => setLoginType(e.target.value)}
               ></input>
               <label htmlFor="login-secretaria">Secretaria de Saúde</label>

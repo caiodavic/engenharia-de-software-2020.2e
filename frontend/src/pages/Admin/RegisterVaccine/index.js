@@ -1,19 +1,19 @@
-import { useState } from 'react';
-import UserContext from '../../../contexts/UserContext';
-import { useHistory } from 'react-router-dom';
-import { useContext } from 'react';
-import { saveVacina } from '../../../services/vacinaService';
+import { useState } from "react";
+import UserContext from "../../../contexts/UserContext";
+import { useHistory } from "react-router-dom";
+import { useContext } from "react";
+import { saveVacina } from "../../../services/vacinaService";
 import {
   PageWrapper,
   PageTitle,
   PageContentContainer,
   StyledForm,
-} from '../../../components/shared/CommonStyles';
+} from "../../../components/shared/CommonStyles";
 
 export default function RegisterVaccine() {
-  const [name, setName] = useState('');
-  const [numDoses, setNumDoses] = useState('');
-  const [intervalBetweenDoses, setIntervalBetweenDoses] = useState('');
+  const [name, setName] = useState("");
+  const [numDoses, setNumDoses] = useState("");
+  const [intervalBetweenDoses, setIntervalBetweenDoses] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(UserContext);
   const history = useHistory();
@@ -29,8 +29,9 @@ export default function RegisterVaccine() {
         token,
       });
 
-      history.push('/admin/cadastro/lote');
+      history.push("/admin/cadastro/lote");
     } catch (err) {
+      alert("Erro ao salvar vacina");
     } finally {
       setIsLoading(false);
     }
@@ -61,7 +62,7 @@ export default function RegisterVaccine() {
             max="3"
             onChange={(e) => {
               setNumDoses(e.target.value);
-              if (e.target.value === '1') {
+              if (e.target.value === "1") {
                 setIntervalBetweenDoses(null);
               }
             }}
@@ -72,11 +73,11 @@ export default function RegisterVaccine() {
           <input
             type="number"
             id="interval"
-            disabled={numDoses === '1'}
+            disabled={numDoses === "1"}
             placeholder={
-              numDoses === '1' ? 'Dose Única' : '( min: 15 - máx: 90 )'
+              numDoses === "1" ? "Dose Única" : "( min: 15 - máx: 90 )"
             }
-            value={numDoses === '1' ? '' : intervalBetweenDoses}
+            value={numDoses === "1" ? "" : intervalBetweenDoses}
             onChange={(e) => setIntervalBetweenDoses(e.target.value)}
             required={!(numDoses === 1)}
             min="15"

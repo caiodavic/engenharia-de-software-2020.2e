@@ -2,7 +2,7 @@ import {
   PageWrapper,
   PageTitle,
   PageSubTitle,
-} from '../../components/shared/CommonStyles';
+} from "../../components/shared/CommonStyles";
 import {
   AdminPageWrapper,
   ButtonsMenuContainer,
@@ -10,23 +10,9 @@ import {
   CategoryTitle,
   ButtonsContainer,
   Button,
-} from './style';
-import { useContext, useEffect } from 'react';
-import UserContext from '../../contexts/UserContext';
-import { isAdmin } from '../../services/api';
+} from "./style";
 
 export default function Admin() {
-  const { token } = useContext(UserContext);
-  useEffect(checkIfAdmin, [token]);
-
-  function checkIfAdmin() {
-    console.log(token);
-    if (!isAdmin(token)) {
-      alert('usuário não é admin!');
-      return;
-    }
-  }
-
   return (
     <PageWrapper>
       <AdminPageWrapper>

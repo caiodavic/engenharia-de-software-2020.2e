@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const baseApiUrl = process.env.REACT_APP_BASE_API_URL;
 
@@ -11,7 +11,7 @@ export const savePosto = ({
   endereco,
   token,
 }) => {
-  const savePostoUrl = baseApiUrl + '/api/secretaria/posto';
+  const savePostoUrl = baseApiUrl + "/api/secretaria/posto";
   return axios.post(
     savePostoUrl,
     { id: parseInt(id), nome, email, telefone, senha, endereco },
@@ -24,7 +24,7 @@ export const savePosto = ({
 };
 
 export const loadPostos = ({ token }) => {
-  const loadPostosUrl = baseApiUrl + '/api/secretaria/postos';
+  const loadPostosUrl = baseApiUrl + "/api/secretaria/postos";
 
   return axios.get(loadPostosUrl, {
     headers: {
@@ -34,7 +34,7 @@ export const loadPostos = ({ token }) => {
 };
 
 export const alocarLote = ({ idLote, idPosto, token }) => {
-  const alocarLoteUrl = baseApiUrl + '/api/secretaria/alocacao';
+  const alocarLoteUrl = baseApiUrl + "/api/secretaria/alocacao";
   return axios.post(
     alocarLoteUrl,
     { idLote, idPosto },
@@ -44,4 +44,14 @@ export const alocarLote = ({ idLote, idPosto, token }) => {
       },
     }
   );
+};
+
+export const listAllPostosAvailable = ({ token }) => {
+  const listAllPostosAvailable =
+    baseApiUrl + "/api/secretaria/postos/disponveis";
+  return axios.get(listAllPostosAvailable, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

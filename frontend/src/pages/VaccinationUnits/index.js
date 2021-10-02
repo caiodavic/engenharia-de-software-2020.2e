@@ -1,8 +1,8 @@
-import { PageWrapper, PageTitle } from '../../components/shared/CommonStyles';
-import UserContext from '../../contexts/UserContext';
-import { useHistory } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
-import { loadPostos } from '../../services/postoService';
+import { PageWrapper, PageTitle } from "../../components/shared/CommonStyles";
+import UserContext from "../../contexts/UserContext";
+import { useHistory } from "react-router-dom";
+import { useState, useEffect, useContext } from "react";
+import { loadPostos } from "../../services/postoService";
 import {
   VaccinationUnitsWrapper,
   UnitsCardsContainer,
@@ -10,25 +10,25 @@ import {
   UnitName,
   UnitDetails,
   DetailTitle,
-} from './style';
+} from "./style";
 
 export default function VaccinationUnits() {
   const [units, setUnits] = useState([]);
   const history = useHistory();
   const { token, isLoggedInType } = useContext(UserContext);
 
-  const loadUnits = async () => {
+  const loadUnits = async ({ token }) => {
     try {
       const { data: postos } = await loadPostos({ token });
       setUnits(postos);
     } catch (err) {
-      console.err('ERRO AO CARREGAOR POSTOS');
+      console.err("ERRO AO CARREGAOR POSTOS");
     }
   };
 
   useEffect(() => {
-    loadUnits();
-  }, []);
+    loadUnits({ token });
+  }, [token]);
 
   return (
     <PageWrapper>

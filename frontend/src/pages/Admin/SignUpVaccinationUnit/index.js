@@ -1,22 +1,22 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   PageWrapper,
   PageTitle,
   StyledForm,
   PageContentContainer,
-} from '../../../components/shared/CommonStyles';
-import UserContext from '../../../contexts/UserContext';
-import { useHistory } from 'react-router-dom';
-import { useContext } from 'react';
-import { savePosto } from '../../../services/postoService';
+} from "../../../components/shared/CommonStyles";
+import UserContext from "../../../contexts/UserContext";
+import { useHistory } from "react-router-dom";
+import { useContext } from "react";
+import { savePosto } from "../../../services/postoService";
 
 export default function Signup() {
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [telephoneNum, setTelephoneNum] = useState(''); // TO-DO validacao num telefone
-  const [password, setPassword] = useState('');
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [telephoneNum, setTelephoneNum] = useState(""); // TO-DO validacao num telefone
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(UserContext);
   const history = useHistory();
@@ -24,13 +24,6 @@ export default function Signup() {
   const submitInput = async (e) => {
     e.preventDefault();
     console.log(name, email, password, address, telephoneNum);
-    const body = {
-      nome: name,
-      email: email,
-      senha: password,
-      telefone: telephoneNum,
-      endereco: address,
-    };
 
     setIsLoading(true);
     try {
@@ -44,9 +37,9 @@ export default function Signup() {
         token,
       });
 
-      history.push('/postos');
+      history.push("/postos");
     } catch (err) {
-      console.error('ERROR SAVING');
+      alert("Erro ao salvar novo posto de vacinação");
     } finally {
       setIsLoading(false);
     }
