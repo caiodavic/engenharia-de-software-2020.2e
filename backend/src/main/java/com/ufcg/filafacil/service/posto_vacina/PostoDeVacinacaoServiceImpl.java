@@ -131,4 +131,9 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     public Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha) {
         return postoRepository.findByEmailAndSenha(email, senha);
     }
+
+    @Override
+    public int posicaoAtual(Integer idPosto) {
+        return this.getPostoById(idPosto).getPosicaoAtual();
+    }
 }

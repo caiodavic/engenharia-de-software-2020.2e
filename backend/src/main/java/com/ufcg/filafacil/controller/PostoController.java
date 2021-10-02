@@ -78,4 +78,17 @@ public class PostoController {
 
     }
 
+    @RequestMapping(value = "/fila/posicao", method = RequestMethod.GET)
+    public ResponseEntity<?> posicaoAtual(@RequestParam Integer idPosto) {
+        try {
+            System.out.printf("oi");
+            int posicao = postoService.posicaoAtual(idPosto);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(posicao);
+        } catch (IllegalArgumentException ila) {
+            System.out.printf("oila");
+            return ResponseEntity.badRequest().body(ila.getMessage());
+        }
+
+    }
+
 }

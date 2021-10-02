@@ -166,4 +166,14 @@ public class PostoDeVacinacao {
     public void removerCodigo(String codigoPosto) {
         this.codigosPosto.remove(codigoPosto);
     }
+
+    public int getPosicaoAtual() {
+        if (this.filaPacientes != null &&
+            this.filaPacientes.size() > 0 &&
+            this.filaPacientes.get(0) != null) {
+
+            return this.filaPacientes.get(0);
+        }
+        return -1;
+    }
 }
