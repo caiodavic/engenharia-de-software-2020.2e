@@ -45,7 +45,6 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     @Override
     public List<PostoDeVacinacao> listaPostoDeVacinacao() {
         List<PostoDeVacinacao> postos = postoRepository.findAll();
-
         return postos;
     }
 

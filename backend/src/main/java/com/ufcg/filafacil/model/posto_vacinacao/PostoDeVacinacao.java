@@ -43,12 +43,7 @@ public class PostoDeVacinacao {
         this.codigosPosto = new ArrayList<>();
         this.lotesDeVacina = new ArrayList<>();
         this.filaPacientes = new ArrayList<>();
-        // Gambiarra pra começar a fila com "algum paciente", já que a estratégia é
-        // pegar a última senha e somar 1 pra ir incrementando
-        // A ideia é quando adicionar realmente o primeiro paciente, esse valor 0 seja
-        // removido
         this.senha = senha;
-        this.filaPacientes.add(0);
     }
 
     public long getId() {
@@ -107,7 +102,11 @@ public class PostoDeVacinacao {
     }
 
     public int getUltimaSenha() {
-        return this.filaPacientes.get(this.filaPacientes.size() - 1);
+        if (!this.filaPacientes.isEmpty()) {
+            return this.filaPacientes.get(this.filaPacientes.size() - 1);
+        }
+
+        return -1;
     }
 
     public List<Integer> getFilaPacientes() {
@@ -115,16 +114,11 @@ public class PostoDeVacinacao {
     }
 
     public int addPacienteNaFila() {
-        if (this.filaPacientes.get(0) == 0) {
-            this.filaPacientes.add(this.getUltimaSenha() + 1);
-            this.filaPacientes.remove(0);
-        } else {
-            this.filaPacientes.add(this.getUltimaSenha() + 1);
-        }
-        return this.getUltimaSenha();
+        int novaSenha = this.getUltimaSenha() + 1;
+        this.filaPacientes.add(novaSenha);
+        return novaSenha + 1;
     }
 
-    // fonte: https://www.baeldung.com/java-random-string
     public String gerarCodigoPosto() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'

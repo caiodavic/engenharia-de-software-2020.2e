@@ -1,13 +1,16 @@
 package com.ufcg.filafacil.controller;
 
+import com.ufcg.filafacil.DTO.AddNaFilaDTO;
 import com.ufcg.filafacil.model.vacina.Lote;
 import com.ufcg.filafacil.service.posto_vacina.PostoDeVacinacaoService;
 import com.ufcg.filafacil.utils.AuthenticatedUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +23,7 @@ public class PostoController {
     PostoDeVacinacaoService postoService;
 
     @GetMapping("/lotes")
+    @PreAuthorize("hasRole('ROLE_POSTO_VACINACAO')")
     public ResponseEntity<List<Lote>> listaLotesDoPosto() {
         int idPosto = AuthenticatedUtils.getEntityId();
         List<Lote> lista = postoService.listaLotesPosto(idPosto);
@@ -28,6 +32,7 @@ public class PostoController {
 
     // Gerar código que será passado pra o Paciente
     @RequestMapping(value = "/fila", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_POSTO_VACINACAO')")
     public ResponseEntity<?> gerarCodigoDePosto() {
         try {
             int idPosto = AuthenticatedUtils.getEntityId();
@@ -42,13 +47,17 @@ public class PostoController {
     // tipo
     // O usuário coloca o código do posto e receber a senha dele na fila
     @RequestMapping(value = "/fila", method = RequestMethod.POST)
-    public ResponseEntity<?> adicionaPacienteNaFila(@RequestBody Map<String,String> params) {
-        try {
-            int senhaPaciente = this.postoService.addPacienteNaFila(params.get("codigoPosto"));
-            return ResponseEntity.status(HttpStatus.OK).body(senhaPaciente);
-        } catch (IllegalArgumentException ila) {
-            return ResponseEntity.badRequest().body(ila.getMessage());
-        }
+    public ResponseEntity<?> adicionaPacienteNaFila(@RequestBody AddNaFilaDTO params) {
+//        try {
+            System.out.println("ENTROUD >> " + params.getCodigoPosto());
+            Map<String, Integer> response = new HashMap<>();
+            int senhaPaciente = this.postoService.addPacienteNaFila(params.getCodigoPosto());
+            response.put("senhaPaciente", senhaPaciente);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+//        } catch (IllegalArgumentException ila) {
+//            System.out.println(ila.getCause());
+//            return ResponseEntity.badRequest().body(ila.getMessage());
+//        }
     }
 
     // Precisamos receber também o token do Posto de Vacinação Autenticado(Nesse
@@ -57,6 +66,7 @@ public class PostoController {
     // Confirmar vacinação de um usuário(O usuário passa a senha dele, e é eliminado
     // da fila de vacinação)
     @RequestMapping(value = "/confirma", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ROLE_POSTO_VACINACAO')")
     public ResponseEntity<?> confirmarVacinacao(@RequestParam Integer senha) {
         try {
             int idPosto = AuthenticatedUtils.getEntityId();
