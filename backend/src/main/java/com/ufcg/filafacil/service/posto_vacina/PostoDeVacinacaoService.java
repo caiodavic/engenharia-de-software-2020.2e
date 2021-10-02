@@ -26,4 +26,6 @@ public interface PostoDeVacinacaoService {
     String confirmarVacinacao(int senhaPaciente, long idPosto);
 
     Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha);
+
+    List<PostoDeVacinacao> listaPostoDeVacinacaoDisponiveis();
 }
