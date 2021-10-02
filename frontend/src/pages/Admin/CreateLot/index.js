@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { saveLote } from '../../../services/loteService';
+import { useHistory, useLocation } from 'react-router-dom';
 import { getVaccineList, postNewLot } from '../../../services/api';
 import {
   PageWrapper,
@@ -16,6 +18,7 @@ export default function CreateLot() {
   const [expirationDate, setExpirationDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(UserContext);
+  const history = useHistory();
   const today = getToday();
 
   useEffect(loadVaccineNames, [token]);
@@ -25,12 +28,25 @@ export default function CreateLot() {
     setNamesList(vaccines.map((vac) => vac.nomeVacina));
   }
 
-  function submitInput(e) {
+  const submitInput = async (e) => {
     e.preventDefault();
-    console.log(name, qtdDoses, expirationDate);
-    const body = { name, qtdDoses, expirationDate };
-    postNewLot({ body, token });
-  }
+
+    try {
+      setIsLoading(true);
+      await saveLote({
+        token,
+        dataDeValidade: expirationDate,
+        nomeVacina: name,
+        qtdDoses,
+      });
+
+      history.push('/admin/alocacao/lote');
+    } catch (err) {
+      console.error('Error ao registrar o novo lote');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   function getToday() {
     let today = new Date();

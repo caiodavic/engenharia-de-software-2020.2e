@@ -10,6 +10,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import UserContext from '../../contexts/UserContext';
 import Loader from '../../components/Loader';
+import { login } from '../../services/loginService';
 
 // usando login tipo="posto" como posto de vacinacao de tipo="secretaria" como secretaria de saúde
 export default function Login() {
@@ -17,8 +18,9 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [loginType, setLoginType] = useState('posto');
   const [isLoading, setIsLoading] = useState(true);
-  const { token, setToken, isLoggedInType, setIsLoggedInType } =
-    useContext(UserContext);
+  const { token, setToken, isLoggedInType, setIsLoggedInType } = useContext(
+    UserContext
+  );
   let history = useHistory();
   let location = useLocation();
   const { state = {} } = location;
@@ -41,21 +43,29 @@ export default function Login() {
     }
   }
 
-  function checkCredentials(e) {
+  const checkCredentials = async (e) => {
     e.preventDefault();
     console.log(email, password, loginType);
-    if (email === 'fernando@admin.com' && password === '0000') {
-      setToken(1);
-      setIsLoggedInType('secretaria');
-      history.push('/admin');
-    }
+    setIsLoading(true);
+    const {
+      data: { token },
+    } = await login({
+      login: email,
+      senha: password,
+      tipoLogin: loginType,
+    });
 
-    if (email === 'posto@posto.com' && password === '0000') {
-      setToken(2);
-      setIsLoggedInType('posto');
+    setToken(token);
+    setIsLoggedInType(loginType);
+
+    if (loginType === 'secretaria') {
+      history.push('/admin');
+    } else if (loginType === 'posto') {
       history.push('/posto');
     }
-  }
+
+    console.log('LOGADO >> ', token);
+  };
 
   return (
     <PageWrapper>
@@ -67,7 +77,6 @@ export default function Login() {
         <StyledForm onSubmit={checkCredentials}>
           <label htmlFor="email">E-mail: </label>
           <input
-            type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

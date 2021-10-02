@@ -5,9 +5,11 @@ import {
   StyledForm,
   PageContentContainer,
 } from '../../../components/shared/CommonStyles';
+import { useHistory } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import UserContext from '../../../contexts/UserContext';
 import { getLotsList, getUnitsList } from '../../../services/api';
+import { alocarLote } from '../../../services/postoService';
 
 export default function SendLotToUnit() {
   const [lotsList, setLotsList] = useState([]);
@@ -17,6 +19,7 @@ export default function SendLotToUnit() {
   const [idPosto, setIdPosto] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { token } = useContext(UserContext);
+  const history = useHistory();
 
   useEffect(loadLotsAndUnits, [token]);
 
@@ -28,10 +31,19 @@ export default function SendLotToUnit() {
     setUnitsIdList(units.map((unit) => unit.id));
   }
 
-  function submitInput(e) {
+  const submitInput = async (e) => {
     e.preventDefault();
+    try {
+      setIsLoading(true);
+      await alocarLote({ idLote, idPosto, token });
+      history.push('/postos');
+    } catch (err) {
+    } finally {
+      setIsLoading(false);
+    }
+
     console.log({ idLote }, { idPosto });
-  }
+  };
 
   return (
     <PageWrapper>

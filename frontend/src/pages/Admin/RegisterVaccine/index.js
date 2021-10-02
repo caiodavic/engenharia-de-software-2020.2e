@@ -1,4 +1,8 @@
 import { useState } from 'react';
+import UserContext from '../../../contexts/UserContext';
+import { useHistory } from 'react-router-dom';
+import { useContext } from 'react';
+import { saveVacina } from '../../../services/vacinaService';
 import {
   PageWrapper,
   PageTitle,
@@ -11,18 +15,26 @@ export default function RegisterVaccine() {
   const [numDoses, setNumDoses] = useState('');
   const [intervalBetweenDoses, setIntervalBetweenDoses] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { token } = useContext(UserContext);
+  const history = useHistory();
 
-  function submitInput(e) {
+  const submitInput = async (e) => {
     e.preventDefault();
+    try {
+      setIsLoading(true);
+      await saveVacina({
+        diasEntreDoses: intervalBetweenDoses,
+        nomeVacina: name,
+        numDosesNecessarias: numDoses,
+        token,
+      });
 
-    const body = {
-      nomeVacina: name,
-      numDosesNecessarias: numDoses,
-      diasEntreDoses: intervalBetweenDoses,
-    };
-
-    console.log({ body });
-  }
+      history.push('/admin/cadastro/lote');
+    } catch (err) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <PageWrapper>
