@@ -1,8 +1,5 @@
 package com.ufcg.filafacil.model.vacina;
 
-import com.sun.istack.NotNull;
-import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 

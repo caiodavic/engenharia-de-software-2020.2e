@@ -1,10 +1,8 @@
 package com.ufcg.filafacil.service.posto_vacina;
 
 import com.ufcg.filafacil.DTO.PostoDeVacinacaoDTO;
-import com.ufcg.filafacil.model.posto_vacinacao.Endereco;
 import com.ufcg.filafacil.model.posto_vacinacao.PostoDeVacinacao;
 import com.ufcg.filafacil.model.vacina.Lote;
-import com.ufcg.filafacil.repository.EnderecoRepository;
 import com.ufcg.filafacil.repository.PostoDeVacinacaoRepository;
 import com.ufcg.filafacil.service.lote.LoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +19,6 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     private PostoDeVacinacaoRepository postoRepository;
 
     @Autowired
-    private EnderecoRepository enderecoRepository;
-
-    @Autowired
     private LoteService loteService;
 
     @Override
@@ -33,11 +28,8 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
         if (posto.isPresent())
             throw new IllegalArgumentException("Posto de Vacinação já cadastrado!");
 
-        Endereco endereco = postoDTO.getEnderecoDTO().toEndereco();
-        this.enderecoRepository.save(endereco);
-
         PostoDeVacinacao newPosto = new PostoDeVacinacao(postoDTO.getNome(), postoDTO.getEmail(),
-                postoDTO.getTelefone(), endereco, postoDTO.getId(), postoDTO.getSenha());
+                postoDTO.getTelefone(), postoDTO.getEndereco(), postoDTO.getId(), postoDTO.getSenha());
 
 
         this.salvaPostoDeVacinacao(newPosto);

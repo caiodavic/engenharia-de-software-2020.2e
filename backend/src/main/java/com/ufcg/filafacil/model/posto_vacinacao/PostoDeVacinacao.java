@@ -9,7 +9,7 @@ import java.util.*;
 public class PostoDeVacinacao {
 
     @Id
-    private long id;
+    private Long id;
 
     private String nome;
 
@@ -27,15 +27,14 @@ public class PostoDeVacinacao {
     @ElementCollection
     private List<Integer> filaPacientes;
 
-    @OneToOne
-    private Endereco endereco;
+    private String endereco;
 
     private String senha;
 
     public PostoDeVacinacao() {
     }
 
-    public PostoDeVacinacao(String nome, String email, String telefone, Endereco endereco, long id, String senha) {
+    public PostoDeVacinacao(String nome, String email, String telefone, String endereco, long id, String senha) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
@@ -80,12 +79,8 @@ public class PostoDeVacinacao {
         this.telefone = telefone;
     }
 
-    public Endereco getEndereco() {
+    public String getEndereco() {
         return endereco;
-    }
-
-    public void setEndereco(Endereco endereco) {
-        this.endereco = endereco;
     }
 
     public List<Lote> getLotesDeVacina() {

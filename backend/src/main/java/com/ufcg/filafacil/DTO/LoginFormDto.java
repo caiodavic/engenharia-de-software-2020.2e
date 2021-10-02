@@ -21,4 +21,13 @@ public class LoginFormDto {
     public String getTipoLogin() {
         return tipoLogin;
     }
+
+    @Override
+    public String toString() {
+        return "LoginFormDto{" +
+                "login='" + login + '\'' +
+                ", senha='" + senha + '\'' +
+                ", tipoLogin='" + tipoLogin + '\'' +
+                '}';
+    }
 }

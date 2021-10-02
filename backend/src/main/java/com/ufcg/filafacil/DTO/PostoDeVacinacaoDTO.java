@@ -16,7 +16,7 @@ public class PostoDeVacinacaoDTO {
 
     private String senha;
 
-    private EnderecoDTO enderecoDTO;
+    private String endereco;
 
     public PostoDeVacinacaoDTO() {
     }
@@ -33,8 +33,8 @@ public class PostoDeVacinacaoDTO {
         return telefone;
     }
 
-    public EnderecoDTO getEnderecoDTO() {
-        return enderecoDTO;
+    public String getEndereco() {
+        return endereco;
     }
 
     public long getId() {
@@ -57,7 +57,6 @@ public class PostoDeVacinacaoDTO {
                 ", email='" + email + '\'' +
                 ", telefone='" + telefone + '\'' +
                 ", senha='" + senha + '\'' +
-                ", enderecoDTO=" + enderecoDTO +
                 '}';
     }
 }
