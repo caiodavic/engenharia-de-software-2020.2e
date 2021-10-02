@@ -78,7 +78,7 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
         int senhaPaciente = -1;
         if (postoDeVacinacao.getCodigosPosto().contains(codigoPosto)) {
             if (postoDeVacinacao.getFilaPacientes().size() < postoDeVacinacao.getQtdVacina()) {
-                senhaPaciente = postoDeVacinacao.addPacienteNaFila();
+                senhaPaciente = postoDeVacinacao.addPacienteNaFila(codigoPosto);
                 postoDeVacinacao.removerCodigo(codigoPosto);
             } else {
                 throw new IllegalArgumentException("Estoque de vacinas finalizado!");

@@ -1,5 +1,6 @@
 package com.ufcg.filafacil.model.posto_vacinacao;
 
+import com.ufcg.filafacil.model.fila.PosicaoNaFila;
 import com.ufcg.filafacil.model.vacina.Lote;
 
 import javax.persistence.*;
@@ -31,6 +32,9 @@ public class PostoDeVacinacao {
 
     private String senha;
 
+    @OneToMany
+    private Set<PosicaoNaFila> fila;
+
     public PostoDeVacinacao() {
     }
 
@@ -44,6 +48,7 @@ public class PostoDeVacinacao {
         this.lotesDeVacina = new ArrayList<>();
         this.filaPacientes = new ArrayList<>();
         this.senha = senha;
+        this.fila = new HashSet<>();
     }
 
     public long getId() {
@@ -113,10 +118,19 @@ public class PostoDeVacinacao {
         return this.filaPacientes;
     }
 
-    public int addPacienteNaFila() {
+    public int addPacienteNaFila(String codigoPosto) {
         int novaSenha = this.getUltimaSenha() + 1;
         this.filaPacientes.add(novaSenha);
-        return novaSenha + 1;
+
+        for (PosicaoNaFila pf : this.fila){
+            if (pf.getCodigo().equals(codigoPosto)) {
+                if (pf.getSenha() == null){
+                    pf.setSenha(novaSenha+1);
+                }
+                return pf.getSenha();
+            }
+        }
+        throw new IllegalArgumentException("Código invalido");
     }
 
     public String gerarCodigoPosto() {
@@ -128,6 +142,9 @@ public class PostoDeVacinacao {
         String generatedString = random.ints(leftLimit, rightLimit + 1)
                 .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+
+        PosicaoNaFila posicaoNaFila = new PosicaoNaFila(generatedString);
+        this.fila.add(posicaoNaFila);
 
         this.codigosPosto.add(generatedString);
         return generatedString;
