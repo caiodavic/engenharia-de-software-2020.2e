@@ -168,6 +168,9 @@ public class PostoDeVacinacao {
     }
 
     public int getPosicaoAtual() {
-        return this.filaPacientes.get(0);
+        if (this.filaPacientes != null && this.filaPacientes.get(0) != null) {
+            return this.filaPacientes.get(0);
+        }
+        return -1;
     }
 }
