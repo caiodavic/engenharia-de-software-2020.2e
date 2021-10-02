@@ -28,4 +28,6 @@ public interface PostoDeVacinacaoService {
     Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha);
 
     int posicaoAtual(Integer idPosto);
+
+    long getIdPostoByCodigo(String codigoPosto);
 }
