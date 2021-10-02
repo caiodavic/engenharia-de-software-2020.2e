@@ -5,6 +5,7 @@ import com.ufcg.filafacil.model.vacina.Lote;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class PostoDeVacinacao {
@@ -108,10 +109,9 @@ public class PostoDeVacinacao {
 
     public int getUltimaSenha() {
         if (!this.filaPacientes.isEmpty()) {
-            return this.filaPacientes.get(this.filaPacientes.size() - 1);
+            return this.fila.stream().filter(f -> f.getSenha() != null).collect(Collectors.toList()).size();
         }
-
-        return -1;
+        return 0;
     }
 
     public List<Integer> getFilaPacientes() {
@@ -143,12 +143,11 @@ public class PostoDeVacinacao {
                 .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97)).limit(targetStringLength)
                 .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 
-        PosicaoNaFila posicaoNaFila = new PosicaoNaFila(generatedString);
-        this.fila.add(posicaoNaFila);
-
         this.codigosPosto.add(generatedString);
         return generatedString;
     }
+
+
 
     public String confirmarVacinacao(int senha) {
         this.filaPacientes.remove(senha);
@@ -192,5 +191,17 @@ public class PostoDeVacinacao {
             return this.filaPacientes.get(0);
         }
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "PostoDeVacinacao{" +
+                "id=" + id +
+                ", codigosPosto=" + codigosPosto +
+                '}';
+    }
+
+    public void addPosicaoNaFila(PosicaoNaFila posicaoNaFila) {
+        this.fila.add(posicaoNaFila);
     }
 }
