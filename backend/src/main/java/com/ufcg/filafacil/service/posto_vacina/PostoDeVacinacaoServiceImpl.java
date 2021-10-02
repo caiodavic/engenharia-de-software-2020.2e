@@ -133,12 +133,4 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
     public Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha) {
         return postoRepository.findByEmailAndSenha(email, senha);
     }
-
-    @Override
-    public List<PostoDeVacinacao> listaPostoDeVacinacaoDisponiveis() {
-        List<PostoDeVacinacao> postos = postoRepository.findAll();
-        postos.removeIf(posto -> !posto.getLotesDeVacina().isEmpty());
-        return postos;
-    }
-
 }

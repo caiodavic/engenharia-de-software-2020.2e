@@ -55,12 +55,6 @@ public class SecretariaController {
             return new ResponseEntity<>(postos, HttpStatus.OK);
     }
 
-    @GetMapping("/secretaria/postos/disponveis")
-    public ResponseEntity<List<PostoDeVacinacao>> listarPostoDeVacincacaoDispniveis() {
-        List<PostoDeVacinacao> postos = postoService.listaPostoDeVacinacaoDisponiveis();
-        return new ResponseEntity<>(postos, HttpStatus.OK);
-    }
-
     @PostMapping("/secretaria/vacina")
     @PreAuthorize("hasRole('ROLE_SECRETARIA')")
     public ResponseEntity<?> cadastrarVacina(@RequestBody VacinaDTO vacinaDTO) {

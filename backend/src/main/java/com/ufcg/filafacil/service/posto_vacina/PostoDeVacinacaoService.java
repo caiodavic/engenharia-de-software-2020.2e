@@ -27,5 +27,4 @@ public interface PostoDeVacinacaoService {
 
     Optional<PostoDeVacinacao> findByEmailAndSenha(String email, String senha);
 
-    List<PostoDeVacinacao> listaPostoDeVacinacaoDisponiveis();
 }
