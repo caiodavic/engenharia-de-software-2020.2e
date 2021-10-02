@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import CreateLot from './pages/Admin/CreateLot';
 import SendLotToUnit from './pages/Admin/SendLotToUnit';
+import Queue from './pages/Queue';
 import VaccinationUnitPage from './pages/VaccinationUnitPage';
 import ProtectedRouteAdmin from './utils/ProtectedRouteAdmin';
 import ProtectedRouteUnit from './utils/ProtectedRouteUnit';
@@ -30,37 +31,29 @@ const App = () => {
           <Route path="/postos" component={VaccinationUnits} />
           <Route path="/login" component={Login} />
 
-          <ProtectedRouteAdmin
-            exact
-            loggedIn={isLoggedInType}
-            path="/admin"
-            component={Admin}
-          />
+          <Route path="/fila" component={Queue} />
+
+          <ProtectedRouteAdmin exact path="/admin" component={Admin} />
           <ProtectedRouteAdmin
             path="/admin/cadastro/posto"
-            loggedIn={isLoggedInType}
             component={Signup}
           />
           <ProtectedRouteAdmin
             path="/admin/cadastro/lote"
-            loggedIn={isLoggedInType}
             component={CreateLot}
           />
           <ProtectedRouteAdmin
             path="/admin/alocacao/lote"
-            loggedIn={isLoggedInType}
             component={SendLotToUnit}
           />
           <ProtectedRouteAdmin
             path="/admin/cadastro/vacina"
-            loggedIn={isLoggedInType}
             component={RegisterVaccine}
           />
 
           <ProtectedRouteUnit
             exact
             path="/posto"
-            loggedIn={isLoggedInType}
             component={VaccinationUnitPage}
           />
         </Switch>

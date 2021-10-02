@@ -2,7 +2,7 @@ import {
   PageWrapper,
   PageTitle,
   PageSubTitle,
-} from "../../components/shared/CommonStyles";
+} from '../../components/shared/CommonStyles';
 import {
   AdminPageWrapper,
   ButtonsMenuContainer,
@@ -10,31 +10,9 @@ import {
   CategoryTitle,
   ButtonsContainer,
   Button,
-<<<<<<< HEAD
 } from './style';
-import { useContext, useEffect } from 'react';
-import UserContext from '../../contexts/UserContext';
-import { isAdmin } from '../../services/api';
-import { useHistory } from 'react-router';
 
 export default function Admin() {
-  const { token } = useContext(UserContext);
-  useEffect(checkIfAdmin, [token]);
-  let history = useHistory();
-
-  function checkIfAdmin() {
-    console.log(token);
-    if (!isAdmin(token)) {
-      alert('usuário não é admin!');
-      history.push('/login');
-    }
-  }
-
-=======
-} from "./style";
-
-export default function Admin() {
->>>>>>> Develop
   return (
     <PageWrapper>
       <AdminPageWrapper>
