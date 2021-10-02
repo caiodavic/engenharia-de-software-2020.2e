@@ -18,6 +18,7 @@ export default function RegisterVaccine() {
 
   const submitInput = async (e) => {
     e.preventDefault();
+
     try {
       setIsLoading(true);
       await saveVacina({

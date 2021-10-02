@@ -10,6 +10,8 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { login } from '../../services/loginService';
 
+import { useLocalStorage } from 'usehooks-ts';
+
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +21,7 @@ export default function Login() {
   let location = useLocation();
   const { state = {} } = location;
   const { error } = state;
-  const localToken = localStorage.getItem('token');
+  const [localToken, setLocalToken] = useLocalStorage('token', null);
   const isLoggedInType = localStorage.getItem('loginType');
 
   useEffect(checkIfItsAlreadyLoggedIn, [localToken]);
@@ -41,7 +43,7 @@ export default function Login() {
   }
 
   function saveTokenLocally(token) {
-    localStorage.setItem('token', token);
+    setLocalToken(token);
   }
 
   function saveIsLoggedInTypeLocally(loginType) {

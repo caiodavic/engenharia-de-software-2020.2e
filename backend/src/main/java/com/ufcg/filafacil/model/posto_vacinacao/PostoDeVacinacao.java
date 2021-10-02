@@ -1,9 +1,11 @@
 package com.ufcg.filafacil.model.posto_vacinacao;
 
+import com.ufcg.filafacil.model.fila.PosicaoNaFila;
 import com.ufcg.filafacil.model.vacina.Lote;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class PostoDeVacinacao {
@@ -31,6 +33,9 @@ public class PostoDeVacinacao {
 
     private String senha;
 
+    @OneToMany
+    private Set<PosicaoNaFila> fila;
+
     public PostoDeVacinacao() {
     }
 
@@ -44,6 +49,7 @@ public class PostoDeVacinacao {
         this.lotesDeVacina = new ArrayList<>();
         this.filaPacientes = new ArrayList<>();
         this.senha = senha;
+        this.fila = new HashSet<>();
     }
 
     public long getId() {
@@ -103,20 +109,28 @@ public class PostoDeVacinacao {
 
     public int getUltimaSenha() {
         if (!this.filaPacientes.isEmpty()) {
-            return this.filaPacientes.get(this.filaPacientes.size() - 1);
+            return this.fila.stream().filter(f -> f.getSenha() != null).collect(Collectors.toList()).size();
         }
-
-        return -1;
+        return 0;
     }
 
     public List<Integer> getFilaPacientes() {
         return this.filaPacientes;
     }
 
-    public int addPacienteNaFila() {
+    public int addPacienteNaFila(String codigoPosto) {
         int novaSenha = this.getUltimaSenha() + 1;
         this.filaPacientes.add(novaSenha);
-        return novaSenha + 1;
+
+        for (PosicaoNaFila pf : this.fila){
+            if (pf.getCodigo().equals(codigoPosto)) {
+                if (pf.getSenha() == null){
+                    pf.setSenha(novaSenha+1);
+                }
+                return pf.getSenha();
+            }
+        }
+        throw new IllegalArgumentException("Código invalido");
     }
 
     public String gerarCodigoPosto() {
@@ -132,6 +146,8 @@ public class PostoDeVacinacao {
         this.codigosPosto.add(generatedString);
         return generatedString;
     }
+
+
 
     public String confirmarVacinacao(int senha) {
         this.filaPacientes.remove(senha);
@@ -175,5 +191,17 @@ public class PostoDeVacinacao {
             return this.filaPacientes.get(0);
         }
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "PostoDeVacinacao{" +
+                "id=" + id +
+                ", codigosPosto=" + codigosPosto +
+                '}';
+    }
+
+    public void addPosicaoNaFila(PosicaoNaFila posicaoNaFila) {
+        this.fila.add(posicaoNaFila);
     }
 }

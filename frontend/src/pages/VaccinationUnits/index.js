@@ -44,11 +44,8 @@ export default function VaccinationUnits() {
                   {unit.lotesDeVacina.map((lote) => {
                     return (
                       <>
-                        <DetailTitle>Vacina: </DetailTitle>
-                        {lote.vacina.nomeVacina}
-                        <br />
-                        <DetailTitle>Quantidade: </DetailTitle>
-                        {lote.qtdDosesDisponiveis}
+                        Vacina {lote.vacina.nomeVacina} -{' '}
+                        {lote.qtdDosesDisponiveis} doses
                         <br />
                       </>
                     );

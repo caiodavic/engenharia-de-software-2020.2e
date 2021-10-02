@@ -11463,6 +11463,11 @@
   "resolved" "https://registry.npmjs.org/use/-/use-3.1.1.tgz"
   "version" "3.1.1"
 
+"usehooks-ts@^1.0.3":
+  "integrity" "sha512-wpJNLLXHjFsDze+IwdNHx6QqHOyfZIoXC4QpcJoK6fmxt/JzJumLxHnT0Vit1lzN9erAt4m1WtxCEbeTKqtiJA=="
+  "resolved" "https://registry.npmjs.org/usehooks-ts/-/usehooks-ts-1.0.3.tgz"
+  "version" "1.0.3"
+
 "util-deprecate@^1.0.1", "util-deprecate@^1.0.2", "util-deprecate@~1.0.1":
   "integrity" "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
   "resolved" "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"

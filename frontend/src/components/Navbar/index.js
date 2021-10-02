@@ -3,18 +3,12 @@ import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NavbarWrapper, Logo, LoginButton, Buttons, ExitButton } from './style';
 import { useMediaQuery } from 'react-responsive';
-import { useEffect, useState } from 'react';
+
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function Navbar() {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useLocalStorage('token', null);
   let history = useHistory();
-
-  useEffect(() => {
-    function loadToken() {
-      setToken(localStorage.getItem('token'));
-    }
-    window.addEventListener('storage', loadToken);
-  }, []);
 
   function goToHomeScreen() {
     history.push('/');
@@ -24,6 +18,7 @@ export default function Navbar() {
   function exit() {
     localStorage.clear();
     history.push('/login');
+    setToken(null);
   }
 
   return (
