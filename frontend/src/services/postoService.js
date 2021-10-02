@@ -75,3 +75,12 @@ export const confirmVaccination = ({ token, senha }) => {
     },
   });
 };
+
+export const getLastSenha = ({ token }) => {
+  const getLastSenhaUrl = baseApiUrl + '/api/posto/fila/posicao';
+  return axios.get(getLastSenhaUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

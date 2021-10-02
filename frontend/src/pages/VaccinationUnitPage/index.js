@@ -5,27 +5,18 @@ import {
   WarningMsg,
 } from '../../components/shared/CommonStyles';
 import styled from 'styled-components';
-import {
-  getLotsList,
-  getUnitLots,
-  getUnitQueue,
-  postVaccinationConfirmation,
-} from '../../services/api';
 import UserContext from '../../contexts/UserContext';
 import { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   listLotesFromPosto,
   confirmVaccination,
+  getLastSenha,
 } from '../../services/postoService';
 
 export default function VaccinationUnitPage() {
-  const { idPosto } = useParams();
   const [lots, setLots] = useState([]);
-  const [queue, setQueue] = useState({
-    posicaoAtual: null,
-    posicaoFinal: null,
-  });
+  const [actualPosition, setActualPosition] = useState(0);
   const [confirmationCode, setConfirmationCode] = useState('');
   const { token } = useContext(UserContext);
 
@@ -33,13 +24,19 @@ export default function VaccinationUnitPage() {
     loadLotsAndQueue({ token });
   }, [token]);
 
-  const loadLotsAndQueue = async ({ token }) => {
-    const body = { idPosto };
+  const loadLots = async ({ token }) => {
     let { data: lots } = await listLotesFromPosto({ token });
-    let queue = getUnitQueue({ body, token });
-    console.log('lots >> ' + lots);
     setLots(lots);
-    setQueue(queue);
+  };
+
+  const loadQueuePosition = async ({ token }) => {
+    let { data: posicaoAtual } = await getLastSenha({ token });
+    setActualPosition(posicaoAtual);
+  };
+
+  const loadLotsAndQueue = async ({ token }) => {
+    loadLots({ token });
+    loadQueuePosition({ token });
   };
 
   const sendConfirmationCode = async (e) => {
@@ -49,6 +46,7 @@ export default function VaccinationUnitPage() {
         token,
         senha: confirmationCode,
       });
+      loadLotsAndQueue({ token });
       alert(message);
       setConfirmationCode('');
     } catch (err) {
@@ -67,10 +65,8 @@ export default function VaccinationUnitPage() {
         <CardsContainer>
           <Card>
             <CardTitle>Acompanhar fila</CardTitle>
-            <CardSubtitle>Posição</CardSubtitle>
-            <Queue>
-              {queue.posicaoAtual} / {queue.posicaoFinal}
-            </Queue>
+            <CardSubtitle>Posição Atual</CardSubtitle>
+            <Queue>{actualPosition}</Queue>
 
             <InsertCodeContainer>
               <CodeInput onSubmit={sendConfirmationCode}>
