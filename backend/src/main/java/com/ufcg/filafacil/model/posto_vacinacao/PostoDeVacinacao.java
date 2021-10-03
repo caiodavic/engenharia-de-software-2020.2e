@@ -150,7 +150,16 @@ public class PostoDeVacinacao {
 
 
     public String confirmarVacinacao(int senha) {
-        this.filaPacientes.remove(senha);
+        for (PosicaoNaFila pf : this.fila){
+            if (pf.getSenha() != null && pf.getSenha() == senha) {
+                if (pf.getVacinaConfirmada() != null && pf.getVacinaConfirmada()) {
+                    return "Essa senha já foi utilizada";
+                }
+
+                pf.setVacinaConfirmada(true);
+            }
+        }
+
         Lote lote = this.lotesDeVacina
                 .stream()
                 .filter(l -> l.getQtdDosesDisponiveis() > 0)
@@ -162,11 +171,6 @@ public class PostoDeVacinacao {
             this.lotesDeVacina.remove(lote);
         }
 
-        for (PosicaoNaFila pf : this.fila){
-            if (pf.getSenha().equals(senha)) {
-                pf.setVacinaConfirmada(true);
-            }
-        }
 
         return "O Paciente com senha " + senha + " recebeu a vacina " + vacinaAplicada;
     }
