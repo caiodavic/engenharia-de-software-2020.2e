@@ -161,6 +161,13 @@ public class PostoDeVacinacao {
         if (lote.getQtdDosesDisponiveis() == 0) {
             this.lotesDeVacina.remove(lote);
         }
+
+        for (PosicaoNaFila pf : this.fila){
+            if (pf.getSenha().equals(senha)) {
+                pf.setVacinaConfirmada(true);
+            }
+        }
+
         return "O Paciente com senha " + senha + " recebeu a vacina " + vacinaAplicada;
     }
 
@@ -184,11 +191,11 @@ public class PostoDeVacinacao {
     }
 
     public int getPosicaoAtual() {
-        if (this.filaPacientes != null &&
-            this.filaPacientes.size() > 0 &&
-            this.filaPacientes.get(0) != null) {
-
-            return this.filaPacientes.get(0);
+        if (this.fila != null &&
+            !this.fila.isEmpty()) {
+            return (int) this.fila.stream().filter(f ->
+                    f.getVacinaConfirmada() != null && f.getVacinaConfirmada())
+                    .count();
         }
         return 0;
     }

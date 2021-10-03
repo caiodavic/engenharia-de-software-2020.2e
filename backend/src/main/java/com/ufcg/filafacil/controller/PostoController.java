@@ -30,12 +30,6 @@ public class PostoController {
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
-    @GetMapping("/teste/teste")
-    @PreAuthorize("hasRole('ROLE_POSTO_VACINACAO')")
-    public ResponseEntity<?> teste(){
-        return ResponseEntity.status(HttpStatus.OK).body("entrou");
-    }
-
     // Gerar código que será passado pra o Paciente
     @GetMapping("/fila")
     @PreAuthorize("hasRole('ROLE_POSTO_VACINACAO')")
@@ -88,15 +82,20 @@ public class PostoController {
     }
 
     @RequestMapping(value = "/fila/posicao", method = RequestMethod.GET)
-    public ResponseEntity<?> senhaAtual(@RequestParam(required = false) Integer idPosto) {
+    public ResponseEntity<?> senhaAtual() {
         try {
-            int idPostoCorreto = AuthenticatedUtils.getEntityId();
+            int idPosto = AuthenticatedUtils.getEntityId();
+            int posicao = postoService.posicaoAtual(idPosto);
+            return ResponseEntity.status(HttpStatus.ACCEPTED).body(posicao);
+        } catch (IllegalArgumentException ila) {
+            return ResponseEntity.badRequest().body(ila.getMessage());
+        }
+    }
 
-            if (idPosto != null) {
-                idPostoCorreto = idPosto;
-            }
-
-            int posicao = postoService.posicaoAtual(idPostoCorreto);
+    @RequestMapping(value = "/fila/posicao/paciente", method = RequestMethod.GET)
+    public ResponseEntity<?> senhaAtualParaPaciente(@RequestParam Integer idPosto) {
+        try {
+            int posicao = postoService.posicaoAtual(idPosto);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(posicao);
         } catch (IllegalArgumentException ila) {
             return ResponseEntity.badRequest().body(ila.getMessage());

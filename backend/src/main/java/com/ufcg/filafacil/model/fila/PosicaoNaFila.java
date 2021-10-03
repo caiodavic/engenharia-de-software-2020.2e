@@ -12,6 +12,8 @@ public class PosicaoNaFila {
 
     private Integer senha;
 
+    private Boolean vacinaConfirmada;
+
     public PosicaoNaFila(String codigo) {
         this.codigo = codigo;
     }
@@ -30,6 +32,14 @@ public class PosicaoNaFila {
 
     public void setSenha(Integer senha) {
         this.senha = senha;
+    }
+
+    public Boolean getVacinaConfirmada() {
+        return vacinaConfirmada;
+    }
+
+    public void setVacinaConfirmada(Boolean vacinaConfirmada) {
+        this.vacinaConfirmada = vacinaConfirmada;
     }
 
     @Override
