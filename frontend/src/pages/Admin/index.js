@@ -2,7 +2,7 @@ import {
   PageWrapper,
   PageTitle,
   PageSubTitle,
-} from "../../components/shared/CommonStyles";
+} from '../../components/shared/CommonStyles';
 import {
   AdminPageWrapper,
   ButtonsMenuContainer,
@@ -10,7 +10,7 @@ import {
   CategoryTitle,
   ButtonsContainer,
   Button,
-} from "./style";
+} from './style';
 
 export default function Admin() {
   return (

@@ -6,8 +6,7 @@ import {
   PageContentContainer,
 } from '../../../components/shared/CommonStyles';
 import { useHistory } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
-import UserContext from '../../../contexts/UserContext';
+import { useEffect } from 'react';
 import { alocarLote } from '../../../services/postoService';
 import { listAllLotesAvailable } from '../../../services/loteService';
 import { listAllPostos } from '../../../services/postoService';
@@ -19,7 +18,7 @@ export default function SendLotToUnit() {
   const [idLote, setIdLote] = useState('');
   const [idPosto, setIdPosto] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const { token } = useContext(UserContext);
+  const token = localStorage.getItem('token');
   const history = useHistory();
 
   useEffect(() => {

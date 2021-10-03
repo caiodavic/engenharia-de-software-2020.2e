@@ -6,11 +6,12 @@ export const login = ({ login, senha, tipoLogin }) => {
   const loginUrl = baseApiUrl + '/api/login/';
   let tipoLoginApi = '';
 
-  if (tipoLogin === 'secretaria') {
+  if (tipoLogin === 'SECRETARIA') {
     tipoLoginApi = 'SECRETARIA';
   } else {
     tipoLoginApi = 'POSTO_VACINACAO';
   }
+  console.log({ login, senha, tipoLogin });
 
   return axios.post(loginUrl, { login, senha, tipoLogin: tipoLoginApi });
 };

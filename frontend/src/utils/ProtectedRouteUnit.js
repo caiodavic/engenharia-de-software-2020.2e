@@ -1,12 +1,14 @@
 import { Route, Redirect } from 'react-router-dom';
 
-const ProtectedRouteUnit = ({ component: Comp, loggedIn, path, ...rest }) => {
+const ProtectedRouteUnit = ({ component: Comp, path, ...rest }) => {
+  const isLoggedInType = localStorage.getItem('loginType');
+  console.log(isLoggedInType);
   return (
     <Route
       path={path}
       {...rest}
       render={(props) => {
-        return loggedIn === 'posto' ? (
+        return isLoggedInType === 'POSTO_VACINACAO' ? (
           <Comp {...props} />
         ) : (
           <Redirect

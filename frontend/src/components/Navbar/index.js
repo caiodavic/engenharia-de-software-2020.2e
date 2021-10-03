@@ -2,23 +2,23 @@ import logo from '../../assets/logoagencia.svg';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { NavbarWrapper, Logo, LoginButton, Buttons, ExitButton } from './style';
-import UserContext from '../../contexts/UserContext';
-import { useContext } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
+import { useLocalStorage } from 'usehooks-ts';
+
 export default function Navbar() {
-  const { setToken, setIsLoggedInType, isLoggedInType } =
-    useContext(UserContext);
+  const [token, setToken] = useLocalStorage('token', null);
   let history = useHistory();
 
   function goToHomeScreen() {
     history.push('/');
+    console.log(token);
   }
 
   function exit() {
-    setToken('');
-    setIsLoggedInType('');
+    localStorage.clear();
     history.push('/login');
+    setToken(null);
   }
 
   return (
@@ -32,7 +32,7 @@ export default function Navbar() {
               : 'Área Administrativa'}
           </Link>
         </LoginButton>
-        {isLoggedInType ? (
+        {token ? (
           <ExitButton onClick={exit}>
             <p>Sair</p>
           </ExitButton>

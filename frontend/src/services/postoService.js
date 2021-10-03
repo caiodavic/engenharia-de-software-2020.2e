@@ -84,3 +84,12 @@ export const getLastSenha = ({ token }) => {
     },
   });
 };
+
+export const generateCode = ({ token }) => {
+  const generateCodeUrl = baseApiUrl + '/api/posto/fila';
+  return axios.get(generateCodeUrl, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

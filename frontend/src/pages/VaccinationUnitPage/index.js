@@ -3,25 +3,30 @@ import {
   PageTitle,
   PageWrapper,
   WarningMsg,
+  StyledButton,
 } from '../../components/shared/CommonStyles';
 import styled from 'styled-components';
-import UserContext from '../../contexts/UserContext';
-import { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import {
   listLotesFromPosto,
   confirmVaccination,
   getLastSenha,
+  generateCode,
 } from '../../services/postoService';
+
+import { useLocalStorage } from 'usehooks-ts';
 
 export default function VaccinationUnitPage() {
   const [lots, setLots] = useState([]);
+  const [newCode, setNewCode] = useState('');
   const [actualPosition, setActualPosition] = useState(0);
   const [confirmationCode, setConfirmationCode] = useState('');
-  const { token } = useContext(UserContext);
+  const [token, setToken] = useLocalStorage('token', null);
 
   useEffect(() => {
-    loadLotsAndQueue({ token });
+    if (token != null) {
+      loadLotsAndQueue({ token });
+    }
   }, [token]);
 
   const loadLots = async ({ token }) => {
@@ -54,6 +59,13 @@ export default function VaccinationUnitPage() {
     }
   };
 
+  async function generateNewCode() {
+    console.log('TOEKNN >>>> 222 ', token);
+    const { data: code } = await generateCode({ token });
+    console.log('CÓDIGO >> ', code);
+    setNewCode(code);
+  }
+
   return (
     <PageWrapper>
       <VaccinationUnitPageWrapper>
@@ -67,6 +79,10 @@ export default function VaccinationUnitPage() {
             <CardTitle>Acompanhar fila</CardTitle>
             <CardSubtitle>Posição Atual</CardSubtitle>
             <Queue>{actualPosition}</Queue>
+
+            <StyledButton onClick={generateNewCode}>
+              {newCode === '' ? 'Gerar Código de Vacinação' : newCode}
+            </StyledButton>
 
             <InsertCodeContainer>
               <CodeInput onSubmit={sendConfirmationCode}>
@@ -154,6 +170,10 @@ const Card = styled.div`
     width: 500px;
     max-width: 100vw;
   }
+
+  @media screen and (max-width: 800px) {
+    width: 90vw;
+  }
 `;
 
 const CardTitle = styled.div`
@@ -170,14 +190,14 @@ const CardTitle = styled.div`
 `;
 
 const CardSubtitle = styled.div`
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 20px;
   font-weight: 500;
   font-size: 25px;
 `;
 
 const Queue = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 25px;
   font-size: 40px;
 `;
 

@@ -8,3 +8,12 @@ export const confirmCode = ({ codigoPosto }) => {
     codigoPosto,
   });
 };
+
+export const getSenhaAtualPosto = ({ idPosto }) => {
+  const getSenhaAtualPostoUrl = baseApiUrl + '/api/posto/fila/posicao/paciente';
+  return axios.get(getSenhaAtualPostoUrl, {
+    params: {
+      idPosto,
+    },
+  });
+};

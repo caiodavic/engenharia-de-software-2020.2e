@@ -9,7 +9,6 @@ const PageWrapper = styled.div`
   margin-bottom: 100px;
 
   @media screen and (max-width: 1200px) {
-    width: 100vw;
     margin-top: 150px;
     margin-bottom: 50px;
   }
@@ -25,7 +24,7 @@ const PageContentContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   @media screen and (max-width: 1200px) {
-    width: 95%;
+    width: 90%;
   }
 `;
 
@@ -44,7 +43,7 @@ const PageTitle = styled.div`
     width: 100%;
   }
   @media screen and (max-width: 800px) {
-    width: 100%;
+    width: 100vw;
     padding: 0px 5px;
   }
 `;
@@ -130,6 +129,23 @@ const WarningMsg = styled.li`
   height: 65%;
 `;
 
+const StyledButton = styled.div`
+  font-size: 22px;
+  cursor: pointer;
+  margin-top: 10px;
+  color: white;
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-overflow: ellipsis;
+  height: 60px;
+  padding: 10px 7px;
+  border-radius: 10px;
+  background-color: #255aff;
+  min-width: fit-content;
+`;
+
 export {
   PageWrapper,
   PageTitle,
@@ -137,4 +153,5 @@ export {
   StyledForm,
   WarningMsg,
   PageContentContainer,
+  StyledButton,
 };

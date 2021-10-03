@@ -7,9 +7,16 @@ import React from 'react';
 import { useState } from 'react';
 import { HomeWrapper, CodeInput, SearchCode, LinkButton } from './style';
 import { confirmCode } from '../../services/pacienteService';
+import { useHistory } from 'react-router';
+import UserContext from '../../contexts/UserContext';
+import { useContext } from 'react';
 
 const Home = () => {
   const [code, setCode] = useState('');
+  let history = useHistory();
+  const { setVaccinationCode, setVaccinationPosition, setPostoId } = useContext(
+    UserContext
+  );
 
   const sendCode = async (e) => {
     e.preventDefault();
@@ -22,7 +29,13 @@ const Home = () => {
 
   const confirmCodeAndGenerateSenha = async ({ code }) => {
     try {
-      confirmCode({ codigoPosto: code });
+      const {
+        data: { idPosto, senhaPaciente },
+      } = await confirmCode({ codigoPosto: code });
+      setVaccinationCode(code);
+      setPostoId(idPosto);
+      setVaccinationPosition(senhaPaciente);
+      history.push('/fila');
     } catch (err) {
       alert('Código inválido');
     }
@@ -42,7 +55,7 @@ const Home = () => {
               placeholder="Inserir Código Local"
               onChange={(e) => setCode(e.target.value)}
             ></input>
-            <ion-icon name="search" oncClick={sendCode}></ion-icon>
+            <ion-icon name="search" onClick={sendCode}></ion-icon>
           </SearchCode>
         </CodeInput>
         <LinkButton to="/postos"> Ver Postos de Vacinação </LinkButton>

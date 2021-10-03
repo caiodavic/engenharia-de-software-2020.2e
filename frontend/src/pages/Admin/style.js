@@ -25,7 +25,7 @@ const ButtonsMenuContainer = styled.div`
   }
 
   @media screen and (max-width: 800px) {
-    width: 95%;
+    width: 90%;
   }
 `;
 
@@ -83,10 +83,9 @@ const Button = styled(Link).attrs({
   display: flex;
   align-items: center;
   text-align: center;
+
   @media screen and (max-width: 1200px) {
-    width: 200px;
     height: 100px;
-    max-width: 100vw;
   }
 `;
 
