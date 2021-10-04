@@ -26,9 +26,6 @@ public class PostoDeVacinacao {
     @OneToMany
     private List<Lote> lotesDeVacina;
 
-    @ElementCollection
-    private List<Integer> filaPacientes;
-
     private String endereco;
 
     private String senha;
@@ -47,7 +44,6 @@ public class PostoDeVacinacao {
         this.id = id;
         this.codigosPosto = new ArrayList<>();
         this.lotesDeVacina = new ArrayList<>();
-        this.filaPacientes = new ArrayList<>();
         this.senha = senha;
         this.fila = new HashSet<>();
     }
@@ -89,6 +85,10 @@ public class PostoDeVacinacao {
     }
 
 
+    public Set<PosicaoNaFila> getFila() {
+        return fila;
+    }
+
     public List<String> getCodigosPosto(){
         return this.codigosPosto;
     }
@@ -108,23 +108,20 @@ public class PostoDeVacinacao {
     }
 
     public int getUltimaSenha() {
-        if (!this.filaPacientes.isEmpty()) {
+        if (!this.fila.isEmpty()) {
             return this.fila.stream().filter(f -> f.getSenha() != null).collect(Collectors.toList()).size();
         }
         return 0;
     }
 
-    public List<Integer> getFilaPacientes() {
-        return this.filaPacientes;
-    }
 
     public int addPacienteNaFila(String codigoPosto) {
         int novaSenha = this.getUltimaSenha() + 1;
-        this.filaPacientes.add(novaSenha);
 
         for (PosicaoNaFila pf : this.fila){
             if (pf.getCodigo().equals(codigoPosto)) {
                 if (pf.getSenha() == null){
+                    System.out.println("salvar senha >> " + novaSenha);
                     pf.setSenha(novaSenha+1);
                 }
                 return pf.getSenha();

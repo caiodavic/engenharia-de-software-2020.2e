@@ -82,7 +82,7 @@ class PostoDeVacinacaoServiceImpl implements PostoDeVacinacaoService {
         PostoDeVacinacao postoDeVacinacao = this.getPostoByCodigo(codigoPosto);
         int senhaPaciente = -1;
         if (postoDeVacinacao.getCodigosPosto().contains(codigoPosto)) {
-            if (postoDeVacinacao.getFilaPacientes().size() < postoDeVacinacao.getQtdVacina()) {
+            if (postoDeVacinacao.getFila().size() < postoDeVacinacao.getQtdVacina()) {
                 senhaPaciente = postoDeVacinacao.addPacienteNaFila(codigoPosto);
                 //postoDeVacinacao.removerCodigo(codigoPosto);
             } else {
